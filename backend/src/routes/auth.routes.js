@@ -18,14 +18,37 @@ router.get('/', async (req, res) => {
 // register
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = new User({ email, password });
+    const { username, email, password } = req.body;
+
+    // Check if username or email already exists
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    if (existingUser) {
+      return res.status(400).json({
+        message: existingUser.email === email ? 'Email already exists' : 'Username already exists'
+      });
+    }
+
+    const user = new User({
+      username,
+      email,
+      password,
+      darkMode: false,
+      docs: []
+    });
     await user.save();
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.status(201).json({ token });
+    res.status(201).json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        darkMode: user.darkMode
+      }
+    });
   } catch (error) {
-    res.status(400).json({ message: 'Registration failed' });
+    res.status(400).json({ message: 'Registration failed', error: error.message });
   }
 });
 
@@ -40,15 +63,36 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.json({ token });
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        darkMode: user.darkMode
+      }
+    });
   } catch (error) {
     res.status(400).json({ message: 'Login failed' });
   }
 });
 
-// logout
-router.delete('/logout', async (req, res) => {
-  // find a way to figure this out
+// Update user preferences
+router.patch('/preferences', async (req, res) => {
+  try {
+    const { darkMode } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { darkMode },
+      { new: true }
+    );
+
+    res.json({
+      darkMode: user.darkMode
+    });
+  } catch (error) {
+    res.status(400).json({ message: 'Could not update preferences' });
+  }
 });
 
 module.exports = router;
