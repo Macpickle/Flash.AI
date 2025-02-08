@@ -1,0 +1,35 @@
+:root {
+    --primary-design-color: #FFA07A;
+    --secondary-design-color:rgb(255, 139, 118);
+}
+
+.navbar-brand {
+    color: var(--primary-design-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    color: var(--secondary-design-color);
+}
+
+.button {
+    background-color: #FFA07A;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+.button:hover {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+    background-color: #FFDAB9;
+    background: linear-gradient(45deg, #FFA07A, #FFDAB9);
+}
+
