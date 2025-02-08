@@ -1,8 +1,13 @@
 import NavBar from '../components/Navbar';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import { GoGear } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 import { IoMdCreate } from "react-icons/io";
+import { MdLogout } from "react-icons/md";
 import { Tooltip } from 'react-tooltip';
+
 
 const testCard = (index) => {
     return (
@@ -27,6 +32,8 @@ const testCard = (index) => {
 }
 
 function Home() {
+    const [posts, setPosts] = useState([]);
+    
     function handleDelete() {
         // Delete document
     }
@@ -35,13 +42,28 @@ function Home() {
         // Edit document
     }
 
+    useEffect(() => {
+        axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+    
+
     return (
         <div>
             <NavBar>
-                <a href="/settings" data-tooltip-id="settings-tooltip" data-tooltip-content="Settings">
+                <a href="/settings" data-tooltip-id="settings-tooltip" data-tooltip-content="Settings" style={{ marginRight: '10px' }}>
                     <GoGear className="icon-gear" size={30} />
                 </a>
-                <Tooltip id="settings-tooltip" place="bottom" style={{ fontSize: '0.6em' }} />
+                <Tooltip id="settings-tooltip" place="bottom" style={{ fontSize: '0.6em', padding: '0.5em' }} />
+                <a href="/logout" data-tooltip-id="logout-tooltip" data-tooltip-content="Logout">
+                    <MdLogout className="icon" size={30} />
+                </a>
+                <Tooltip id="logout-tooltip" place="bottom" style={{ fontSize: '0.6em', padding: '0.5em' }} />
             </NavBar>
 
             <div className="container-fluid d-flex flex-column align-items-center" style={{ padding: '1%' }}>
@@ -51,7 +73,7 @@ function Home() {
             </div>
 
             <div className="container-fluid d-flex flex-wrap justify-content-center">
-                {Array.from({ length: 9 }).map((_, index) => (
+                {posts.map((post, index) => (
                     testCard(index)
                 ))}
             </div>
