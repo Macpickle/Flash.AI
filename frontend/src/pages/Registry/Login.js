@@ -21,6 +21,7 @@ function Login() {
             email: email,
             password: password
         }).then((response) => {
+            localStorage.setItem("token", response.data.token);
             navigate('/home');
         }).catch((error) => {
             document.querySelector(".error").style.display = "block";

@@ -1,4 +1,7 @@
 import NavBar from '../components/Navbar';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import { GoGear } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 import { IoMdCreate } from "react-icons/io";
@@ -29,6 +32,8 @@ const testCard = (index) => {
 }
 
 function Home() {
+    const [posts, setPosts] = useState([]);
+    
     function handleDelete() {
         // Delete document
     }
@@ -36,6 +41,17 @@ function Home() {
     function handleEdit() {
         // Edit document
     }
+
+    useEffect(() => {
+        axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+    
 
     return (
         <div>
@@ -57,7 +73,7 @@ function Home() {
             </div>
 
             <div className="container-fluid d-flex flex-wrap justify-content-center">
-                {Array.from({ length: 9 }).map((_, index) => (
+                {posts.map((post, index) => (
                     testCard(index)
                 ))}
             </div>

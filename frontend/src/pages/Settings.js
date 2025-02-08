@@ -5,13 +5,17 @@ import { Tooltip } from 'react-tooltip';
 function Settings() {
     function handleSubmit(event) {
         event.preventDefault();
-        console.log('Form submitted');
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        // Update user settings
+        
     }
     
     return (
         <div>
             <NavBar>
-                <a href="/home" data-tooltip-id="settings-tooltip" data-tooltip-content="Settings">
+                <a href="/home" data-tooltip-id="settings-tooltip" data-tooltip-content="Home">
                     <IoMdArrowBack className="icon" size={30} />
                 </a>
                 <Tooltip id="settings-tooltip" place="bottom" style={{ fontSize: '0.6em' }} />
