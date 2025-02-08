@@ -13,6 +13,11 @@
     color: var(--secondary-design-color);
 }
 
+.title {
+    color: var(--primary-design-color);
+    font-size: 2rem;
+}
+
 .button {
     background-color: #FFA07A;
     border: none;
@@ -33,3 +38,28 @@
     background: linear-gradient(45deg, #FFA07A, #FFDAB9);
 }
 
+.doc {
+    color: var(--primary-design-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: all ease-in-out 0.3s;
+}
+
+.doc:hover {
+    color: var(--secondary-design-color);
+    transform: scale(1.05);
+}
+
+.icon-gear:hover {
+    color: var(--secondary-design-color);
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

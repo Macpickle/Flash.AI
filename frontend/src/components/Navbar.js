@@ -1,11 +1,14 @@
-function NavBar() {
+import logo from "../assets/logo-small.png";
+
+function NavBar({ children }) {
     return (
         <div className="navbar navbar-light bg-light" style={{ paddingLeft: '5%', paddingRight: '5%' }}>    
-            <h2 className="navbar-brand">Flash.AI</h2>
-
-            <div className="d-flex">
-                <a href="/register" className = "button">Sign Up</a>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <img src={logo} alt="LOGO" style={{ width: '50px', height: '50px' }} />
+                <h2 className = "title">Flash.AI</h2>
             </div>
+
+            <div>{children}</div>
         </div>
     )
 }

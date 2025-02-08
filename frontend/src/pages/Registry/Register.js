@@ -11,15 +11,20 @@ function Register() {
     // get username and password from input fields
     const registerUser = (event) => {
         event.preventDefault(); 
+        const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         axios.post("/api/auth/register", {
+            username: username,
             email: email,
             password: password
         }).then((response) => {
+            console.log(response);
             navigate('/login', {state: {email: email}});
         }).catch((error) => {
+            const {message} = error.response.data;
             document.querySelector(".error").style.display = "block";
+            document.querySelector(".email-text").textContent = message;
         });
         
     }
@@ -32,12 +37,11 @@ function Register() {
     return (
         <AuthenticationWrapper title={"Sign Up"}>
             <div className="error alert alert-danger" style={{display: "none"}}>
-                <p className="mb-0">Email is already in use</p>
+                <p className="mb-0 email-text"></p>
             </div>
 
             <div className="mt-3 mb-5">
                 <form onSubmit={registerUser}>
-                    {/*
                     <div className="mb-3">
                         <input
                             type="text"
@@ -49,7 +53,6 @@ function Register() {
                             onChange={resetError}
                         />
                     </div>
-                    */}
                     <div className="mb-3">
                         <input
                             type="email"

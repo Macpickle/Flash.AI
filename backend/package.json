@@ -4,7 +4,7 @@
   "description": "RESTful API for Doc and Flash objects with authentication",
   "main": "src/server.js",
   "scripts": {
-    "start": "node PORT=3006 src/server.js",
+    "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
   "dependencies": {
