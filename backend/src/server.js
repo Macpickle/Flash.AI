@@ -4,6 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth.routes');
+const docRoutes = require('./routes/doc.routes');
+const flashRoutes = require('./routes/flash.routes');
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/docs', docRoutes);
+app.use('/api/flash', flashRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
