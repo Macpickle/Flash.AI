@@ -2,6 +2,7 @@
 import AuthenticationWrapper from "../../components/AuthenticationWrapper"
 
 // hooks
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
@@ -10,11 +11,17 @@ function Register() {
     // get username and password from input fields
     const registerUser = (event) => {
         event.preventDefault(); 
-        const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        axios.post("/api/auth/register", {
+            email: email,
+            password: password
+        }).then((response) => {
+            navigate('/login', {state: {email: email}});
+        }).catch((error) => {
+            document.querySelector(".error").style.display = "block";
+        });
         
-        navigate('/login', {state: {username: username}});
     }
 
     // reset display of error message
@@ -25,7 +32,7 @@ function Register() {
     return (
         <AuthenticationWrapper title={"Sign Up"}>
             <div className="error alert alert-danger" style={{display: "none"}}>
-                <p className="mb-0">Username or Email is already in use</p>
+                <p className="mb-0">Email is already in use</p>
             </div>
 
             <div className="mt-3 mb-5">
