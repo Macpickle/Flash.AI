@@ -78,6 +78,16 @@ input[type="checkbox"] {
     transform: scale(1.1);
 }
 
+.card-title {
+    font-size: max(1rem, 2.75vw);
+    font-weight: 400;
+}
+
+.card-text {
+    font-size: max(0.75rem, 1.5vw);
+    font-weight: 300;
+}
+
 .hide {
     visibility: hidden;
     display: flex;
@@ -94,14 +104,16 @@ input[type="checkbox"] {
     transition: all ease-in-out 0.3s;
 }
 
-.doc:hover .hide {
-    visibility: visible;
-    transition: all ease-in-out 0.3s;
-}
-
 .doc:hover {
     color: var(--secondary-design-color);
     transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+    .doc:hover .hide {
+        visibility: visible;
+        transition: all ease-in-out 0.3s;
+    }
 }
 
 .icon-gear:hover {

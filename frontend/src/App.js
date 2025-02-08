@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import Login from './pages/Registry/Login';
 import Register from './pages/Registry/Register';
 
-
 import './components/stylesheets/index.css';
 
 function App() {
