@@ -3,6 +3,11 @@ import { IoMdArrowBack } from "react-icons/io";
 import { Tooltip } from 'react-tooltip';
 
 function Settings() {
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log('Form submitted');
+    }
+    
     return (
         <div>
             <NavBar>
@@ -13,10 +18,10 @@ function Settings() {
             </NavBar>
 
             <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
-                <div className="p-5 mb-5 w-50 text-center">
+                <div className="container-fluid p-5 mb-5 text-center" style={{ maxWidth: '750px', width: '100%' }}>
                     <h2 className="title mb-5">Settings</h2>
                     
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="form-group mb-3" style={{ textAlign: 'left' }}>
                             <label className="text d-block" htmlFor="username">Username</label>
                             <input type="text" className="form-control" id="username" placeholder="Enter username" />

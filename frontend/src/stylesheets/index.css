@@ -83,18 +83,16 @@ input[type="checkbox"] {
     transform: translateY(1px);
 }
 
-.button.alert {
-    background-color: #FF6347;
-    background: linear-gradient(45deg, #FF6347, #FF4500);
-}
+@media (max-width: 768px) {
+    .button {
+        font-size: 3dvw;
+        min-width: 100%;
+    }
 
-.button.alert:hover {
-    background-color: #FF4500;
-    background: linear-gradient(45deg, #FF6347, #FF4500);
-}
-
-.button.alert:active {
-    transform: translateY(1px);
+    .button.secondary {
+        font-size: 3dvw;
+        min-width: 50%;
+    }
 }
 
 .title {
