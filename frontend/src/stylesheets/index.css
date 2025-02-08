@@ -156,6 +156,15 @@ input[type="checkbox"] {
     animation: rotate 2s linear infinite;
 }
 
+.icon-button {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-design-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
 @keyframes rotate {
     from {
         transform: rotate(0deg);

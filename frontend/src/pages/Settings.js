@@ -1,6 +1,7 @@
 import NavBar from "../components/Navbar";
 import { IoMdArrowBack } from "react-icons/io";
 import { Tooltip } from 'react-tooltip';
+import Logout from "../util/Logout";
 
 function Settings() {
     function handleSubmit(event) {
@@ -9,7 +10,6 @@ function Settings() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         // Update user settings
-        
     }
     
     return (
@@ -40,7 +40,7 @@ function Settings() {
                         </div>
                         <button type="submit" className="button mt-3 w-75">Submit</button>
                         <div className="d-flex justify-content-center mt-3 gap-2">
-                            <button type="button" className="button secondary w-25">Logout</button>
+                            <button type="button" onClick = {Logout} className="button secondary w-25">Logout</button>
                             <button type="button" className="button secondary w-25">Delete Account</button>
                         </div>
                     </form>
