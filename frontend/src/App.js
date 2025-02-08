@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Login from './pages/Registry/Login';
 import Register from './pages/Registry/Register';
+import Settings from './pages/Settings';
 
 import './components/stylesheets/index.css';
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/home" element={<Home/>} />
+          <Route path="/settings" element={<Settings/>} />
           <Route path="*" element={<h1>Not Found</h1>} />
 
         </Routes>

@@ -50,6 +50,7 @@ input[type="checkbox"] {
 
 .button {
     background-color: #FFA07A;
+    background: linear-gradient(45deg, var(--primary-design-color), var(--secondary-design-color));
     border: none;
     color: white;
     text-align: center;
@@ -66,6 +67,42 @@ input[type="checkbox"] {
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
     background-color: #FFDAB9;
     background: linear-gradient(45deg, #FFA07A, #FFDAB9);
+}
+
+.button.secondary {
+    background-color: var(--secondary-design-color);
+    background: linear-gradient(45deg, var(--primary-design-color), var(--secondary-design-color));
+}
+
+.button.secondary:hover {
+    background-color: #FFDAB9;
+    background: linear-gradient(45deg, var(--secondary-design-color), #FFDAB9);
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+.button.alert {
+    background-color: #FF6347;
+    background: linear-gradient(45deg, #FF6347, #FF4500);
+}
+
+.button.alert:hover {
+    background-color: #FF4500;
+    background: linear-gradient(45deg, #FF6347, #FF4500);
+}
+
+.button.alert:active {
+    transform: translateY(1px);
+}
+
+.title {
+    color: var(--primary-design-color);
+}
+
+.text {
+    color: var(--primary-design-color);
 }
 
 .transparent-button {
@@ -130,5 +167,12 @@ input[type="checkbox"] {
     }
 }
 
+.border {
+    border: 1px solid var(--primary-design-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+    transition: all ease-in-out 0.3s;
+}
 
 
