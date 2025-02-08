@@ -2,6 +2,7 @@
 import AuthenticationWrapper from "../../components/AuthenticationWrapper"
 
 // hooks
+import axios from "axios";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -16,8 +17,14 @@ function Login() {
         const password = document.getElementById('password').value;
         const remember = document.getElementById('remember').checked;
 
-        
-        navigate('/');
+        axios.post("/api/auth/login", {
+            email: email,
+            password: password
+        }).then((response) => {
+            navigate('/home');
+        }).catch((error) => {
+            document.querySelector(".error").style.display = "block";
+        });
     }
 
     // reset display of error message
@@ -25,10 +32,10 @@ function Login() {
         document.querySelector(".error").style.display = "none";
     }
     
-    // sets username input field to value if redirected from registering
+    // sets email input field to value if redirected from registering
     useEffect(() => {
         if (location.state) {
-            document.getElementById("username").value = location.state.username;
+            document.getElementById("email").value = location.state.email;
         }
         
     });
@@ -36,7 +43,7 @@ function Login() {
     return (
         <AuthenticationWrapper title={"Login"}>
             <div className="error alert alert-danger" style={{display: "none"}}>
-                <p className="mb-0">Invalid username or password</p>
+                <p className="mb-0">Invalid email or password</p>
             </div>
 
             <div className="mt-3 mb-5">
