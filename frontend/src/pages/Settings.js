@@ -38,7 +38,7 @@ function Settings() {
                             <label className="text d-block" htmlFor="password">Password</label>
                             <input type="password" className="form-control" id="password" placeholder="Enter password" />
                         </div>
-                        <button type="submit" className="button mt-3 w-75">Submit</button>
+                        <button type="submit" className="button resize mt-3 w-75">Submit</button>
                         <div className="d-flex justify-content-center mt-3 gap-2">
                             <button type="button" onClick = {Logout} className="button secondary w-25">Logout</button>
                             <button type="button" className="button secondary w-25">Delete Account</button>
