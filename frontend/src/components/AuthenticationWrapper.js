@@ -11,7 +11,7 @@ function AuthenticationWrapper({children, title}) {
                         <div className="shadow-lg p-3 mb-5 pt-5 bg-white rounded">
                             <div className="text-center">
                                 <img className="mb-3" src={logo} alt="LOGO" />
-                                <h3 className="">{title}</h3>
+                                <h3 className="title">{title}</h3>
                             </div>
                             
                             {children}

@@ -50,6 +50,7 @@ input[type="checkbox"] {
 
 .button {
     background-color: #FFA07A;
+    background: linear-gradient(45deg, var(--primary-design-color), var(--secondary-design-color));
     border: none;
     color: white;
     text-align: center;
@@ -67,4 +68,109 @@ input[type="checkbox"] {
     background-color: #FFDAB9;
     background: linear-gradient(45deg, #FFA07A, #FFDAB9);
 }
+
+.button.secondary {
+    background-color: var(--secondary-design-color);
+    background: linear-gradient(45deg, var(--primary-design-color), var(--secondary-design-color));
+}
+
+.button.secondary:hover {
+    background-color: #FFDAB9;
+    background: linear-gradient(45deg, var(--secondary-design-color), #FFDAB9);
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 768px) {
+    .button {
+        font-size: 3dvw;
+        min-width: 100%;
+    }
+
+    .button.secondary {
+        font-size: 3dvw;
+        min-width: 50%;
+    }
+}
+
+.title {
+    color: var(--primary-design-color);
+}
+
+.text {
+    color: var(--primary-design-color);
+}
+
+.transparent-button {
+    background-color: transparent;
+    color: var(--primary-design-color);
+    border: none;
+}
+
+.transparent-button:hover {
+    transform: scale(1.1);
+}
+
+.card-title {
+    font-size: max(1rem, 2.75vw);
+    font-weight: 400;
+}
+
+.card-text {
+    font-size: max(0.75rem, 1.5vw);
+    font-weight: 300;
+}
+
+.hide {
+    visibility: hidden;
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding-left: 2rem;
+    transition: all ease-in-out 0.3s;
+}
+
+.doc {
+    color: var(--primary-design-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: all ease-in-out 0.3s;
+}
+
+.doc:hover {
+    color: var(--secondary-design-color);
+    transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+    .doc:hover .hide {
+        visibility: visible;
+        transition: all ease-in-out 0.3s;
+    }
+}
+
+.icon-gear:hover {
+    color: var(--secondary-design-color);
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.border {
+    border: 1px solid var(--primary-design-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+    transition: all ease-in-out 0.3s;
+}
+
 
