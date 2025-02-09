@@ -20,7 +20,8 @@ function Quiz() {
             setCorrectQuestions([...correctQuestions, false]);
         }
 
-        const correctAnswerElement = document.querySelector(`input[value="${questions[currentQuestion].multipleChoice.options.find(option => option.isCorrect).text}"]`);
+        const correctAnswerText = questions[currentQuestion].multipleChoice.options.find(option => option.isCorrect).text.replace(/"/g, '\\"');
+        const correctAnswerElement = document.querySelector(`input[value="${correctAnswerText}"]`);
         if (correctAnswerElement) {
             correctAnswerElement.parentElement.style.outline = "2px solid lime";
         }

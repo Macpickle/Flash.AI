@@ -7,7 +7,6 @@ const Doc = require('../models/doc.model');
 const Flash = require('../models/flash.model');
 const User = require('../models/user.model');
 const router = express.Router();
-const User = require('../models/user.model');
 
 // Configure multer for file upload
 const upload = multer({

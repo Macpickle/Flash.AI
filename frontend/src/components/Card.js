@@ -2,6 +2,7 @@ import { MdDelete } from "react-icons/md";
 import { IoMdCreate } from "react-icons/io";
 import { Tooltip } from 'react-tooltip';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Card = ({index, post}) => {
     const navigate = useNavigate();
@@ -9,14 +10,30 @@ const Card = ({index, post}) => {
         navigate('/quiz/' + post._id);
     };
 
+    const handleDelete = (e) => {
+        e.stopPropagation();
+        // Delete document
+        console.log(post._id);
+        axios.delete(`/api/docs/${post._id}`, { 
+            headers: { 
+                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            } 
+        })
+            .then(response => {
+                console.log(response);
+                // remove the card from the view
+                e.target.parentElement.parentElement.style.display = 'none';
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
     return (
         <div className="card doc m-2 d-flex flex-column justify-content-center align-items-center" key={index} style={{ width: '100%', maxWidth: '20dvw', height: 'auto', aspectRatio: '1/1' }} onClick={handleCardClick}>
             <div className="hide d-flex justify-content-end w-100">
-                <button className="transparent-button" data-tooltip-id={`edit-tooltip-${index}`} data-tooltip-content="Edit" onClick={(e) => e.stopPropagation()}>
-                    <IoMdCreate className="icon" size={30} />
-                </button>
                 <Tooltip id={`edit-tooltip-${index}`} place="bottom" style={{ fontSize: '0.4em' }} />
-                <button className="transparent-button" data-tooltip-id={`delete-tooltip-${index}`} data-tooltip-content="Delete" onClick={(e) => e.stopPropagation()}>
+                <button className="transparent-button" data-tooltip-id={`delete-tooltip-${index}`} data-tooltip-content="Delete" onClick={(e) => handleDelete(e)}>
                     <MdDelete className="icon" size={30} />
                 </button>
                 <Tooltip id={`delete-tooltip-${index}`} place="bottom" style={{ fontSize: '0.4em' }} />
