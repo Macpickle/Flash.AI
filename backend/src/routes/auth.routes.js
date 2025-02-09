@@ -136,18 +136,36 @@ router.post('/login', async (req, res) => {
 // Update user preferences
 router.patch('/preferences', async (req, res) => {
   try {
-    const { darkMode } = req.body;
-    const user = await User.findByIdAndUpdate(
-      req.userId,
-      { darkMode },
-      { new: true }
-    );
+    const { username, email, password, confirmPassword, themeSwitch } = req.body;
 
-    res.json({
-      darkMode: user.darkMode
-    });
+    if (!req.headers.authorization) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const token = req.headers.authorization.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'Invalid token format' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find user by ID
+    const user = await User.findById(decoded.userId);
+
+    // Check if user exists
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    // Update user preferences
+    user.username = username;
+
+    // save user
+    await user.save();
+    console.log(user);
+
   } catch (error) {
-    res.status(400).json({ message: 'Could not update preferences' });
+    res.status(400).json({ message: 'Update failed', error: error.message });
   }
 });
 

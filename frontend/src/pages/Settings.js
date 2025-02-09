@@ -1,10 +1,15 @@
+// components
 import NavBar from "../components/Navbar";
-import { IoMdArrowBack } from "react-icons/io";
-import { Tooltip } from 'react-tooltip';
 import Logout from "../util/Logout";
 
+// icons
+import { IoMdArrowBack } from "react-icons/io";
+import { Tooltip } from 'react-tooltip';
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
+
+// routing
+import axios from "axios";
 
 function Settings() {
     function handleSubmit(event) {
@@ -12,7 +17,25 @@ function Settings() {
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const themeSwitch = document.getElementById('themeSwitch').checked;
+
         // Update user settings
+        axios.patch('/api/auth/preferences', {
+            username,
+            email,
+            password,
+            confirmPassword,
+            themeSwitch
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(response => {
+            console.log(response.data);
+        }).catch(error => {
+            console.error(error);
+        });
     }
     
     return (
@@ -24,9 +47,10 @@ function Settings() {
                 <Tooltip id="settings-tooltip" place="bottom" style={{ fontSize: '0.6em' }} />
             </NavBar>
 
-            <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '90vh' }}>
                 <div className="container-fluid p-5 mb-5 text-center" style={{ maxWidth: '750px', width: '100%' }}>
                     <h2 className="title">Settings</h2>
+                    <p className = "text">update preferences and fields</p>
                     
                     <form onSubmit={handleSubmit}>
                         <div className="form-group mb-3" style={{ textAlign: 'left' }}>
@@ -47,11 +71,11 @@ function Settings() {
                         </div>
                         <div className="form-group">
                             <div className="d-flex justify-content-center align-items-center gap-1">
-                                <label for="themeSwitch" class="theme-switch__label">
+                                <label htmlFor="themeSwitch" className="theme-switch__label">
                                     <CiLight className="icon" size={25} />
                                 </label>
-                                    <input type="checkbox" id="themeSwitch" name="theme-switch" class="theme-switch__input" />
-                                <label for="themeSwitch" class="theme-switch__label">
+                                    <input type="checkbox" id="themeSwitch" name="theme-switch" className="theme-switch__input" />
+                                <label htmlFor="themeSwitch" className="theme-switch__label">
                                     <MdDarkMode className="icon" size={25} />
                                 </label>
                             </div>
