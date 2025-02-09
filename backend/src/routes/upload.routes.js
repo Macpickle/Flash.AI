@@ -5,6 +5,7 @@ const { extractTextFromFile } = require('../services/file-processing.service');
 const { generateFlashCards } = require('../services/google-ai.service');
 const Doc = require('../models/doc.model');
 const Flash = require('../models/flash.model');
+const User = require('../models/user.model');
 const router = express.Router();
 const User = require('../models/user.model');
 
@@ -80,10 +81,12 @@ router.post('/', auth, (req, res, next) => {
     doc.flashCards = flashCardIds;
     await doc.save();
 
-    // save to user's Doc list
+    // Add the document to the user's docs array
     const user = await User.findById(req.userId);
-    user.docs.push(doc._id);
-    await user.save();
+    if (user) {
+      user.docs.push(doc._id);
+      await user.save();
+    }
 
     res.status(201).json({
       message: 'Document and flash cards created successfully',

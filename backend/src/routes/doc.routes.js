@@ -1,6 +1,7 @@
 const express = require('express');
 const Doc = require('../models/doc.model');
 const Flash = require('../models/flash.model');
+const User = require('../models/user.model'); 
 const auth = require('../middleware/auth.middleware');
 const router = express.Router();
 
@@ -15,6 +16,14 @@ router.post('/', auth, async (req, res) => {
       flashCards: []
     });
     await doc.save();
+
+    // Add the document to the user's docs array
+    const user = await User.findById(req.userId);
+    if (user) {
+      user.docs.push(doc._id);
+      await user.save();
+    }
+
     res.status(201).json(doc);
   } catch (error) {
     res.status(400).json({ message: 'Could not create doc', error: error.message });
