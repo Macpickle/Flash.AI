@@ -32,7 +32,7 @@ function FlashCard({ question, multipleChoice, submitAnswer, difficulty, current
             <Tooltip id="difficulty-tooltip" place="bottom" effect="solid">
                 Difficulty Level {difficulty}
             </Tooltip>
-            <p className="text">{question}?</p>
+            <p className="text">{question}</p>
             <div className="d-flex justify-content-start align-items-start flex-column">
                 {multipleChoice.options.map((option, index) => (
                     <div

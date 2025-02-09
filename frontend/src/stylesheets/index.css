@@ -269,3 +269,64 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
 }
+.cutoff {
+    position: absolute;
+    left: 0;
+    width: 60%;
+    margin: 0;
+    height: 100%;
+    background: white;
+    clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+}
+
+@media (max-width: 768px) {
+    .cutoff {
+        display: none;
+        margin-left: 0;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        background: url(../assets/guy.jpg) no-repeat center center;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .main {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin-left: 30%;
+        background: url(../assets/guy.jpg) no-repeat center center;
+        background-size: cover;
+        display: flex;
+        justify-content: flex-start;
+        padding: 0 0;
+    }
+}
+
+.computer {
+    z-index: 1;
+}
+
+.phone {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .computer {
+        display: none;
+    }
+
+    .phone {
+        display: block;
+    }
+}
+
