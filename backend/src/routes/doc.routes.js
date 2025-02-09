@@ -65,6 +65,14 @@ router.patch('/:id', auth, async (req, res) => {
   }
 });
 
+// Helper function to delete a doc and its flash cards
+const deleteDocAndFlashCards = async (docId) => {
+  // Delete all associated flash cards
+  await Flash.deleteMany({ docId });
+  // Delete the doc
+  await Doc.findByIdAndDelete(docId);
+};
+
 // Delete doc and its flash cards
 router.delete('/:id', auth, async (req, res) => {
   try {
@@ -73,16 +81,12 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Doc not found' });
     }
 
-    // Delete all associated flash cards
-    await Flash.deleteMany({ docId: doc._id });
-    
-    // Delete the doc
-    await Doc.findByIdAndDelete(doc._id);
-    
+    await deleteDocAndFlashCards(doc._id);
     res.json({ message: 'Doc and associated flash cards deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Could not delete doc', error: error.message });
   }
 });
 
+// Export the helper function
 module.exports = router;
