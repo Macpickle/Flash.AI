@@ -40,10 +40,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
-          <Route element={<Authentication callbackURL = {'/login'}/>}>
+          <Route element={<Authentication callbackURL = {'/home'} type = {"noauth"}/>}>
+            <Route path="/" element={<Landing/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/register" element={<Register/>} />
+          </Route>
+
+          <Route element={<Authentication callbackURL = {'/login'} type = {"auth"}/>}>
             <Route path="/home" element={<Home changeTheme={changeTheme}/>} />
             <Route path="/settings" element={<Settings/>} />
             <Route path="/quiz/:id" element={<Quiz/>} />
