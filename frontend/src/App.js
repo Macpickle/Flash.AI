@@ -25,7 +25,7 @@ function App() {
           <Route element={<Authentication callbackURL = {'/login'}/>}>
             <Route path="/home" element={<Home/>} />
             <Route path="/settings" element={<Settings/>} />
-            <Route path="/quiz" element={<Quiz/>} />
+            <Route path="/quiz/:id" element={<Quiz/>} />
           </Route>
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

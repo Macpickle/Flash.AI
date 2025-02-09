@@ -20,21 +20,25 @@ function Quiz() {
             setCorrectQuestions([...correctQuestions, false]);
         }
 
-        document.querySelector('#questionoutline').style.outline = "1px solid lime";
+        const correctAnswerElement = document.querySelector(`input[value="${questions[currentQuestion].multipleChoice.options.find(option => option.isCorrect).text}"]`);
+        if (correctAnswerElement) {
+            correctAnswerElement.parentElement.style.outline = "2px solid lime";
+        }
+
     }
 
     const continueQuiz = () => {
-        
         setCurrentQuestion(currentQuestion + 1);
         document.querySelector('#questionoutline').style.outline = "none";
     }
 
     useEffect(() => {
         // fetch questions from the server
-        const docId = '67a8167aaa76c3da8164c40e';
-        axios.get('/api/docs/' + docId, { 
+        const id = window.location.pathname.split('/').pop();
+
+        axios.get(`/api/docs/${id}`, { 
             headers: { 
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
             } 
         }).then(response => {
             setQuestions(response.data.flashCards || []);
@@ -73,9 +77,9 @@ function Quiz() {
                                 <ul className="w-100 p-0">
                                     {correctQuestions.map((isCorrect, index) => 
                                         !isCorrect && (
-                                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center" style={{ borderBottom: '1px solid lightgrey' }}>
                                                 <div className="d-flex justify-content-between align-items-center w-100">
-                                                    <span className="text-left text" style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}>{`Question ${index + 1}: ${questions[index].question}`}</span>
+                                                    <span className="text-left text" style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}>{`${questions[index].question}`}</span>
                                                     <span className="text-right text" style={{ wordWrap: 'break-word', whiteSpace: 'normal', color: "#ff8b76" }}>{`Answer: ${questions[index].multipleChoice.options.find(option => option.isCorrect).text}`}</span>
                                                 </div>
                                             </li>
