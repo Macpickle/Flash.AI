@@ -22,6 +22,8 @@ function Login() {
             password: password
         }).then((response) => {
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("darkMode", response.data.user.darkMode);
+
             navigate('/home');
         }).catch((error) => {
             document.querySelector(".error").style.display = "block";

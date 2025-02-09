@@ -22,7 +22,7 @@ const Card = ({index, post}) => {
             .then(response => {
                 console.log(response);
                 // remove the card from the view
-                e.target.parentElement.parentElement.style.display = 'none';
+                window.location.reload();
             })
             .catch(error => {
                 console.error(error);

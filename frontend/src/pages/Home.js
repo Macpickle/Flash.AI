@@ -9,17 +9,13 @@ import { GoGear } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import { Tooltip } from 'react-tooltip';
 
-function Home() {
+function Home({changeTheme}) {
     const [posts, setPosts] = useState([]);
     const [showCreate, setShowCreate] = useState(false);
-    
-    function handleDelete() {
-        // Delete document
-    }
 
-    function handleEdit() {
-        // Edit document
-    }
+    useEffect(() => {
+        changeTheme();
+      }, []);
 
     // changes view based on show, if show is true, then it will show the create component
     function handleView() {
@@ -29,12 +25,11 @@ function Home() {
     useEffect(() => {
         axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
             .then(response => {
-                console.log(response);
                 setPosts(response.data || []);
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
     }, []);
     
     return (
