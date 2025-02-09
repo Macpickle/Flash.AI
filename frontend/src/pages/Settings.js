@@ -8,8 +8,6 @@ import { Tooltip } from 'react-tooltip';
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 
-import env from "react-dotenv";
-
 // routing
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +24,7 @@ function Settings() {
         const darkMode = document.getElementById('themeSwitch').checked ? true : false;
 
         // Update user settings
-        axios.patch(`${env.API_URL}/api/auth/update`, {
+        axios.patch(`${process.env.API_URL}/api/auth/update`, {
             username,
             email,
             password,

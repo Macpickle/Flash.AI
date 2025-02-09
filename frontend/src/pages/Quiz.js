@@ -2,7 +2,6 @@ import FlashCard from "../components/FlashCard";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import env from "react-dotenv";
 
 function Quiz() {
     const [questions, setQuestions] = useState([]);
@@ -38,7 +37,7 @@ function Quiz() {
         // fetch questions from the server
         const id = window.location.pathname.split('/').pop();
 
-        axios.get(`${env.API_URL}/api/docs/${id}`, { 
+        axios.get(`${process.env.API_URL}/api/docs/${id}`, { 
             headers: { 
             Authorization: `Bearer ${localStorage.getItem('token')}` 
             } 

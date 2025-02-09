@@ -1,7 +1,5 @@
 import { IoMdClose } from "react-icons/io";
 import { Tooltip } from 'react-tooltip';
-import env from "react-dotenv";
-
 import axios from "axios";
 
 function Create({handleView}) {
@@ -14,7 +12,7 @@ function Create({handleView}) {
         formData.append('file', file);
         formData.append('title', document.getElementById('title').value);
         
-        axios.post(`${env.API_URL}/api/upload`, formData, 
+        axios.post(`${process.env.API_URL}/api/upload`, formData, 
             { headers: 
                 { 
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
