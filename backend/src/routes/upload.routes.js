@@ -7,6 +7,7 @@ const Doc = require('../models/doc.model');
 const Flash = require('../models/flash.model');
 const User = require('../models/user.model');
 const router = express.Router();
+const User = require('../models/user.model');
 
 // Configure multer for file upload
 const upload = multer({
@@ -18,7 +19,7 @@ const upload = multer({
 // Upload and process file
 router.post('/', auth, (req, res, next) => {
   console.log('Request body:', req.body);
-  console.log('Request files:', req.files);
+  console.log('Request file:', req.body.file);
   console.log('Content type:', req.headers['content-type']);
   next();
 }, upload.single('file'), async (req, res) => {
