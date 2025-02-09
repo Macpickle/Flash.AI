@@ -1,6 +1,6 @@
 
 # Flash.AI
-[Live Demo](https://flash-doz5ad2mt-macpickles-projects.vercel.app/) \
+[Live Demo](https://flash-ai-eight.vercel.app/) \
 Tired of spending hours to and from school? Want to make the most out of that time before an exam? Introducing Flash.AI, your smart study companion, transforming travel time into productive time. Whether it is a bus, train, or carpooling, Flash.AI helps you go through key concepts, quiz yourself, and build confidence-all hands-free. Ace your exams, wherever you are!
 
 With Flash.AI, you can upload your notes, study slides, or any other documents to instantly generate AI-powered questions. Quiz yourself on the go, get smarter with every session, and turn your study materials into an interactive learning experience!
