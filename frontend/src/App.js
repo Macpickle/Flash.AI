@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Login from './pages/Registry/Login';
 import Register from './pages/Registry/Register';
+import Quiz from './pages/Quiz';
 import Settings from './pages/Settings';
 
 //util
@@ -24,6 +25,7 @@ function App() {
           <Route element={<Authentication callbackURL = {'/login'}/>}>
             <Route path="/home" element={<Home/>} />
             <Route path="/settings" element={<Settings/>} />
+            <Route path="/quiz" element={<Quiz/>} />
           </Route>
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

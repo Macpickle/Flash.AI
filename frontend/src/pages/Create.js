@@ -1,0 +1,34 @@
+import { IoMdClose } from "react-icons/io";
+import { Tooltip } from 'react-tooltip';
+import { useState } from 'react';
+
+function Create({handleView}) {
+    const [fileName, setFileName] = useState('');
+    return (
+        <div className="container-fluid d-flex justify-content-center align-items-center position-absolute" style={{ height: '80vh', backgroundColor: 'white' }}>
+            <div className="container-fluid p-5 mb-5 text-center" style={{ maxWidth: '750px', width: '100%', position: 'relative' }}>
+                <div className="position-absolute top-0 end-0">
+                    <button className = "icon-button" onClick={handleView} data-tooltip-id="close-tooltip" data-tooltip-content="Close">
+                        <IoMdClose className="icon" size={30} />
+                    </button>
+                    <Tooltip id="close-tooltip" place="bottom" style={{ fontSize: '0.6em' }} />
+                </div>
+                <h2 className="title mb-5">Create</h2>
+                <form>
+                    <div className="form-group mb-3" style={{ textAlign: 'left' }}>
+                        <label className="text d-block" htmlFor="title">Title</label>
+                        <input type="text" className="form-control" id="title" placeholder="Enter title" />
+                    </div>
+                    <div className="form-group mb-3" style={{ textAlign: 'left' }}>
+                        <label className="text d-block" htmlFor="fileUpload">Upload File</label>
+                        <input type="file" className="form-control" id="fileUpload" onChange={(e) => setFileName(e.target.files[0]?.name || '')} />
+                        {fileName && <p className="mt-2">{fileName}</p>}
+                    </div>
+                    <button type="submit" className="button resize mt-3 w-75">Submit</button>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+export default Create;

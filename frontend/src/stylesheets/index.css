@@ -41,7 +41,6 @@ input[type="checkbox"] {
     height: 15px;
 }
 
-
 .navbar-brand {
     color: var(--primary-design-color);
     font-size: 1.5rem;
@@ -84,7 +83,7 @@ input[type="checkbox"] {
 }
 
 @media (max-width: 768px) {
-    .button {
+    .button.resize {
         font-size: 3dvw;
         min-width: 100%;
     }
@@ -151,9 +150,25 @@ input[type="checkbox"] {
     }
 }
 
+.icon {
+    color: var(--primary-design-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
 .icon-gear:hover {
     color: var(--secondary-design-color);
     animation: rotate 2s linear infinite;
+}
+
+.icon-button {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-design-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
 }
 
 @keyframes rotate {
@@ -172,5 +187,51 @@ input[type="checkbox"] {
     margin: 1rem;
     transition: all ease-in-out 0.3s;
 }
+.theme-switch__input {
+    appearance: none;
+    width: 1020px;
+    height: 50px;
+    padding: 15px 25px;
+    background-color: var(--primary-design-color);
+    border-radius: 25px;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
 
+.theme-switch__input:checked {
+    background-color: var(--secondary-design-color);
+}
 
+.theme-switch__input {
+    appearance: none;
+    width: 102px;
+    height: 50px;
+    padding: 15px 35px;
+    background-color: var(--primary-design-color);
+    border-radius: 25px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.theme-switch__input::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 1px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.theme-switch__input:checked::before {
+    transform: translateX(43px);
+}
+
+.theme-switch__input:checked {
+    background-color: var(--secondary-design-color);
+}
