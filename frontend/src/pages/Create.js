@@ -22,7 +22,7 @@ function Create({handleView}) {
                 } 
             })
             .then(response => {
-                console.log(response.data);
+                window.location.reload();
             })
             .catch(error => {
                 console.error(error);
@@ -30,7 +30,7 @@ function Create({handleView}) {
     }
 
     return (
-        <div className="container-fluid d-flex justify-content-center align-items-center position-absolute" style={{ height: '80vh', backgroundColor: 'white' }}>
+        <div className="container-fluid d-flex justify-content-center align-items-center position-absolute" style={{ height: '80vh', backgroundColor: 'white', zIndex: '1000' }}>
             <div className="container-fluid p-5 mb-5 text-center" style={{ maxWidth: '750px', width: '100%', position: 'relative' }}>
                 <div className="position-absolute top-0 end-0">
                     <button className = "icon-button" onClick={handleView} data-tooltip-id="close-tooltip" data-tooltip-content="Close">

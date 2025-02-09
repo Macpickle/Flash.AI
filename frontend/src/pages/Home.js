@@ -29,7 +29,8 @@ function Home() {
     useEffect(() => {
         axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
             .then(response => {
-                setPosts(response.data.docs || []);
+                console.log(response);
+                setPosts(response.data || []);
             })
             .catch(error => {
                 console.error(error);

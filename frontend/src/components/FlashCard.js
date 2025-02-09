@@ -21,7 +21,7 @@ function FlashCard({ question, multipleChoice, submitAnswer, difficulty, current
     }, [question]);
 
     return (
-        <div className="border p-4 w-100 h-75 text-center" style={{ maxWidth: '600px' }}>
+        <div className="border p-4 w-100 text-center" style={{ maxWidth: '600px', height: '80vh' }}>
             <h2 className="title">Question</h2>
             
             <div className="d-flex justify-content-center align-items-center" data-tooltip-id="difficulty-tooltip">
