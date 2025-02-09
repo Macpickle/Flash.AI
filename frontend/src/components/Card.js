@@ -3,6 +3,7 @@ import { IoMdCreate } from "react-icons/io";
 import { Tooltip } from 'react-tooltip';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import env from "react-dotenv";
 
 const Card = ({index, post}) => {
     const navigate = useNavigate();
@@ -14,18 +15,18 @@ const Card = ({index, post}) => {
         e.stopPropagation();
         // Delete document
         console.log(post._id);
-        axios.delete(`/api/docs/${post._id}`, { 
+        axios.delete(`${env.API_URL}/api/docs/${post._id}`, { 
             headers: { 
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
             } 
         })
             .then(response => {
-                console.log(response);
-                // remove the card from the view
-                window.location.reload();
+            console.log(response);
+            // remove the card from the view
+            window.location.reload();
             })
             .catch(error => {
-                console.error(error);
+            console.error(error);
             });
     }
 

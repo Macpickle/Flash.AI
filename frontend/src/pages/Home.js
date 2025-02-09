@@ -8,6 +8,7 @@ import Create from './Create';
 import { GoGear } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import { Tooltip } from 'react-tooltip';
+import env from "react-dotenv";
 
 function Home({changeTheme}) {
     const [posts, setPosts] = useState([]);
@@ -24,7 +25,12 @@ function Home({changeTheme}) {
     }
 
     useEffect(() => {
-        axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+        axios.get(`${env.API_URL}/api/docs`, 
+            { headers: 
+                { 
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                } 
+            })
             .then(response => {
                 setPosts(response.data || []);
             })

@@ -3,6 +3,7 @@ import AuthenticationWrapper from "../../components/AuthenticationWrapper"
 
 // hooks
 import axios from "axios";
+import env from "react-dotenv";
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
@@ -14,7 +15,7 @@ function Register() {
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        axios.post("/api/auth/register", {
+        axios.post(`${env.API_URL}/api/auth/register`, {
             username: username,
             email: email,
             password: password

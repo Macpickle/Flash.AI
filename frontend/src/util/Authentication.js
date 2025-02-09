@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
+import env from "react-dotenv";
 
 // test if user is logged in (has JWT token)
 const Authentication = ({ callbackURL, type }) => {
@@ -13,7 +14,7 @@ const Authentication = ({ callbackURL, type }) => {
             return;
         }
 
-        axios.get("/api/auth/", {
+        axios.get(`${env.API_URL}/api/auth/`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
