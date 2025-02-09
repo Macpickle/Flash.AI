@@ -30,7 +30,7 @@ const Card = ({index, post}) => {
     }
 
     return (
-        <div className="card doc m-2 d-flex flex-column justify-content-center align-items-center" key={index} style={{ width: '100%', maxWidth: '20dvw', height: 'auto', aspectRatio: '1/1' }} onClick={handleCardClick}>
+        <div className="card doc m-2 d-flex flex-column justify-content-center align-items-center" key={index} style={{ width: '100%', maxWidth: '20dvw', height: 'auto', aspectRatio: '1 / 1', minWidth: '150px', minHeight: '150px' }} onClick={handleCardClick}>
             <div className="hide d-flex justify-content-end w-100">
                 <Tooltip id={`edit-tooltip-${index}`} place="bottom" style={{ fontSize: '0.4em' }} />
                 <button className="transparent-button" data-tooltip-id={`delete-tooltip-${index}`} data-tooltip-content="Delete" onClick={(e) => handleDelete(e)}>
