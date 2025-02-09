@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth.routes');
 const docRoutes = require('./routes/doc.routes');
 const flashRoutes = require('./routes/flash.routes');
+const uploadRoutes = require('./routes/upload.routes');
 
 const app = express();
 
@@ -13,11 +14,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('src/public'));
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/docs', docRoutes);
 app.use('/api/flash', flashRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
