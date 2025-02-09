@@ -25,14 +25,28 @@ img {
     width: 150px;
 }
 
+.form-control {
+    background-color: var(--card);
+    color: var(--text-color);
+}
+
 .form-check {
     padding: 0;
 }
 
+.form-control::placeholder {
+    color: var(--text-color);
+}   
+
 .form-control:focus {
     border-color: var(--primary-design-color);
+    background-color: var(--card);
     box-shadow: 0 0 0 0.2rem rgba(255, 160, 122, 0.25);
-    color: red;
+    color: var(--text-color);   
+}
+
+.container-fluid {
+    background-color: var(--background-color);
 }
 
 input[type="checkbox"] {
@@ -110,6 +124,10 @@ input[type="checkbox"] {
 
 .transparent-button:hover {
     transform: scale(1.1);
+}
+
+.card {
+    background-color: var(--card);
 }
 
 .card-title {
@@ -234,4 +252,13 @@ input[type="checkbox"] {
 
 .theme-switch__input:checked {
     background-color: var(--secondary-design-color);
+}
+
+.navbar {
+    background-color: var(--navbar);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
 }

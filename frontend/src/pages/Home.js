@@ -9,17 +9,14 @@ import { GoGear } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import { Tooltip } from 'react-tooltip';
 
-function Home() {
+function Home({changeTheme}) {
     const [posts, setPosts] = useState([]);
     const [showCreate, setShowCreate] = useState(false);
-    
-    function handleDelete() {
-        // Delete document
-    }
+    const [searchQuery, setSearchQuery] = useState('');
 
-    function handleEdit() {
-        // Edit document
-    }
+    useEffect(() => {
+        changeTheme();
+      }, []);
 
     // changes view based on show, if show is true, then it will show the create component
     function handleView() {
@@ -29,13 +26,17 @@ function Home() {
     useEffect(() => {
         axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
             .then(response => {
-                console.log(response);
                 setPosts(response.data || []);
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
     }, []);
+
+    const filteredPosts = posts.filter(post => 
+        (post.title && post.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
     
     return (
         <div>
@@ -54,13 +55,19 @@ function Home() {
 
             <div className="container-fluid d-flex align-items-center justify-content-center" style={{ padding: '1%' }}>
                 <div className="search-bar w-50 d-flex align-items-center me-2">
-                    <input type="text" placeholder="Search..." className="form-control" />
+                    <input 
+                        type="text" 
+                        placeholder="Search..." 
+                        className="form-control" 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
                 </div>
                 <button className="button" onClick={handleView}>Create</button>
             </div>
 
             <div className="container-fluid d-flex flex-wrap justify-content-center">
-                {posts.length > 0 ? posts.map((post, index) => (
+                {filteredPosts.length > 0 ? filteredPosts.map((post, index) => (
                     <Card key={index} post={post} />
                 )) : 
                 <div className="d-flex justify-content-center flex-column align-items-center mt-5">

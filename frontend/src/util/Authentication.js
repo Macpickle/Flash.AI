@@ -2,9 +2,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
 
-
 // test if user is logged in (has JWT token)
-const Authentication = ({callbackURL}) => {
+const Authentication = ({ callbackURL, type }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const token = localStorage.getItem("token");
 
@@ -32,8 +31,15 @@ const Authentication = ({callbackURL}) => {
     if (isAuthenticated === null) {
         return <></>;
     }
+    if (type === "noauth" && isAuthenticated) {
+        return <Navigate to={callbackURL} />;
+    }
 
-    return isAuthenticated ? <Outlet /> : <Navigate to={callbackURL} />;
+    if (type === "auth" && !isAuthenticated) {
+        return <Navigate to={callbackURL} />;
+    }
+
+    return <Outlet />;
 }
 
 export default Authentication;
