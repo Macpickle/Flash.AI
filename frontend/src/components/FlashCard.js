@@ -1,33 +1,68 @@
-function FlashCard({question, description}) {
+import { CiStar } from "react-icons/ci";
+import { Tooltip } from "react-tooltip";
+import { useEffect, useState } from 'react';
+
+function FlashCard({ question, multipleChoice, submitAnswer, difficulty, currentQuestion, totalQuestions, continueQuiz }) {
+    const [selected, setSelected] = useState(false);
+    
+    const submit = () => {
+        const answer = document.querySelector('input[name="quiz"]:checked').value;
+        const radios = document.querySelectorAll('input[name="quiz"]');
+        radios.forEach(radio => {
+            radio.onclick = (e) => e.preventDefault();
+        });
+
+        setSelected(true);
+        submitAnswer(answer);
+    };
+
+    useEffect(() => {
+        setSelected(false);
+    }, [question]);
+
     return (
         <div className="border p-4 w-100 h-75 text-center" style={{ maxWidth: '600px' }}>
             <h2 className="title">Question</h2>
+            
+            <div className="d-flex justify-content-center align-items-center" data-tooltip-id="difficulty-tooltip">
+                {[...Array(3)].map((_, index) => (
+                    <CiStar key={index} size={24} color={index < difficulty ?  '#FFA07A' : 'lightgray'} />
+                ))}
+            </div>
+            <Tooltip id="difficulty-tooltip" place="bottom" effect="solid">
+                Difficulty Level {difficulty}
+            </Tooltip>
             <p className="text">{question}?</p>
             <div className="d-flex justify-content-start align-items-start flex-column">
-                <div className="form-check border text-left d-flex align-items-center m-0 mb-3 w-100" htmlFor="answer1" onClick={() => document.getElementById('answer1').click()}>
-                    <input className="form-check-input" type="radio" id="answer1" name="quiz" value={description[0]} style={{ transform: 'scale(1.5)' }} />
-                    <label className="form-check-label text" htmlFor="answer1" style={{ paddingLeft: '10px' }}>{description[0]}</label>
-                </div>
-
-                <div className="form-check border text-left d-flex align-items-center m-0 mb-3 w-100" htmlFor="answer2" onClick={() => document.getElementById('answer2').click()}>
-                    <input className="form-check-input" type="radio" id="answer2" name="quiz" value={description[1]} style={{ transform: 'scale(1.5)' }} />
-                    <label className="form-check-label text" htmlFor="answer2" style={{ paddingLeft: '10px' }}>{description[1]}</label>
-                </div>
-
-                <div className="form-check border text-left d-flex align-items-center m-0 mb-3 w-100" htmlFor="answer3" onClick={() => document.getElementById('answer3').click()}>
-                    <input className="form-check-input" type="radio" id="answer3" name="quiz" value={description[2]} style={{ transform: 'scale(1.5)' }} />
-                    <label className="form-check-label text" htmlFor="answer3" style={{ paddingLeft: '10px' }}>{description[2]}</label>
-                </div>
-
-                <div className="form-check border text-left d-flex align-items-center m-0 mb-3 w-100" htmlFor="answer4" onClick={() => document.getElementById('answer4').click()}>
-                    <input className="form-check-input" type="radio" id="answer4" name="quiz" value={description[3]} style={{ transform: 'scale(1.5)' }} />
-                    <label className="form-check-label text" htmlFor="answer4" style={{ paddingLeft: '10px' }}>{description[3]}</label>
-                </div>
-
-                <button className="button quizButton w-100 mt-1">Submit</button>
-
+                {multipleChoice.options.map((option, index) => (
+                    <div
+                        key={option._id}
+                        className="form-check border text-left d-flex align-items-center m-0 mb-3 w-100"
+                        id="questionoutline"
+                        htmlFor={`answer${index}`}
+                        onClick={() => {
+                            document.getElementById(`answer${index}`).click();
+                            if (!selected) {
+                                submit();
+                            }
+                        }}
+                    >
+                        <input
+                            className="form-check-input"
+                            type="radio"
+                            id={`answer${index}`}
+                            name="quiz"
+                            value={option.text}
+                            style={{ transform: 'scale(1.5)' }}
+                        />
+                        <label className="form-check-label text" htmlFor={`answer${index}`} style={{ paddingLeft: '10px' }}>
+                            {option.text}
+                        </label>
+                    </div>
+                ))}
+                <button className="button quizButton w-100 mt-1" onClick={continueQuiz} disabled={!selected}>Continue</button>
                 <div className="d-flex justify-content-center align-items-center mt-3 w-100">
-                    <p className="text">1/10</p>
+                    <p className="text">{currentQuestion ? currentQuestion : 0}/{totalQuestions ? totalQuestions : 0}</p>
                 </div>
             </div>
         </div>
