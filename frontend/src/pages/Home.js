@@ -24,7 +24,7 @@ function Home({changeTheme}) {
     }
 
     useEffect(() => {
-        axios.get(`${process.env.API_URL}/api/docs`, 
+        axios.get(`${process.env.REACT_APP_API_URL}/api/docs`, 
             { headers: 
                 { 
                     Authorization: `Bearer ${localStorage.getItem('token')}` 

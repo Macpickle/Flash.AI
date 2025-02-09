@@ -12,7 +12,7 @@ function Create({handleView}) {
         formData.append('file', file);
         formData.append('title', document.getElementById('title').value);
         
-        axios.post(`${process.env.API_URL}/api/upload`, formData, 
+        axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, 
             { headers: 
                 { 
                     Authorization: `Bearer ${localStorage.getItem('token')}`,

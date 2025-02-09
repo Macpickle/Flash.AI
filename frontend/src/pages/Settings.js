@@ -24,7 +24,7 @@ function Settings() {
         const darkMode = document.getElementById('themeSwitch').checked ? true : false;
 
         // Update user settings
-        axios.patch(`${process.env.API_URL}/api/auth/update`, {
+        axios.patch(`${process.env.REACT_APP_API_URL}/api/auth/update`, {
             username,
             email,
             password,

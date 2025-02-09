@@ -14,7 +14,7 @@ const Card = ({index, post}) => {
         e.stopPropagation();
         // Delete document
         console.log(post._id);
-        axios.delete(`${process.env.API_URL}/api/docs/${post._id}`, { 
+        axios.delete(`${process.env.REACT_APP_API_URL}/api/docs/${post._id}`, { 
             headers: { 
             Authorization: `Bearer ${localStorage.getItem('token')}` 
             } 

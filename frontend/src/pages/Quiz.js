@@ -37,7 +37,7 @@ function Quiz() {
         // fetch questions from the server
         const id = window.location.pathname.split('/').pop();
 
-        axios.get(`${process.env.API_URL}/api/docs/${id}`, { 
+        axios.get(`${process.env.REACT_APP_API_URL}/api/docs/${id}`, { 
             headers: { 
             Authorization: `Bearer ${localStorage.getItem('token')}` 
             } 
