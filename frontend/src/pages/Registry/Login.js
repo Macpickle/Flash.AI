@@ -17,7 +17,7 @@ function Login() {
         const password = document.getElementById('password').value;
         const remember = document.getElementById('remember').checked;
 
-        axios.post("/api/auth/login", {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
             email: email,
             password: password
         }).then((response) => {

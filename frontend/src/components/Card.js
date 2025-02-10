@@ -14,18 +14,18 @@ const Card = ({index, post}) => {
         e.stopPropagation();
         // Delete document
         console.log(post._id);
-        axios.delete(`/api/docs/${post._id}`, { 
+        axios.delete(`${process.env.REACT_APP_API_URL}/api/docs/${post._id}`, { 
             headers: { 
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
             } 
         })
             .then(response => {
-                console.log(response);
-                // remove the card from the view
-                window.location.reload();
+            console.log(response);
+            // remove the card from the view
+            window.location.reload();
             })
             .catch(error => {
-                console.error(error);
+            console.error(error);
             });
     }
 

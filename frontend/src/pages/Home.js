@@ -24,7 +24,12 @@ function Home({changeTheme}) {
     }
 
     useEffect(() => {
-        axios.get('/api/docs', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+        axios.get(`${process.env.REACT_APP_API_URL}/api/docs`, 
+            { headers: 
+                { 
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                } 
+            })
             .then(response => {
                 setPosts(response.data || []);
             })

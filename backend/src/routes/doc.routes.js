@@ -90,12 +90,6 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Doc not found' });
     }
 
-    const user = await User.findById(doc.userId);
-    if (user) {
-      user.docs = user.docs.filter(docId => docId.toString() !== doc._id.toString());
-      await user.save();
-    }
-
     await deleteDocAndFlashCards(doc._id);
 
     // Remove the document ID from the user's docs array
