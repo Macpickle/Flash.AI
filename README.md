@@ -1,7 +1,7 @@
 
 # Flash.AI
 [Live Website](https://flash-ai-eight.vercel.app/) \
-Please note it may take a few seconds to warm up the server for functionallity to allow requests. \ \
+Please note it may take a few seconds to warm up the backend server to actually allow requests to be made.
 
 Tired of spending hours to and from school? Want to make the most out of that time before an exam? Introducing Flash.AI, your smart study companion, transforming travel time into productive time. Whether it is a bus, train, or carpooling, Flash.AI helps you go through key concepts, quiz yourself, and build confidence-all hands-free. Ace your exams, wherever you are!
 
@@ -10,14 +10,14 @@ With Flash.AI, you can upload your notes, study slides, or any other documents t
 # Features
 We’ve packed Flash.AI with powerful features to help you ace your exams effortlessly. Here’s what you get:
 
-- Secure Accounts – Register and log in with confidence, protected by JWT authentication and Bcrypt encryption for top-notch security.
-- Anywhere Access – Upload your files (TXT, PDF, DOC, etc.) to our database and access them anytime, anywhere.
-- AI-Generated Quizzes – Turn your documents into custom quizzes to test your knowledge on the go, along with a question difficulty system to REALLY test your knowledge.
-- Smart Feedback – Get instant insights to track your progress and improve.
-- Search & Organize – Quickly find your documents with a built-in search bar. No more endless scrolling!
-- Mobile-Friendly – Study seamlessly on any device, whether you're on the bus or at home.
-- Customizable Themes – Prefer dark mode? Light mode? Switch effortlessly to match your style.
-- Full Account Control – Easily update your password, email, or username whenever you need
+- **Secure Accounts** – Register and log in with confidence, protected by JWT authentication and Bcrypt encryption for top-notch security.
+- **Anywhere Access** – Upload your files (TXT, PDF, DOC, etc.) to our database and access them anytime, anywhere.
+- **AI-Generated Quizzes** – Turn your documents into custom quizzes to test your knowledge on the go, along with a question difficulty system to REALLY test your knowledge.
+- **Smart Feedback** – Get instant insights to track your progress and improve.
+- **Search & Organize** – Quickly find your documents with a built-in search bar. No more endless scrolling!
+- **Mobile-Friendly** – Study seamlessly on any device, whether you're on the bus or at home.
+- **Customizable Themes** – Prefer dark mode? Light mode? Switch effortlessly to match your style.
+- **Full Account Control** – Easily update your password, email, or username whenever you need
 
 # Tech Stack
 [![](https://skillicons.dev/icons?i=react,js,html,css,nodejs,mongodb,bootstrap)](https://skillicons.dev)
