@@ -1,6 +1,8 @@
 
 # Flash.AI
-[Live Demo](https://flash-ai-eight.vercel.app/) \
+[Live Website](https://flash-ai-eight.vercel.app/) \
+Please note it may take a few seconds to warm up the server for functionallity to allow requests. \ \
+
 Tired of spending hours to and from school? Want to make the most out of that time before an exam? Introducing Flash.AI, your smart study companion, transforming travel time into productive time. Whether it is a bus, train, or carpooling, Flash.AI helps you go through key concepts, quiz yourself, and build confidence-all hands-free. Ace your exams, wherever you are!
 
 With Flash.AI, you can upload your notes, study slides, or any other documents to instantly generate AI-powered questions. Quiz yourself on the go, get smarter with every session, and turn your study materials into an interactive learning experience!
@@ -24,7 +26,8 @@ along with:
 - Google Generative AI
 
 # How to Run
-Since this is a local website, for now, you can run it off your own computer!
+Since this is a local website, for now, you can run it off your own computer, or just view the live demo
+[Live Website](https://flash-ai-eight.vercel.app/) 
 
 ## Installation
 First, you will need Node.JS, and a MongoDB database, along with a Google Generative AI Auth key
