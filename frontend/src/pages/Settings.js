@@ -9,7 +9,7 @@ import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 
 // routing
-import axios from "axios";
+import { AxiosPatch, AxiosDelete } from "../util/Axios";
 import { useNavigate } from "react-router-dom";
 
 function Settings() {
@@ -24,16 +24,12 @@ function Settings() {
         const darkMode = document.getElementById('themeSwitch').checked ? true : false;
 
         // Update user settings
-        axios.patch(`${process.env.REACT_APP_API_URL}/api/auth/update`, {
+        AxiosPatch('/api/auth/update', {
             username,
             email,
             password,
             confirmPassword,
             darkMode
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
         }).then(response => {
             if (response.data.user.darkMode !== localStorage.getItem('darkMode')) {
                 localStorage.setItem('darkMode', response.data.user.darkMode);
@@ -47,13 +43,10 @@ function Settings() {
 
     const deleteUser = () => {
         // Delete user account
-        axios.delete('/api/auth/delete', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        }).then(response => {
+        AxiosDelete('/api/auth/delete').then(response => {
+            localStorage.removeItem('token');
             navigate('/login');
-            Logout();
+            window.location.reload();
         }).catch(error => {
             console.error(error);
         });

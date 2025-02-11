@@ -2,7 +2,7 @@
 import AuthenticationWrapper from "../../components/AuthenticationWrapper"
 
 // hooks
-import axios from "axios";
+import { AxiosPost } from "../../util/Axios";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -17,9 +17,10 @@ function Login() {
         const password = document.getElementById('password').value;
         const remember = document.getElementById('remember').checked;
 
-        axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        // send data to backend
+        AxiosPost('/api/auth/login', {
             email: email,
-            password: password
+            password: password,
         }).then((response) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("darkMode", response.data.user.darkMode);
