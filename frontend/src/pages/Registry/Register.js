@@ -2,7 +2,7 @@
 import AuthenticationWrapper from "../../components/AuthenticationWrapper"
 
 // hooks
-import axios from "axios";
+import { AxiosPost } from "../../util/Axios";
 
 import { useNavigate } from 'react-router-dom';
 
@@ -15,10 +15,10 @@ function Register() {
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
+        AxiosPost('/api/auth/register', {
             username: username,
             email: email,
-            password: password
+            password: password,
         }).then((response) => {
             console.log(response);
             navigate('/login', {state: {email: email}});

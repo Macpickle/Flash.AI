@@ -1,8 +1,11 @@
 import { IoMdClose } from "react-icons/io";
 import { Tooltip } from 'react-tooltip';
-import axios from "axios";
+import { AxiosPost } from '../util/Axios';
+import { useState } from 'react';
 
 function Create({handleView}) {
+    const [submit, setSubmit] = useState(false);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // prevent multiple click of button
@@ -11,20 +14,18 @@ function Create({handleView}) {
         const file = document.getElementById('fileUpload').files[0];
         formData.append('file', file);
         formData.append('title', document.getElementById('title').value);
-        
-        axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, 
-            { headers: 
-                { 
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'multipart/form-data'
-                } 
-            })
+
+        setSubmit(true);
+
+        AxiosPost('/api/upload', formData)
             .then(response => {
                 window.location.reload();
             })
             .catch(error => {
                 console.error(error);
             });
+        
+        
     }
 
     return (
@@ -46,7 +47,9 @@ function Create({handleView}) {
                         <label className="text d-block" htmlFor="fileUpload">Upload File</label>
                         <input type="file" className="form-control" id="fileUpload" />
                     </div>
-                    <button type="submit" className="button resize mt-3 w-75">Submit</button>
+                    { submit ? <div className="spinner-border" role="status" style={{color: "#FFA07A"}}></div> : 
+                        <button type="submit" className="button resize mt-3 w-75">Submit</button>
+                    }
                 </form>
             </div>
         </div>

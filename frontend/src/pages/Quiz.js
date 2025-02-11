@@ -1,6 +1,6 @@
 import FlashCard from "../components/FlashCard";
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { AxiosGet } from '../util/Axios';
 import { useNavigate } from "react-router-dom";
 
 function Quiz() {
@@ -37,17 +37,15 @@ function Quiz() {
         // fetch questions from the server
         const id = window.location.pathname.split('/').pop();
 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/docs/${id}`, { 
-            headers: { 
-            Authorization: `Bearer ${localStorage.getItem('token')}` 
-            } 
-        }).then(response => {
-            setQuestions(response.data.flashCards || []);
-            setLoading(false);
-        }).catch(error => {
-            console.error(error);
-        });
-    }, []);    
+        AxiosGet(`/api/docs/${id}`)
+            .then(response => {
+                setQuestions(response.data.flashCards || []);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
 
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center vh-100">

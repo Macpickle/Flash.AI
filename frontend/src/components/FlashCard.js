@@ -1,9 +1,12 @@
 import { CiStar } from "react-icons/ci";
 import { Tooltip } from "react-tooltip";
+import { IoMdClose } from "react-icons/io";
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function FlashCard({ question, multipleChoice, submitAnswer, difficulty, currentQuestion, totalQuestions, continueQuiz }) {
     const [selected, setSelected] = useState(false);
+    const navigate = useNavigate();
     
     const submit = () => {
         const answer = document.querySelector('input[name="quiz"]:checked').value;
@@ -18,10 +21,29 @@ function FlashCard({ question, multipleChoice, submitAnswer, difficulty, current
 
     useEffect(() => {
         setSelected(false);
+
+        // randomize options
+        const options = [...multipleChoice.options];
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+        multipleChoice.options = options;
     }, [question]);
 
     return (
-        <div className="border p-4 w-100 text-center" style={{ maxWidth: '600px', height: '80vh' }}>
+        <div className="border p-4 w-100 text-center" style={{ maxWidth: '600px', height: '90%' }}>
+            <div className="d-flex justify-content-end align-items-center w-100">
+                <IoMdClose
+                    size={24}
+                    className="icon"
+                    data-tooltip-id="close-tooltip"
+                    onClick={() => navigate('/home')}
+                />
+                <Tooltip id="close-tooltip" place="bottom" effect="solid">
+                    Close
+                </Tooltip>
+            </div>
             <h2 className="title">Question</h2>
             
             <div className="d-flex justify-content-center align-items-center" data-tooltip-id="difficulty-tooltip">

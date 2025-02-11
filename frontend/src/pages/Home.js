@@ -1,9 +1,9 @@
 import NavBar from '../components/Navbar';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Logout from '../util/Logout';
 import Card from '../components/Card';
 import Create from './Create';
+import { AxiosGet } from "../util/Axios";
 
 import { GoGear } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
@@ -24,12 +24,7 @@ function Home({changeTheme}) {
     }
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/docs`, 
-            { headers: 
-                { 
-                    Authorization: `Bearer ${localStorage.getItem('token')}` 
-                } 
-            })
+        AxiosGet('/api/docs')
             .then(response => {
                 setPosts(response.data || []);
             })
@@ -39,8 +34,8 @@ function Home({changeTheme}) {
     }, []);
 
     const filteredPosts = posts.filter(post => 
-        (post.title && post.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase()))
+        (post.title && post.title.toLowerCase().startsWith(searchQuery.toLowerCase())) ||
+        (post.content && post.content.toLowerCase().startsWith(searchQuery.toLowerCase()))
     );
     
     return (
