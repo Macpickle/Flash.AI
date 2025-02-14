@@ -29,11 +29,9 @@ router.post("/:docId", auth, async (req, res) => {
         flash.multipleChoice.options.filter((opt) => opt.isCorrect).length !==
           1)
     ) {
-      return res
-        .status(400)
-        .json({
-          message: "Multiple choice cards must have exactly one correct answer",
-        });
+      return res.status(400).json({
+        message: "Multiple choice cards must have exactly one correct answer",
+      });
     }
 
     if (
@@ -131,11 +129,9 @@ router.patch("/:id", auth, async (req, res) => {
         flash.multipleChoice.options.filter((opt) => opt.isCorrect).length !==
           1)
     ) {
-      return res
-        .status(400)
-        .json({
-          message: "Multiple choice cards must have exactly one correct answer",
-        });
+      return res.status(400).json({
+        message: "Multiple choice cards must have exactly one correct answer",
+      });
     }
 
     if (
