@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("src/public"));
+// app.use(express.static("src/public")); // only for testing uploads
 
 // Routes
 app.use("/api/auth", authRoutes);
