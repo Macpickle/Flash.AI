@@ -1,5 +1,5 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { extractTextFromFile } = require('./file-processing.service');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { extractTextFromFile } = require("./file-processing.service");
 
 // Initialize Google AI with your API key
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
@@ -62,7 +62,7 @@ const createFlashCardPrompt = (content) => {
 const generateFlashCards = async (file) => {
   try {
     // For text generation, use the gemini-pro model since it's better for text processing
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // Extract text from the file
     const content = await extractTextFromFile(file);
@@ -71,40 +71,40 @@ const generateFlashCards = async (file) => {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
+
     // Clean up the response text to ensure it's valid JSON
-    const jsonStart = text.indexOf('{');
-    const jsonEnd = text.lastIndexOf('}') + 1;
-    
+    const jsonStart = text.indexOf("{");
+    const jsonEnd = text.lastIndexOf("}") + 1;
+
     if (jsonStart === -1 || jsonEnd === 0) {
-      console.error('AI response does not contain valid JSON structure:', text);
-      throw new Error('AI response is not in the expected JSON format');
+      console.error("AI response does not contain valid JSON structure:", text);
+      throw new Error("AI response is not in the expected JSON format");
     }
-    
+
     const jsonText = text.slice(jsonStart, jsonEnd);
-    
+
     try {
       const parsedResponse = JSON.parse(jsonText);
       return {
         success: true,
-        data: parsedResponse
+        data: parsedResponse,
       };
     } catch (parseError) {
-      console.error('Error parsing AI response:', parseError);
+      console.error("Error parsing AI response:", parseError);
       return {
         success: false,
-        error: 'Failed to parse AI response'
+        error: "Failed to parse AI response",
       };
     }
   } catch (error) {
-    console.error('Error generating flash cards:', error);
+    console.error("Error generating flash cards:", error);
     return {
       success: false,
-      error: 'Failed to generate flash cards'
+      error: "Failed to generate flash cards",
     };
   }
 };
 
 module.exports = {
-  generateFlashCards
+  generateFlashCards,
 };

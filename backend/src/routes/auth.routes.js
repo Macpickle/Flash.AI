@@ -1,29 +1,29 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
-const Doc = require('../models/doc.model');
-const Flash = require('../models/flash.model');
-const auth = require('../middleware/auth.middleware');
-const bcrypt = require('bcryptjs');
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user.model");
+const Doc = require("../models/doc.model");
+const Flash = require("../models/flash.model");
+const auth = require("../middleware/auth.middleware");
+const bcrypt = require("bcryptjs");
 const router = express.Router();
 
 // Validate user token and return user info
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // Check if Authorization header exists
     if (!req.headers.authorization) {
       return res.status(401).json({
         success: false,
-        message: 'No token provided'
+        message: "No token provided",
       });
     }
 
     // Extract token from Bearer header
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid token format'
+        message: "Invalid token format",
       });
     }
 
@@ -31,14 +31,12 @@ router.get('/', async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Find user and exclude password
-    const user = await User.findById(decoded.userId)
-      .select('-password')
-      .lean();
+    const user = await User.findById(decoded.userId).select("-password").lean();
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'User not found'
+        message: "User not found",
       });
     }
 
@@ -49,34 +47,34 @@ router.get('/', async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        darkMode: user.darkMode
-      }
+        darkMode: user.darkMode,
+      },
     });
   } catch (error) {
     // Handle specific JWT errors
-    if (error.name === 'JsonWebTokenError') {
+    if (error.name === "JsonWebTokenError") {
       return res.status(401).json({
         success: false,
-        message: 'Invalid token'
+        message: "Invalid token",
       });
     }
-    if (error.name === 'TokenExpiredError') {
+    if (error.name === "TokenExpiredError") {
       return res.status(401).json({
         success: false,
-        message: 'Token expired'
+        message: "Token expired",
       });
     }
 
     // Handle other errors
     res.status(500).json({
       success: false,
-      message: 'Server error during authentication'
+      message: "Server error during authentication",
     });
   }
 });
 
 // register
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -84,7 +82,10 @@ router.post('/register', async (req, res) => {
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
       return res.status(400).json({
-        message: existingUser.email === email ? 'Email already exists' : 'Username already exists'
+        message:
+          existingUser.email === email
+            ? "Email already exists"
+            : "Username already exists",
       });
     }
 
@@ -93,7 +94,7 @@ router.post('/register', async (req, res) => {
       email,
       password,
       darkMode: false,
-      docs: []
+      docs: [],
     });
     await user.save();
 
@@ -104,22 +105,24 @@ router.post('/register', async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        darkMode: user.darkMode
-      }
+        darkMode: user.darkMode,
+      },
     });
   } catch (error) {
-    res.status(400).json({ message: 'Registration failed', error: error.message });
+    res
+      .status(400)
+      .json({ message: "Registration failed", error: error.message });
   }
 });
 
 // Login
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
     if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
@@ -129,16 +132,16 @@ router.post('/login', async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        darkMode: user.darkMode
-      }
+        darkMode: user.darkMode,
+      },
     });
   } catch (error) {
-    res.status(400).json({ message: 'Login failed' });
+    res.status(400).json({ message: "Login failed" });
   }
 });
 
 // Update user information
-router.patch('/update', auth, async (req, res) => {
+router.patch("/update", auth, async (req, res) => {
   try {
     const { username, email, password, darkMode } = req.body;
     const updateFields = {};
@@ -149,7 +152,7 @@ router.patch('/update', auth, async (req, res) => {
       if (username.length < 1) {
         return res.status(400).json({
           success: false,
-          message: 'Username must be at least 1 character long'
+          message: "Username must be at least 1 character long",
         });
       }
       updateFields.username = username;
@@ -161,15 +164,18 @@ router.patch('/update', auth, async (req, res) => {
       if (!emailRegex.test(email)) {
         return res.status(400).json({
           success: false,
-          message: 'Invalid email format'
+          message: "Invalid email format",
         });
       }
       // Check if email is already taken by another user
-      const existingUser = await User.findOne({ email, _id: { $ne: req.userId } });
+      const existingUser = await User.findOne({
+        email,
+        _id: { $ne: req.userId },
+      });
       if (existingUser) {
         return res.status(400).json({
           success: false,
-          message: 'Email is already in use'
+          message: "Email is already in use",
         });
       }
       updateFields.email = email;
@@ -180,7 +186,7 @@ router.patch('/update', auth, async (req, res) => {
       if (password.length < 1) {
         return res.status(400).json({
           success: false,
-          message: 'Password must be at least 1 character long'
+          message: "Password must be at least 1 character long",
         });
       }
       // Hash the new password
@@ -190,10 +196,10 @@ router.patch('/update', auth, async (req, res) => {
 
     if (darkMode !== undefined) {
       // Validate darkMode is boolean
-      if (typeof darkMode !== 'boolean') {
+      if (typeof darkMode !== "boolean") {
         return res.status(400).json({
           success: false,
-          message: 'darkMode must be a boolean'
+          message: "darkMode must be a boolean",
         });
       }
       updateFields.darkMode = darkMode;
@@ -203,21 +209,19 @@ router.patch('/update', auth, async (req, res) => {
     if (Object.keys(updateFields).length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'No valid fields to update'
+        message: "No valid fields to update",
       });
     }
 
     // Update user
-    const user = await User.findByIdAndUpdate(
-      req.userId,
-      updateFields,
-      { new: true }
-    ).select('-password');
+    const user = await User.findByIdAndUpdate(req.userId, updateFields, {
+      new: true,
+    }).select("-password");
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found'
+        message: "User not found",
       });
     }
 
@@ -227,51 +231,51 @@ router.patch('/update', auth, async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        darkMode: user.darkMode
-      }
+        darkMode: user.darkMode,
+      },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error updating user information',
-      error: error.message
+      message: "Error updating user information",
+      error: error.message,
     });
   }
 });
 
 // Delete user account and all associated data
-router.delete('/delete', auth, async (req, res) => {
+router.delete("/delete", auth, async (req, res) => {
   try {
     // Find user's documents
     const docs = await Doc.find({ userId: req.userId });
-    
+
     // Delete all flash cards associated with user's documents
     for (const doc of docs) {
       await Flash.deleteMany({ docId: doc._id });
     }
-    
+
     // Delete all user's documents
     await Doc.deleteMany({ userId: req.userId });
-    
+
     // Delete the user
     const user = await User.findByIdAndDelete(req.userId);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found'
+        message: "User not found",
       });
     }
 
     res.json({
       success: true,
-      message: 'User account and all associated data deleted successfully',
+      message: "User account and all associated data deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error deleting user account',
-      error: error.message
+      message: "Error deleting user account",
+      error: error.message,
     });
   }
 });
