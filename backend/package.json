@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "lint": "npx prettier . --write"
+    "pretty": "npx prettier . --write"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
