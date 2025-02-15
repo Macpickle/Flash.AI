@@ -13,7 +13,7 @@ function Home() {
                     <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold animate-shimmer bg-clip-text text-transparent bg-[linear-gradient(110deg,rgb(255,231,113)_45%,#ffffff_50%,rgb(255,231,113)_55%)] bg-[length:250%_100%] pb-4">
                         Master your studying with AI
                     </h1>
-                    <p className="mt-4 text-lg text-gray-500">Transform your study materials into interactive quizzes. Learn smarter, not harder with Flash.AI's intelligent learning platform.</p>
+                    <p className="mt-4 text-lg text-gray-500">Transform your study materials into interactive quizzes. Learn smarter, not harder with Flash.AI&apos;s intelligent learning platform.</p>
 
                     <div className="mt-8 flex justify-center">
                         <Link to="/register">
