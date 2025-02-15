@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const node_environment = process.env.NODE_ENV; // gets the environment of the app
+const node_environment = process.env.REACT_APP_NODE_ENV; // gets the environment of the app
 
 // uses Axios to make requests to the server, based on environment
 
