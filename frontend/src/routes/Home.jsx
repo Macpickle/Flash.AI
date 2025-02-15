@@ -22,23 +22,23 @@ function Home() {
                     </div>
                 </div>
             </section>
-            <section className="bg-gray-50 dark:bg-gray-900 py-20 text-gray-900 dark:text-gray-100">
+            <section className="bg-gray-50 dark:bg-neutral-950 py-20 text-gray-900 dark:text-gray-100">
                 <div className="max-w-6xl mx-auto text-center px-4">
                     <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold text-primary">Features</h2>
                     <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">Flash.AI is packed with features that will help you learn more effectively.</p>
 
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="flex flex-col items-center space-y-4 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300">
+                        <div className="flex flex-col cursor-pointer items-center space-y-4 p-6 bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-transparent hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300">
                             <LuGlobe className="text-primary text-3xl" /> 
                             <h3 className="text-xl font-bold text-primary">Anywhere Access</h3>
                             <p className="text-gray-700 dark:text-gray-400">Upload your files (TXT, PDF, DOC, etc.) and access them anytime, anywhere.</p>
                         </div>
-                        <div className="flex flex-col items-center space-y-4 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300">
+                        <div className="flex flex-col cursor-pointer items-center space-y-4 p-6 bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-transparent hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300">
                             <LuBrain className="text-primary text-3xl" />
                             <h3 className="text-xl font-bold text-primary">AI-Generated Quizzes</h3>
                             <p className="text-gray-700 dark:text-gray-400">Turn your documents into custom quizzes with adaptive difficulty levels.</p>
                         </div>
-                        <div className="flex flex-col items-center space-y-4 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300">
+                        <div className="flex flex-col cursor-pointer items-center space-y-4 p-6 bg-white dark:bg-neutral-900 rounded-lg shadow-md border border-transparent hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300">
                             <LuChartLine className="text-primary text-3xl" />
                             <h3 className="text-xl font-bold text-primary">Progress Tracking</h3>
                             <p className="text-gray-700 dark:text-gray-400">Get instant insights to track your progress and improve your performance.</p>
@@ -56,9 +56,9 @@ function Home() {
                         <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">Flash.AI leverages the power of artificial intelligence to transform your study experience. With our platform, you can create personalized quizzes, track your progress, and access your study materials from anywhere.</p>
                         <div className="mt-8 flex space-x-4">
                             <Link to="/register">
-                                <Button href="/register" className="w-48 h-12 text-lg hover:bg-secondary">Sign Up</Button>
+                                <Button href="/register" className="w-48 h-12 text-lg">Sign Up</Button>
                             </Link>
-                            <Button href="/demo" className="w-48 h-12 text-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600">Watch Demo</Button>
+                            <Button href="/demo" className="w-48 h-12 text-lg bg-white text-gray-900 dark:bg-neutral-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-neutral-600">Watch Demo</Button>
                         </div>
                     </div>
                 </div>
