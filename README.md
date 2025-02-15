@@ -1,7 +1,7 @@
 
 # Flash.AI
 [Live Website](https://flash-ai-eight.vercel.app/) \
-Please note it may take a few seconds to warm up the backend server to actually allow requests to be made.
+Please note it may take a few seconds to warm up the backend server to actually allow requests to be made. 
 
 Tired of spending hours to and from school? Want to make the most out of that time before an exam? Introducing Flash.AI, your smart study companion, transforming travel time into productive time. Whether it is a bus, train, or carpooling, Flash.AI helps you go through key concepts, quiz yourself, and build confidence-all hands-free. Ace your exams, wherever you are!
 
