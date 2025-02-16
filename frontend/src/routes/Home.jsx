@@ -15,7 +15,7 @@ function Home() {
           </h1>
           <p className="mt-4 text-lg text-gray-500">
             Transform your study materials into interactive quizzes. Learn
-            smarter, not harder with Flash.AI's intelligent learning platform.
+            smarter, not harder with Flash.Ai's intelligent learning platform.
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -36,7 +36,7 @@ function Home() {
             Features
           </h2>
           <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">
-            Flash.AI is packed with features that will help you learn more
+            Flash.Ai is packed with features that will help you learn more
             effectively.
           </p>
 
@@ -85,10 +85,10 @@ function Home() {
           </div>
           <div className="w-full md:w-1/2 text-left">
             <h2 className="text-2xl md:text-4xl font-bold text-primary">
-              Why Choose Flash.AI?
+              Why Choose Flash.Ai?
             </h2>
             <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">
-              Flash.AI leverages the power of artificial intelligence to
+              Flash.Ai leverages the power of artificial intelligence to
               transform your study experience. With our platform, you can create
               personalized quizzes, track your progress, and access your study
               materials from anywhere.

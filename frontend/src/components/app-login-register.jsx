@@ -60,7 +60,7 @@ function LoginRegister({ method = "login" }) {
       <Card className="w-full max-w-[400px] sm:max-w-[440px] md:max-w-[480px] border-0 sm:border shadow-none sm:shadow bg-white dark:bg-neutral-900 dark:border-neutral-800">
         <CardHeader className="space-y-1 p-4 sm:p-6">
           <div className="flex justify-center mb-4">
-            <img src="./assets/logo.png" alt="Flash.AI" className="w-12 h-12" />
+            <img src="./assets/logo.png" alt="Flash.Ai" className="w-12 h-12" />
           </div>
           <CardTitle className="text-xl sm:text-2xl text-center font-bold dark:text-gray-300 dark:focus:border-primary">
             {isLogin ? "Login" : "Register"}
