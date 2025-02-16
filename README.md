@@ -65,6 +65,13 @@ cd frontend
 npm i
 ```
 
+Create a .env file and add the following variables:
+```
+PORT=YOUR_PORT
+VITE_NODE_ENV=production/development
+VITE_API_URL=YOUR_API_URL
+```
+
 Following this, you should be able to run the server:
 ```
 npm run start
