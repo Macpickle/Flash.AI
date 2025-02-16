@@ -1,7 +1,7 @@
 # Flash.Ai
 
 <p align="center">
-  <img src="images/FlashAi.jpg" width="50%" alt="Flash.Ai Logo" />
+  <img src="images/FlashAi.jpg" width="100%" alt="Flash.Ai Logo" />
 </p>
 
 <p align="center">
