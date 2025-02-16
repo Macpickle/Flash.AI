@@ -49,6 +49,12 @@ export default function AppNavbar() {
             Home
           </a>
           <a
+            href="/dashboard"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Dashboard
+          </a>
+          <a
             href="/about"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
