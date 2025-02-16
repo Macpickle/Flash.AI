@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { LuMoon, LuSun } from "react-icons/lu";
+import { Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function AppNavbar() {
@@ -38,8 +39,11 @@ export default function AppNavbar() {
     >
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
         <a href="/" className="flex items-center gap-2">
-          <img src="./assets/logo.png" alt="Flash.AI" className="w-12 h-12" />
-          <span className="text-xl font-bold text-primary">Flash.AI</span>
+          <img src="./assets/logo.png" alt="Flash.Ai" className="w-12 h-12" />
+          <span className="text-xl font-bold text-primary">
+            F<Zap className="h-4 w-4 text-primary inline-block" />
+            ash.Ai
+          </span>
         </a>
         <nav className="hidden md:flex space-x-4">
           <a
