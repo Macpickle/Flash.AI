@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { Zap } from "lucide-react";

@@ -1,14 +1,14 @@
 import { useState } from "react";
-import AppNavbar from "@/components/app-navbar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import SideNav from "@/components/app-sidenav";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import {
   List,
@@ -97,118 +97,122 @@ export default function Dashboard() {
       if (sortBy === "createdAt-desc")
         return new Date(b.createdAt) - new Date(a.createdAt);
     });
+    
 
   return (
-    <>
-      <AppNavbar />
-      <main className="pt-16 px-4">
-        <div className="container mx-auto p-4">
-          <div className="flex items-center gap-4 mb-4">
-            <Input
-              placeholder="Search documents..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Select onValueChange={setSortBy}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Sort" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="title-asc">Title A-z</SelectItem>
-                <SelectItem value="title-desc">Title Z-a</SelectItem>
-                <SelectItem value="createdAt-asc">
-                  Date
-                  <ArrowUpNarrowWide className="ml-1 h-4 w-4 mr-1 inline-block" />
-                </SelectItem>
-                <SelectItem value="createdAt-desc">
-                  Date
-                  <ArrowDownNarrowWide className="ml-1 h-4 w-4 mr-1 inline-block" />
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={setFilterBy}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="favourites">Favourites</SelectItem>
-                {documents
-                  .flatMap((doc) => doc.tags)
-                  .filter((tag, index, self) => self.indexOf(tag) === index)
-                  .map((tag) => (
-                    <SelectItem key={tag} value={tag}>
-                      {tag}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-            <Button
-              onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
-            >
-              {viewMode === "grid" ? <List /> : <Grid />}
-            </Button>
-            <Button>New Document</Button>
-          </div>
-          <div
-            className={
-              viewMode === "grid" ? "grid grid-cols-3 gap-4" : "space-y-2"
-            }
-          >
-            {filteredDocs.map((doc) => (
-              <Card
-                key={doc.id}
-                className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300"
+    <div className="flex w-screen h-screen overflow-x-hidden">
+        <SideNav />
+        <main className="px-4 flex-1 overflow-x-hidden">
+          <div className="container mx-auto p-4">
+            <div className="flex items-center gap-4 mb-4 flex-wrap">
+              <Input
+                placeholder="Search documents..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="flex-1 w-50"
+              />
+              <Select onValueChange={setSortBy}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="title-asc">Title A-z</SelectItem>
+                  <SelectItem value="title-desc">Title Z-a</SelectItem>
+                  <SelectItem value="createdAt-asc">
+                    Date
+                    <ArrowUpNarrowWide className="ml-1 h-4 w-4 mr-1 inline-block" />
+                  </SelectItem>
+                  <SelectItem value="createdAt-desc">
+                    Date
+                    <ArrowDownNarrowWide className="ml-1 h-4 w-4 mr-1 inline-block" />
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <Select onValueChange={setFilterBy}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Filter" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="favourites">Favourites</SelectItem>
+                  {documents
+                    .flatMap((doc) => doc.tags)
+                    .filter((tag, index, self) => self.indexOf(tag) === index)
+                    .map((tag) => (
+                      <SelectItem key={tag} value={tag}>
+                        {tag}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+              <Button
+                onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
               >
-                <CardContent className="flex justify-between items-start gap-2">
-                  <div className="w-full">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-lg font-semibold">{doc.title}</h3>
-                      <button
-                        onClick={() => toggleFavorite(doc.id)}
-                        className="text-yellow-500 hover:text-yellow-400 transition-colors"
-                      >
-                        <Star
-                          className={`w-5 h-5 ${
-                            doc.favorite ? "fill-yellow-500" : "stroke-current"
-                          }`}
-                        />
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {doc.createdAt}
-                    </p>
-                    <div className="mt-1 space-x-1">
-                      {doc.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded"
+                {viewMode === "grid" ? <List /> : <Grid />}
+              </Button>
+              <Button>New Document</Button>
+            </div>
+            <div
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+                  : "space-y-2"
+              }
+            >
+              {filteredDocs.map((doc) => (
+                <Card
+                  key={doc.id}
+                  className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300"
+                >
+                  <CardContent className="flex justify-between items-start gap-2">
+                    <div className="w-full">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-lg font-semibold">{doc.title}</h3>
+                        <button
+                          onClick={() => toggleFavorite(doc.id)}
+                          className="text-yellow-500 hover:text-yellow-400 transition-colors"
                         >
-                          {tag}
-                        </span>
-                      ))}
+                          <Star
+                            className={`w-5 h-5 ${
+                              doc.favorite ? "fill-yellow-500" : "stroke-current"
+                            }`}
+                          />
+                        </button>
+                      </div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {doc.createdAt}
+                      </p>
+                      <div className="mt-1 space-x-1">
+                        {doc.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
+                        {doc.summary}
+                      </p>
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-                      {doc.summary}
-                    </p>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardContent>
-              </Card>
-            ))}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreVertical className="w-5 h-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
-    </>
+        </main>
+    </div>
   );
 }
