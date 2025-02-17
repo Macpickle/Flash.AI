@@ -15,7 +15,7 @@ function Home() {
           </h1>
           <p className="mt-4 text-lg text-gray-500">
             Transform your study materials into interactive quizzes. Learn
-            smarter, not harder with Flash.Ai's intelligent learning platform.
+            smarter, not harder with Flash.AI&apos;s intelligent learning platform.
           </p>
 
           <div className="mt-8 flex justify-center">
