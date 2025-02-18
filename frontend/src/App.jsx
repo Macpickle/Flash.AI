@@ -17,16 +17,21 @@ function App() {
   return (
     <Router>
       <div>
-        {isCreateOpen !== "" && <Create type={isCreateOpen} onClose={() => setIsCreateOpen("")} /> }
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/signup" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
+            <Route
+              path="/dashboard"
+              element={<Dashboard handleCreate={handleCreate} />}
+            />
           </Routes>
         </Layout>
+        {isCreateOpen !== "" && (
+          <Create type={isCreateOpen} onClose={() => setIsCreateOpen("")} />
+        )}
       </div>
     </Router>
   );
