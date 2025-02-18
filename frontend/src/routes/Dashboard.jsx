@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import SideNav from "@/components/app-sidenav";
+import PropTypes from 'prop-types';
+
 import {
     Select,
     SelectContent,
@@ -60,9 +62,23 @@ const Docs = [
     summary: "Dummy. ",
     favorite: false,
   },
+  {
+    id: 5,
+    title: "Dummy 2",
+    createdAt: "2025-03-03",
+    tags: ["Random"],
+    summary: "Dummy 2. ",
+    favorite: false,
+  },
 ];
 
-export default function Dashboard() {
+// items for create dropdown
+const createItems = [
+  { name: "Document", type: "document" },
+  { name: "Folder", type: "folder" },
+];
+
+export default function Dashboard({handleCreate}) {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("title-asc");
   const [filterBy, setFilterBy] = useState("all");
@@ -101,7 +117,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex w-screen h-screen overflow-x-hidden">
-        <SideNav />
+        <SideNav handleCreate={handleCreate} />
         <main className="px-4 flex-1 overflow-x-hidden">
           <div className="container mx-auto p-4">
             <div className="flex items-center gap-4 mb-4 flex-wrap">
@@ -150,7 +166,21 @@ export default function Dashboard() {
               >
                 {viewMode === "grid" ? <List /> : <Grid />}
               </Button>
-              <Button>New Document</Button>
+              <Select className="border border-none" onValueChange={(value) => handleCreate(value.type)}>
+                  <SelectTrigger className="border dark:border-gray-700 dark:hover:bg-neutral-800 w-48 text-black dark:text-gray-100">
+                      <div className="flex items-center justify-center space-x-2 text-gray-200 dark:hover:bg-neutral-800 text-black dark:text-gray-100">
+                          <MoreVertical className="h-5 w-5" />
+                          <span className="text-black dark:text-white">Create new</span>
+                      </div>
+                  </SelectTrigger>
+                  <SelectContent className="bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg text-black dark:text-gray-100">
+                      {createItems.map((createItem) => (
+                          <SelectItem key={createItem.name} value={createItem} className="hover:bg-neutral-800 cursor-pointer">
+                              {createItem.name}
+                          </SelectItem>
+                      ))}
+                  </SelectContent>
+              </Select>
             </div>
             <div
               className={
@@ -216,3 +246,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
+Dashboard.propTypes = {
+    handleCreate: PropTypes.func.isRequired,
+};

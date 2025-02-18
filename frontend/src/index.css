@@ -22,7 +22,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 24 96% 79%;
+    --ring: 50 100% 70%; 
     --primary-faded: 24 96% 79% / 0.9;
     --radius: 0.5rem;
     --button-hover: 50 100% 50%; /* Darker yellow for hover */
@@ -57,5 +57,31 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
   }
 }
