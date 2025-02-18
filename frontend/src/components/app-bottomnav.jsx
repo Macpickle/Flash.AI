@@ -2,7 +2,7 @@ import { Home, Settings, PlusCircle } from "lucide-react";
 import { Bell, Users as GroupsIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 // all navigation items
@@ -22,13 +22,29 @@ const createItems = [
 
 function BottomNav({ handleCreate }) {
   const [selected, setSelected] = useState("");
+  const navRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (navRef.current && !navRef.current.contains(event.target)) {
+      setSelected("");
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       {selected ? (
         <nav
-          className={`fixed bottom-0 left-0 right-0 z-50 bg-black text-white border-t border-gray-700 ${selected === "" ? "animate-slide-down" : "animate-slide-up"}`}
+          ref={navRef}
+          className={`fixed bottom-0 left-0 right-0 z-50 bg-black text-white border-t border-neutral-700 ${selected === "" ? "animate-slide-down" : "animate-slide-up"}`}
         >
-          <div className="flex items-center justify-center grid grid-cols-1 border-t border-gray-700 py-4">
+          <div className="flex items-center justify-center grid grid-cols-1 border-t border-neutral-700 py-4">
             {createItems.map((item, index) => (
               <Button
                 key={index}
@@ -44,8 +60,8 @@ function BottomNav({ handleCreate }) {
           </div>
         </nav>
       ) : (
-        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black text-white border-t border-gray-700">
-          <div className="flex items-center justify-center mx-auto py-2 border-t border-gray-700 py-5">
+        <nav ref={navRef} className="fixed bottom-0 left-0 right-0 z-50 bg-black text-white border-t border-neutral-700">
+          <div className="flex items-center justify-center mx-auto py-2 border-t border-neutral-700 py-5">
             {navItems.map((item, index) =>
               item.type === "link" ? (
                 <Link

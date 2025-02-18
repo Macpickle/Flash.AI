@@ -126,7 +126,7 @@ function Home() {
           </div>
           <div className="w-full md:w-1/2">
             <img
-              src=""
+              src="src/assets/thegoats.JPG"
               alt="About Flash.Ai"
               className="rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
             />
