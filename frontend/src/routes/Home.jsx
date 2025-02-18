@@ -3,8 +3,30 @@ import AppFooter from "@/components/app-footer";
 import { Button } from "@/components/ui/button";
 import { LuGlobe, LuBrain, LuChartLine } from "react-icons/lu"; // Importing icons
 import { Link } from "react-router-dom";
+import emailjs from 'emailjs-com';
+import { useState } from 'react';
 
 function Home() {
+  const [sentEmail, setSentEmail] = useState(false);
+  
+  const submitFeedback = (e) => { 
+    e.preventDefault();
+
+    const { user_name, user_email, message } = e.target;
+
+    if (!user_name.value || !user_email.value || !message.value) {
+      return;
+    }
+
+    setSentEmail(true);
+
+    emailjs.init('aOysZsoRumWB86JNZ');
+    emailjs.sendForm(import.meta.env.VITE_SERVICE_ID, 'template_z8fc0om', e.target)
+      .then(() => {}, (error) => {
+          console.log(error.text);
+      });
+  }
+
   return (
     <div>
       <AppNavbar />
@@ -141,44 +163,51 @@ function Home() {
           <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">
             We would love to hear your feedback and suggestions. Please fill out the form below to get in touch with us.
           </p>
-          <form className="mt-8 space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-left text-gray-700 dark:text-gray-400">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-neutral-900 dark:text-gray-100"
-                placeholder="Your Name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-left text-gray-700 dark:text-gray-400">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-neutral-900 dark:text-gray-100"
-                placeholder="Your Email"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-left text-gray-700 dark:text-gray-400">
-                Message
-              </label>
-              <textarea
-                id="message"
-                className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-neutral-900 dark:text-gray-100"
-                placeholder="Your Message"
-                rows="4"
-              ></textarea>
-            </div>
-            <Button type="submit" className="w-full h-12 text-lg">
-              Submit
-            </Button>
-          </form>
+          { sentEmail ? ( 
+            <p className="text-primary">Email sent successfully! Thank you!</p> 
+          ) : (
+            <form className="mt-8 space-y-4 w-1/2 mx-auto" onSubmit={(e) => submitFeedback(e)}>
+              <div>
+                <label htmlFor="user_name" className="block text-left text-gray-700 dark:text-gray-400">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="user_name"
+                  className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-neutral-900 dark:text-gray-100"
+                  placeholder="Your Name"
+                  name="user_name"
+                />
+              </div>
+              <div>
+                <label htmlFor="user_email" className="block text-left text-gray-700 dark:text-gray-400">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="user_email"
+                  className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-neutral-900 dark:text-gray-100"
+                  placeholder="Your Email"
+                  name="user_email"
+                />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-left text-gray-700 dark:text-gray-400">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-neutral-900 dark:text-gray-100"
+                  placeholder="Your Message"
+                  rows="4"
+                  name="message"
+                ></textarea>
+              </div>
+              <Button type="submit" className="w-full h-12 text-lg">
+                Submit
+              </Button>
+            </form>
+          )}
         </div>
       </section>
       <AppFooter />
