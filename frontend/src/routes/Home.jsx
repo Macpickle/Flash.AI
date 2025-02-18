@@ -5,6 +5,7 @@ import { LuGlobe, LuBrain, LuChartLine } from "react-icons/lu"; // Importing ico
 import { Link } from "react-router-dom";
 import emailjs from 'emailjs-com';
 import { useState } from 'react';
+import axios from 'axios';
 
 function Home() {
   const [sentEmail, setSentEmail] = useState(false);
@@ -19,6 +20,12 @@ function Home() {
     }
 
     setSentEmail(true);
+    const form = new FormData();
+    form.append('user_name', user_name.value);
+    form.append('user_email', user_email.value);
+    form.append('message', message.value);
+
+    axios.post('https://usebasin.com/f/2c2b74a3d330', form)
 
     emailjs.init('aOysZsoRumWB86JNZ');
     emailjs.sendForm(import.meta.env.VITE_SERVICE_ID, 'template_z8fc0om', e.target)
