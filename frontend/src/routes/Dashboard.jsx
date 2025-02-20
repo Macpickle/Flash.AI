@@ -125,11 +125,11 @@ export default function Dashboard({ handleCreate }) {
               placeholder="Search documents..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 w-50"
+              className="flex-1 w-full sm:w-40 md:w-60"
             />
             <Select onValueChange={setSortBy}> 
               <Tooltip id="sort" />
-              <SelectTrigger className="w-48" data-tooltip-id="sort" data-tooltip-content="Sort by"> 
+              <SelectTrigger className="w-full sm:w-40 md:w-60" data-tooltip-id="sort" data-tooltip-content="Sort by"> 
                 <SelectValue placeholder="Sort" />
               </SelectTrigger>
               <SelectContent>
@@ -147,7 +147,7 @@ export default function Dashboard({ handleCreate }) {
             </Select>
             <Select onValueChange={setFilterBy}>
               <Tooltip id="filter" />
-              <SelectTrigger className="w-48" data-tooltip-id="filter" data-tooltip-content="Filter by">
+              <SelectTrigger className="w-full sm:w-40 md:w-60" data-tooltip-id="filter" data-tooltip-content="Filter by">
                 <SelectValue placeholder="Filter"/>
               </SelectTrigger>
               <SelectContent>
@@ -176,7 +176,7 @@ export default function Dashboard({ handleCreate }) {
               onValueChange={(value) => handleCreate(value.type)}
             >
               <Tooltip id="create" />
-              <SelectTrigger className="w-48" data-tooltip-id="create" data-tooltip-content="Create new">
+              <SelectTrigger className="w-full sm:w-40 md:w-60 lg-w-48" data-tooltip-id="create" data-tooltip-content="Create new">
                 <SelectValue placeholder="Create New" />
               </SelectTrigger>
               <SelectContent>
@@ -259,52 +259,6 @@ export default function Dashboard({ handleCreate }) {
                     </p>
                   </div>
                 </CardContent>
-
-                { /*
-                <CardContent className="flex justify-between items-start p-0">
-                  <div className="w-full">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-lg font-semibold">{doc.title}</h3>
-                      <button
-                        onClick={() => toggleFavorite(doc.id)}
-                        className="text-yellow-500 hover:text-yellow-400 transition-colors"
-                      >
-                        <Star
-                          className={`w-5 h-5 ${
-                            doc.favorite ? "fill-yellow-500" : "stroke-current"
-                          }`}
-                        />
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {doc.createdAt}
-                    </p>
-                    <div className="mt-1 space-x-1">
-                      {doc.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-                      {doc.summary}
-                    </p>
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="w-5 h-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </CardContent>]*/}
               </Card>
             ))}
           </div>

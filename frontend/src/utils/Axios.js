@@ -1,6 +1,6 @@
 import axios from "axios";
 const NODE_ENV = import.meta.env.VITE_NODE_ENV; // gets the environment of the app
-const API_URL = import.meta.env.VITE_API_URL; // gets the environment of the app
+const API_URL = import.meta.env.VITE_API_URL; // gets the URL of api route
 
 // Axios interceptor to add the token to the request headers
 axios.interceptors.request.use(
