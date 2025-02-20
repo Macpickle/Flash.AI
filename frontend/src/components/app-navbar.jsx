@@ -5,6 +5,13 @@ import { LuMoon, LuSun } from "react-icons/lu";
 import { Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const navbarItems = [
+  { title: "Home", href: "#home" },
+  { title: "Dashboard", href: "/dashboard" },
+  { title: "About", href: "#about" },
+  { title: "Contact", href: "#contact" },
+];
+
 export default function AppNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -46,34 +53,19 @@ export default function AppNavbar() {
           </span>
         </a>
         <nav className="hidden md:flex space-x-4">
-          <a
-            href="/"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            Home
-          </a>
-          <a
-            href="/dashboard"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            Dashboard
-          </a>
-          <a
-            href="/about"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            About
-          </a>
-          <a
-            href="/contact"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            Contact
-          </a>
+          {navbarItems.map((item) => (
+            <a
+              key={item.title}
+              href={item.href}
+              className="text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+            >
+              {item.title}
+            </a>
+          ))}
         </nav>
         <div className="flex items-center space-x-4">
           <Link to="/register">
-            <Button href="/register" className="hover:bg-secondary">
+            <Button href="/register">
               Sign up
             </Button>
           </Link>

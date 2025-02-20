@@ -13,23 +13,37 @@ import {
 } from "lucide-react";
 import { Bell, Users as GroupsIcon } from "lucide-react";
 import BottomNav from "@/components/app-bottomnav";
+import PropTypes from "prop-types";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 
 // all navigation items
 const navItems = [
-  { name: "Dashboard", icon: Home, href: "/dashboard" },
-  { name: "Groups", icon: GroupsIcon, href: "/groups" },
-  { name: "Notifications", icon: Bell, href: "/notifications" },
-  { name: "Create", icon: PlusCircle, href: "/create" },
-  { name: "Settings", icon: Settings, href: "/settings" },
+  { name: "Dashboard", icon: Home, href: "/dashboard", type: "link" },
+  { name: "Groups", icon: GroupsIcon, href: "/groups", type: "link" },
+  { name: "Notifications", icon: Bell, href: "/notifications", type: "link" },
+  { name: "Create", icon: PlusCircle, type: "dropdown" },
+  { name: "Settings", icon: Settings, href: "/settings", type: "link" },
+];
+
+// items for create dropdown
+const createItems = [
+  { name: "Document", type: "document" },
+  { name: "Folder", type: "folder" },
 ];
 
 // sample user for now
 const user = {
-  username: "John Pork",
+  username: "John Doe",
   image: "https://blackwonder.tf/attachments/1673671146282-png.31249/",
 };
 
-function SideNav() {
+function SideNav({ handleCreate, sendScreenSize }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [screenSize, setScreenSize] = useState("large");
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -59,14 +73,15 @@ function SideNav() {
 
     window.addEventListener("resize", handleResize);
     handleResize();
+    sendScreenSize(screenSize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [screenSize, sendScreenSize]);
 
   return (
-    <>
+    <div className="z-50">
       {screenSize === "small" ? (
-        <BottomNav />
+        <BottomNav handleCreate={handleCreate} />
       ) : (
         <div
           className={`flex flex-col bg-black border-r sticky border-gray-700 text-white h-screen ${
@@ -95,20 +110,59 @@ function SideNav() {
               alt="User"
               className="w-8 h-8 rounded-full object-cover"
             />
-            {!isCollapsed && <span className="text-lg">{user.username}</span>}
+            {!isCollapsed && <span className="text-lg min-w-[100px]">{user.username}</span>}
           </div>
           <ScrollArea className="flex-grow">
             <nav className="space-y-2 p-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="flex items-center space-x-2 rounded-lg px-3 py-2 text-gray-200 hover:bg-neutral-800"
-                >
-                  <item.icon className="h-5 w-5" />
-                  {!isCollapsed && <span>{item.name}</span>}
-                </Link>
-              ))}
+              {navItems.map((item) =>
+                item.type === "link" ? (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="flex items-center space-x-2 rounded-lg px-3 py-2 text-gray-200 hover:bg-neutral-800"
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {!isCollapsed && <span>{item.name}</span>}
+                  </Link>
+                ) : item.type === "button" ? (
+                  <Button
+                    key={item.name}
+                    variant="ghost"
+                    size="icon"
+                    className="flex items-center justify-center space-x-2 text-gray-200 hover:bg-neutral-800"
+                    onClick={() => handleCreate(item.type)}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {!isCollapsed && <span>{item.name}</span>}
+                  </Button>
+                ) : (
+                  item.type === "dropdown" && (
+                    <Select
+                      key={item.name}
+                      className="border border-none"
+                      onValueChange={(value) => handleCreate(value.type)}
+                    >
+                      <SelectTrigger className="border border-none dark:border-gray-700 hover:bg-neutral-800">
+                        <div className="flex items-center justify-center space-x-2 text-gray-200 hover:bg-neutral-800">
+                          <item.icon className="h-5 w-5" />
+                          {!isCollapsed && <span>{item.name}</span>}
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent className="bg-black border border-gray-700 dark:border-gray-700 rounded-lg text-white">
+                        {createItems.map((createItem) => (
+                          <SelectItem
+                            key={createItem.name}
+                            value={createItem}
+                            className="hover:bg-neutral-800 cursor-pointer"
+                          >
+                            {createItem.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )
+                ),
+              )}
             </nav>
           </ScrollArea>
           <div className="p-4 flex flex-col items-center">
@@ -136,8 +190,13 @@ function SideNav() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
+
+SideNav.propTypes = {
+  handleCreate: PropTypes.func.isRequired,
+  sendScreenSize: PropTypes.func.isRequired,
+};
 
 export default SideNav;
