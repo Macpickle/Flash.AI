@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip } from "react-tooltip";
+import PropTypes from "prop-types";
+
 import { LuMoon, LuSun } from "react-icons/lu";
 import {
   ChevronLeft,
@@ -12,8 +15,6 @@ import {
   PlusCircle,
 } from "lucide-react";
 import { Bell, Users as GroupsIcon } from "lucide-react";
-import PropTypes from "prop-types";
-
 import {
   Select,
   SelectContent,
@@ -56,14 +57,18 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
 
   return (
     <div className="z-50 flex-shrink-0">
-      <div className={`flex flex-col bg-black border-r sticky border-gray-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
+      <div className={`flex flex-col bg-black border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
         {screenSize === "large" && (
           <div className="flex justify-end p-4">
+            <Tooltip id="collapse" />
+
             <Button
               variant="ghost"
               size="icon"
               onClick={() => handleCollapse()}
               aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              data-tooltip-id="collapse"
+              data-tooltip-content={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
               {isCollapsed ? (
                 <ChevronRight className="h-4 w-4" />
@@ -74,12 +79,22 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
           </div>
         )}
 
-        <div className="flex flex-col items-center p-4 space-x-2">
-          <img
-            src={user.image}
-            alt="User"
-            className={`rounded-full object-center object-cover transition-all duration-300 ease-in-out ${isCollapsed ? "w-8 h-8" : "w-16 h-16"}`}
-          />
+        <Tooltip id="profile" />
+        <div 
+          className="flex flex-col items-center px-4 pb-2 space-x-2" 
+        >
+          <Link 
+            to="/profile" 
+            className="flex items-center space-x-2 hover:bg-neutral-800 rounded-full" 
+          >
+            <img
+              src={user.image}
+              alt="User"
+              className={`rounded-full object-center object-cover transition-all duration-300 ease-in-out ${isCollapsed ? "w-8 h-8" : "w-16 h-16"}`}
+              data-tooltip-id="profile" 
+          data-tooltip-content="Profile"
+            />
+          </Link>
           {!isCollapsed && <span className="text-2xl min-w-[100px]">{user.username}</span>}
         </div>
 
@@ -134,6 +149,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
             size="icon"
             onClick={toggleDarkMode}
             aria-label="Toggle dark mode"
+            data-tooltip-id="dark-mode"
           >
             {isDarkMode ? ( <LuSun className="h-5 w-5" /> ) : ( <LuMoon className="h-5 w-5" /> )}
           </Button>
