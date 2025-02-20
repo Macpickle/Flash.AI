@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import PropTypes from "prop-types";
+import { Tooltip } from 'react-tooltip'
 
 import {
   Select,
@@ -84,6 +85,7 @@ export default function Dashboard({ handleCreate }) {
   const [viewMode, setViewMode] = useState("grid");
   const [documents, setDocuments] = useState(Docs);
 
+  // toggle favorite
   const toggleFavorite = (id) => {
     setDocuments((prevDocs) =>
       prevDocs.map((doc) =>
@@ -92,6 +94,7 @@ export default function Dashboard({ handleCreate }) {
     );
   };
 
+  // filter and sort documents
   const filteredDocs = documents
     .filter((doc) => {
       const matchesSearch = doc.title
@@ -124,8 +127,9 @@ export default function Dashboard({ handleCreate }) {
               onChange={(e) => setSearch(e.target.value)}
               className="flex-1 w-50"
             />
-            <Select onValueChange={setSortBy}>
-              <SelectTrigger className="w-48">
+            <Select onValueChange={setSortBy}> 
+              <Tooltip id="sort" />
+              <SelectTrigger className="w-48" data-tooltip-id="sort" data-tooltip-content="Sort by"> 
                 <SelectValue placeholder="Sort" />
               </SelectTrigger>
               <SelectContent>
@@ -142,8 +146,9 @@ export default function Dashboard({ handleCreate }) {
               </SelectContent>
             </Select>
             <Select onValueChange={setFilterBy}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter" />
+              <Tooltip id="filter" />
+              <SelectTrigger className="w-48" data-tooltip-id="filter" data-tooltip-content="Filter by">
+                <SelectValue placeholder="Filter"/>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
@@ -158,8 +163,11 @@ export default function Dashboard({ handleCreate }) {
                   ))}
               </SelectContent>
             </Select>
+            <Tooltip id="grid-view" />
             <Button
               onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
+              data-tooltip-id="grid-view"
+              data-tooltip-content="Toggle view"
             >
               {viewMode === "grid" ? <List /> : <Grid />}
             </Button>
@@ -167,13 +175,11 @@ export default function Dashboard({ handleCreate }) {
               className="border border-none"
               onValueChange={(value) => handleCreate(value.type)}
             >
-              <SelectTrigger className="border dark:border-input dark:hover:bg-neutral-800 w-48 text-black dark:text-gray-100">
-                <div className="flex items-center justify-center space-x-2 text-gray-200 dark:hover:bg-neutral-800 text-black dark:text-gray-100">
-                  <MoreVertical className="h-5 w-5" />
-                  <span className="text-black dark:text-white">Create new</span>
-                </div>
+              <Tooltip id="create" />
+              <SelectTrigger className="w-48" data-tooltip-id="create" data-tooltip-content="Create new">
+                <SelectValue placeholder="Create New" />
               </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-black border border-input rounded-lg text-black dark:text-gray-100">
+              <SelectContent>
                 {createItems.map((createItem) => (
                   <SelectItem
                     key={createItem.name}
@@ -196,9 +202,66 @@ export default function Dashboard({ handleCreate }) {
             {filteredDocs.map((doc) => (
               <Card
                 key={doc.id}
-                className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:scale-105 hover:shadow-lg transition-transform duration-300"
+                className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:shadow-lg transition-transform duration-300"
               >
-                <CardContent className="flex justify-between items-start gap-2">
+                <CardContent className="flex justify-between items-start p-0 flex-col">
+                  <div className="w-full flex flex-row justify-end gap-3">
+                    <Tooltip id="favorite" />
+                    <button
+                      onClick={() => toggleFavorite(doc.id)}
+                      className="text-yellow-500 hover:text-yellow-400 transition-colors p-0"
+                      data-tooltip-id="favorite"
+                      data-tooltip-content="Toggle favorite"
+                    >
+                      <Star
+                        className={`w-5 h-5 ${
+                          doc.favorite ? "fill-yellow-500" : "stroke-current"
+                        }`}
+                      />
+                    </button>
+
+                    <Tooltip id="more" />
+                    <button
+                      className="text-yellow-500 hover:text-yellow-400 transition-colors p-0"
+                      data-tooltip-id="more"
+                      data-tooltip-content="More options"
+                    >
+                      <DropdownMenu>
+                       <DropdownMenuTrigger asChild>
+                          <MoreVertical className="w-5 h-5" />
+                       </DropdownMenuTrigger>
+                       <DropdownMenuContent align="end">
+                         <DropdownMenuItem>Edit</DropdownMenuItem>
+                         <DropdownMenuItem>Delete</DropdownMenuItem>
+                       </DropdownMenuContent>
+                      </DropdownMenu>
+                    </button>
+                  </div>
+
+                  <div className="w-full">
+                    <h3 className="text-lg font-semibold">{doc.title}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {doc.createdAt}
+                    </p>
+                    <div className="mt-1 space-x-1">
+                      {doc.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
+                      {doc.summary}
+                    </p>
+                  </div>
+                </CardContent>
+
+                { /*
+                <CardContent className="flex justify-between items-start p-0">
                   <div className="w-full">
                     <div className="flex justify-between items-center">
                       <h3 className="text-lg font-semibold">{doc.title}</h3>
@@ -241,7 +304,7 @@ export default function Dashboard({ handleCreate }) {
                       <DropdownMenuItem>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </CardContent>
+                </CardContent>]*/}
               </Card>
             ))}
           </div>
