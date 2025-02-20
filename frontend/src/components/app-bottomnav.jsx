@@ -1,5 +1,3 @@
-import { Home, Settings, PlusCircle } from "lucide-react";
-import { Bell, Users as GroupsIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
