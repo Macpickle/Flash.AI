@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import SideNav from "@/components/app-sidenav";
 import PropTypes from "prop-types";
 
 import {
@@ -84,7 +83,6 @@ export default function Dashboard({ handleCreate }) {
   const [filterBy, setFilterBy] = useState("all");
   const [viewMode, setViewMode] = useState("grid");
   const [documents, setDocuments] = useState(Docs);
-  const [screenSize, setScreenSize] = useState("large");
 
   const toggleFavorite = (id) => {
     setDocuments((prevDocs) =>
@@ -116,9 +114,8 @@ export default function Dashboard({ handleCreate }) {
     });
 
   return (
-    <div className={`flex w-screen h-screen overflow-x-hidden ${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
-      <SideNav handleCreate={handleCreate} sendScreenSize={(screenSize) => setScreenSize(screenSize)} />
-      <main className="px-4 flex-1 overflow-x-hidden">
+    <div className={`flex w-screen h-screen overflow-x-hidden`}>
+      <main className="flex-1 overflow-x-hidden">
         <div className="container mx-auto p-4">
           <div className="flex items-center gap-4 mb-4 flex-wrap">
             <Input

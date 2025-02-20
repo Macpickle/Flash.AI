@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { Bell, Users as GroupsIcon } from "lucide-react";
+import { PlusCircle, Home, Settings } from "lucide-react";
 
 // all navigation items
 const navItems = [

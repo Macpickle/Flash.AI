@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,7 +12,6 @@ import {
   PlusCircle,
 } from "lucide-react";
 import { Bell, Users as GroupsIcon } from "lucide-react";
-import BottomNav from "@/components/app-bottomnav";
 import PropTypes from "prop-types";
 
 import {
@@ -43,9 +42,7 @@ const user = {
   image: "https://blackwonder.tf/attachments/1673671146282-png.31249/",
 };
 
-function SideNav({ handleCreate, sendScreenSize }) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [screenSize, setScreenSize] = useState("large");
+function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -57,32 +54,8 @@ function SideNav({ handleCreate, sendScreenSize }) {
     }
   };
 
-  // handle screen resize, collapse sidebar on small and medium screens
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setScreenSize("small");
-      } else if (window.innerWidth < 1024) {
-        setIsCollapsed(true);
-        setScreenSize("medium");
-      } else {
-        setIsCollapsed(false);
-        setScreenSize("large");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    sendScreenSize(screenSize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [screenSize, sendScreenSize]);
-
   return (
-    <div className="z-50">
-      {screenSize === "small" ? (
-        <BottomNav handleCreate={handleCreate} />
-      ) : (
+    <div className="z-50 flex-shrink-0">
         <div
           className={`flex flex-col bg-black border-r sticky border-gray-700 text-white h-screen ${
             isCollapsed ? "w-16" : "w-64"
@@ -93,7 +66,7 @@ function SideNav({ handleCreate, sendScreenSize }) {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsCollapsed(!isCollapsed)}
+                onClick={() => handleCollapse()}
                 aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
                 {isCollapsed ? (
@@ -189,14 +162,15 @@ function SideNav({ handleCreate, sendScreenSize }) {
             </Button>
           </div>
         </div>
-      )}
     </div>
   );
 }
 
 SideNav.propTypes = {
   handleCreate: PropTypes.func.isRequired,
-  sendScreenSize: PropTypes.func.isRequired,
+  handleCollapse: PropTypes.func.isRequired,
+  isCollapsed: PropTypes.bool.isRequired,
+  screenSize: PropTypes.string.isRequired,
 };
 
 export default SideNav;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { X, RotateCcw } from "lucide-react";
+import PropTypes from "prop-types";
 
 const FlashCard = ({ question, onAnswer, isAnswered, onNext, isLast }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -163,5 +164,19 @@ const FlashCard = ({ question, onAnswer, isAnswered, onNext, isLast }) => {
     </div>
   );
 };
+
+FlashCard.propTypes = {
+  question: PropTypes.shape({
+    question: PropTypes.string,
+    answers: PropTypes.arrayOf(PropTypes.string),
+    correctAnswer: PropTypes.string,
+    explanation: PropTypes.string,
+  }).isRequired,
+  onAnswer: PropTypes.func.isRequired,
+  isAnswered: PropTypes.bool.isRequired,
+  onNext: PropTypes.func.isRequired,
+  isLast: PropTypes.bool.isRequired,
+};
+
 
 export default FlashCard;

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import SideNav from "@/components/app-sidenav";
 import FlashCard from "@/components/app-flashcard";
 import ProgressBar from "@/components/app-progressbar";
 
@@ -40,7 +39,6 @@ export default function Quiz() {
 
   return (
     <div className="flex w-screen h-screen overflow-x-hidden">
-      <SideNav />
       <main className="flex-1 flex flex-col items-center justify-center relative bg-neutral-300 dark:bg-black overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
