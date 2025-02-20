@@ -66,7 +66,7 @@ function App() {
                     <BottomNav handleCreate={handleCreate} />
                   )}
                     <Routes>
-                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate}/>} />
                       <Route path="/quiz" element={<Quiz />} />
                     </Routes>
                   </div>

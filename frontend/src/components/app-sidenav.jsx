@@ -154,7 +154,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
             <Button
               variant="ghost"
               size="icon"
-              className="w-full flex items-center justify-center space-x-2 text-gray-200 hover:bg-neutral-800"
+              className="w-full flex items-center justify-center space-x-2 text-gray-200 hover:bg-neutral-800 hover:text-white"
               aria-label="Logout"
             >
               <LogOut className="h-5 w-5" />
