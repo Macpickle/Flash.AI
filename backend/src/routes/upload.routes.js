@@ -61,10 +61,12 @@ router.post(
         });
       }
 
+
       // Create new document
       const doc = new Doc({
         title: req.body.title || "Untitled Document",
         summary: aiResponse.data.summary,
+        tags: aiResponse.data.tags,
         userId: req.userId,
       });
 

@@ -64,6 +64,23 @@ export default function Dashboard({ handleCreate }) {
         return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
+  const handleDelete = (id) => {
+    AxiosRequest({
+      url: `/api/docs/${id}`,
+      method: "delete",
+      data: {},
+    })
+      .then(() => {
+        setDocuments((prevDocs) =>
+          prevDocs.filter((doc) => doc.id !== id),
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // load documents on mount
   useEffect(() => {
     AxiosRequest({
       url: "/api/docs",
@@ -162,7 +179,7 @@ export default function Dashboard({ handleCreate }) {
             }
           >
             {filteredDocs.map((doc) => (
-              <DocTemplate key={doc.id} doc={doc} toggleFavorite={toggleFavorite} />
+              <DocTemplate key={doc.id} doc={doc} toggleFavorite={toggleFavorite} handleDelete={handleDelete} />
             ))}
           </div>
         </div>

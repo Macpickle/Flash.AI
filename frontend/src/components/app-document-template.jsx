@@ -9,7 +9,7 @@ import { Tooltip } from 'react-tooltip'
 import { Star, MoreVertical } from "lucide-react";
 import PropTypes from "prop-types";
 
-function DocTemplate({doc, toggleFavorite}) {
+function DocTemplate({doc, toggleFavorite, handleDelete}) {
   return (
     <Card
     className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:shadow-lg transition-transform duration-300"
@@ -42,7 +42,11 @@ function DocTemplate({doc, toggleFavorite}) {
        </DropdownMenuTrigger>
        <DropdownMenuContent align="end">
          <DropdownMenuItem>Edit</DropdownMenuItem>
-         <DropdownMenuItem>Delete</DropdownMenuItem>
+         <DropdownMenuItem
+            onClick={() => handleDelete(doc.id)}
+         >
+          Delete
+         </DropdownMenuItem>
        </DropdownMenuContent>
       </DropdownMenu>
       </button>
@@ -76,6 +80,7 @@ function DocTemplate({doc, toggleFavorite}) {
 DocTemplate.propTypes = {
   doc: PropTypes.object.isRequired,
   toggleFavorite: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default DocTemplate;
