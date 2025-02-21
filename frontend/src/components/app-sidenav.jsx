@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip } from "react-tooltip";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { ThemeContext } from "@/utils/contexts/ThemeContext";
 
 import { LuMoon, LuSun } from "react-icons/lu";
 import {
@@ -44,20 +45,11 @@ const user = {
 };
 
 function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  };
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <div className="z-50 flex-shrink-0">
-      <div className={`flex flex-col bg-black border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
+      <div className={`flex flex-col bg-black  border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
         {screenSize === "large" && (
           <div className="flex justify-end p-4">
             <Tooltip id="collapse" />
@@ -147,12 +139,12 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleDarkMode}
-            aria-label="Toggle dark mode"
-            data-tooltip-id="dark-mode"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
           >
-            {isDarkMode ? ( <LuSun className="h-5 w-5" /> ) : ( <LuMoon className="h-5 w-5" /> )}
+            {theme === "light" ? <LuMoon className="h-5 w-5" /> : <LuSun className="h-5 w-5" />}
           </Button>
+            
           <Link
             to="/logout"
             className="w-full items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800 flex"

@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ThemeContext } from "@/utils/contexts/ThemeContext";
 
 const navbarItems = [
   { title: "Home", href: "#home" },
@@ -14,7 +16,7 @@ const navbarItems = [
 
 export default function AppNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,15 +27,6 @@ export default function AppNavbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  };
 
   return (
     <header
@@ -54,13 +47,9 @@ export default function AppNavbar() {
         </a>
         <nav className="hidden md:flex space-x-4">
           {navbarItems.map((item) => (
-            <a
-              key={item.title}
-              href={item.href}
-              className="text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-            >
+            <Link key={item.title} to={item.href} className="text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
               {item.title}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="flex items-center space-x-4">
@@ -69,12 +58,13 @@ export default function AppNavbar() {
               Sign up
             </Button>
           </Link>
-          <Button variant="icon" onClick={toggleDarkMode}>
-            {isDarkMode ? (
-              <LuSun className="w-5 h-5" />
-            ) : (
-              <LuMoon className="w-5 h-5" />
-            )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? <LuMoon className="h-5 w-5" /> : <LuSun className="h-5 w-5" />}
           </Button>
         </div>
       </div>
