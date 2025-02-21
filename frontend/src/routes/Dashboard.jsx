@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import DocTemplate from "@/components/app-document-template";
 import PropTypes from "prop-types";
 import { Tooltip } from 'react-tooltip'
+import AxiosRequest from "@/utils/Axios";
 
 import {
   Select,
@@ -15,62 +16,9 @@ import {
 import {
   List,
   Grid,
-  MoreVertical,
-  Star,
   ArrowDownNarrowWide,
   ArrowUpNarrowWide,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const Docs = [
-  {
-    id: 1,
-    title: "Computational Science Lecture 1",
-    createdAt: "2025-02-15",
-    tags: ["CS", "Math"],
-    summary: "This is a brief summary of Document 1.",
-    favorite: true,
-  },
-  {
-    id: 2,
-    title: "Discrete Mathematics",
-    createdAt: "2024-02-12",
-    tags: ["Math"],
-    summary:
-      "This document covers various mathematical concepts and techniques essential for understanding the foundation of discrete structures and logical reasoning.",
-    favorite: false,
-  },
-  {
-    id: 3,
-    title: "Systems Programming",
-    createdAt: "2025-02-01",
-    tags: ["Linux", "CS"],
-    summary:
-      "An introduction to low-level programming concepts, system calls, and performance optimizations.",
-    favorite: false,
-  },
-  {
-    id: 4,
-    title: "Dummy",
-    createdAt: "2025-03-03",
-    tags: ["Random"],
-    summary: "Dummy. ",
-    favorite: false,
-  },
-  {
-    id: 5,
-    title: "Dummy 2",
-    createdAt: "2025-03-03",
-    tags: ["Random"],
-    summary: "Dummy 2. ",
-    favorite: false,
-  },
-];
 
 // items for create dropdown
 const createItems = [
@@ -83,13 +31,13 @@ export default function Dashboard({ handleCreate }) {
   const [sortBy, setSortBy] = useState("title-asc");
   const [filterBy, setFilterBy] = useState("all");
   const [viewMode, setViewMode] = useState("grid");
-  const [documents, setDocuments] = useState(Docs);
+  const [documents, setDocuments] = useState([]);
 
   // toggle favorite
   const toggleFavorite = (id) => {
     setDocuments((prevDocs) =>
       prevDocs.map((doc) =>
-        doc.id === id ? { ...doc, favorite: !doc.favorite } : doc,
+        doc.id === id ? { ...doc, favourite: !doc.favourite } : doc,
       ),
     );
   };
@@ -102,7 +50,7 @@ export default function Dashboard({ handleCreate }) {
         .includes(search.toLowerCase());
       const matchesFilter =
         filterBy === "all" ||
-        (filterBy === "favourites" && doc.favorite) ||
+        (filterBy === "favourites" && doc.favourite) ||
         doc.tags.includes(filterBy);
 
       return matchesSearch && matchesFilter;
@@ -115,6 +63,20 @@ export default function Dashboard({ handleCreate }) {
       if (sortBy === "createdAt-desc")
         return new Date(b.createdAt) - new Date(a.createdAt);
     });
+
+  useEffect(() => {
+    AxiosRequest({
+      url: "/api/docs",
+      method: "get",
+      data: {},
+    })
+      .then((response) => {
+        setDocuments(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <div className={`flex w-screen h-screen overflow-x-hidden`}>
@@ -156,8 +118,8 @@ export default function Dashboard({ handleCreate }) {
                 {documents
                   .flatMap((doc) => doc.tags)
                   .filter((tag, index, self) => self.indexOf(tag) === index)
-                  .map((tag) => (
-                    <SelectItem key={tag} value={tag}>
+                  .map((tag, index) => (
+                    <SelectItem key={`${tag}-${index}`} value={tag}>
                       {tag}
                     </SelectItem>
                   ))}
@@ -200,66 +162,7 @@ export default function Dashboard({ handleCreate }) {
             }
           >
             {filteredDocs.map((doc) => (
-              <Card
-                key={doc.id}
-                className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:shadow-lg transition-transform duration-300"
-              >
-                <CardContent className="flex justify-between items-start p-0 flex-col">
-                  <div className="w-full flex flex-row justify-end gap-3">
-                    <Tooltip id="favorite" />
-                    <button
-                      onClick={() => toggleFavorite(doc.id)}
-                      className="text-yellow-500 hover:text-yellow-400 transition-colors p-0"
-                      data-tooltip-id="favorite"
-                      data-tooltip-content="Toggle favorite"
-                    >
-                      <Star
-                        className={`w-5 h-5 ${
-                          doc.favorite ? "fill-yellow-500" : "stroke-current"
-                        }`}
-                      />
-                    </button>
-
-                    <Tooltip id="more" />
-                    <button
-                      className="text-yellow-500 hover:text-yellow-400 transition-colors p-0"
-                      data-tooltip-id="more"
-                      data-tooltip-content="More options"
-                    >
-                      <DropdownMenu>
-                       <DropdownMenuTrigger asChild>
-                          <MoreVertical className="w-5 h-5" />
-                       </DropdownMenuTrigger>
-                       <DropdownMenuContent align="end">
-                         <DropdownMenuItem>Edit</DropdownMenuItem>
-                         <DropdownMenuItem>Delete</DropdownMenuItem>
-                       </DropdownMenuContent>
-                      </DropdownMenu>
-                    </button>
-                  </div>
-
-                  <div className="w-full">
-                    <h3 className="text-lg font-semibold">{doc.title}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {doc.createdAt}
-                    </p>
-                    <div className="mt-1 space-x-1">
-                      {doc.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-                      {doc.summary}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <DocTemplate key={doc.id} doc={doc} toggleFavorite={toggleFavorite} />
             ))}
           </div>
         </div>

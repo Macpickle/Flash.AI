@@ -12,11 +12,13 @@ router.post("/", auth, async (req, res) => {
     const doc = new Doc({
       title,
       summary,
+      favourite: false,
+      tags: [],
       userId: req.userId,
       flashCards: [],
     });
     await doc.save();
-
+    
     // Add the document to the user's docs array
     const user = await User.findById(req.userId);
     if (user) {

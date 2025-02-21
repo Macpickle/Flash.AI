@@ -12,6 +12,14 @@ const docSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    favourite: {
+      type: Boolean,
+      default: false,
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -1,14 +1,16 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Quiz from "./routes/Quiz";
 import Dashboard from "./routes/Dashboard";
 import Layout from "./layout";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Create from "./components/app-create";
 import SideNav from "@/components/app-sidenav";
 import BottomNav from "@/components/app-bottomnav";
+import Settings from "@/routes/Settings";
 import { useEffect, useState } from "react";
+import { ThemeProvider } from "@/utils/contexts/ThemeContext";
 
 function App() {
   const [isCreateOpen, setIsCreateOpen] = useState("");
@@ -44,41 +46,46 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className = {`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/signup" element={<Register />} />
-            <Route
-              path="*"
-              element={
-                <div className = "w-full flex">
-                  { screenSize !== "small" ? (
-                    <SideNav 
-                      handleCreate={handleCreate} 
-                      handleCollapse={handleCollapse} 
-                      isCollapsed={isCollapsed} 
-                      screenSize={screenSize}/>
-                  ) : (
-                    <BottomNav handleCreate={handleCreate} />
-                  )}
-                    <Routes>
-                      <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate}/>} />
-                      <Route path="/quiz" element={<Quiz />} />
-                    </Routes>
+    <ThemeProvider> {/* Ensure ThemeProvider is outside of Router */}
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/signup" element={<Register />} />
+              
+              <Route
+                path="*"
+                element={
+                  <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
+                    <div className="w-full flex">
+                      {screenSize !== "small" ? (
+                        <SideNav
+                          handleCreate={handleCreate}
+                          handleCollapse={handleCollapse}
+                          isCollapsed={isCollapsed}
+                          screenSize={screenSize}
+                        />
+                      ) : (
+                        <BottomNav handleCreate={handleCreate} />
+                      )}
+                      <Routes>
+                        <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
+                        <Route path="/quiz" element={<Quiz />} />
+                        <Route path="/settings" element={<Settings />} />
+                      </Routes>
+                    </div>
                   </div>
-              }
-            />
-          </Routes>
-        </Layout>
-        {isCreateOpen !== "" && (
-          <Create type={isCreateOpen} onClose={() => setIsCreateOpen("")} />
-        )}
-      </div>
-    </Router>
+                }
+              />
+            </Routes>
+          </Layout>
+          {isCreateOpen !== "" && (
+            <Create type={isCreateOpen} onClose={() => setIsCreateOpen("")} />
+          )}
+        </Router>
+    </ThemeProvider>
   );
 }
 
