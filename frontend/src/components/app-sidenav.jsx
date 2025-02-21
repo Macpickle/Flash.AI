@@ -5,7 +5,6 @@ import { Tooltip } from "react-tooltip";
 import PropTypes from "prop-types";
 import { useContext } from "react";
 import { ThemeContext } from "@/utils/contexts/ThemeContext";
-import { useNavigate } from "react-router-dom";
 
 import { LuMoon, LuSun } from "react-icons/lu";
 import {
@@ -47,7 +46,6 @@ const user = {
 
 function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const navigate = useNavigate();
 
   return (
     <div className="z-50 flex-shrink-0">

@@ -1,8 +1,40 @@
 import PropTypes from "prop-types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import AxiosRequest from "@/utils/Axios";
 
 function Create({ type, onClose }) {
+  const handleCreate = (e) => {
+    e.preventDefault();
+    e.target.disabled = true;
+
+    if (type === "folder") {
+      // create folder
+    } if (type === "document") {
+      // create document
+      const formData = new FormData();
+      const file = e.target[1].files[0];
+      const title = e.target[0];
+      formData.append("file", file);
+      formData.append("title", title.value);
+
+      AxiosRequest({
+        url: "/api/upload",
+        method: "post",
+        data: formData,
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.response.data.message);
+        }
+      );
+    } else {
+      return;
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center"
@@ -21,31 +53,35 @@ function Create({ type, onClose }) {
         </button>
         {type === "folder" ? (
           <div>
-            <h2 className="text-xl mb-4">Create New Folder</h2>
-            <Input
-              type="text"
-              placeholder="Folder Name"
-              className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
-            />
-            <Button onClick={onClose} className="p-2 rounded">
-              Create
-            </Button>
+            <form onSubmit={handleCreate}>
+              <h2 className="text-xl mb-4">Create New Folder</h2>
+              <Input
+                type="text"
+                placeholder="Folder Name"
+                className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
+              />
+              <Button className="p-2 rounded">
+                Create
+              </Button>
+            </form>
           </div>
         ) : (
           <div>
-            <h2 className="text-xl mb-4">Create New Document</h2>
-            <Input
-              type="text"
-              placeholder="Document Title"
-              className="border p-2 rounded w-full mb-4 dark:border-neutral-700" 
-            />
-            <Input
-              type="file"
-              className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
-            />
-            <Button className="p-2 rounded" variant="animate">
-              Create
-            </Button>
+            <form onSubmit={handleCreate}>
+              <h2 className="text-xl mb-4">Create New Document</h2>
+              <Input
+                type="text"
+                placeholder="Document Title"
+                className="border p-2 rounded w-full mb-4 dark:border-neutral-700" 
+              />
+              <Input
+                type="file"
+                className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
+              />
+              <Button className="p-2 rounded" variant="animate">
+                Create
+              </Button>
+            </form>
           </div>
         )}
       </div>
