@@ -8,12 +8,12 @@ const router = express.Router();
 // Create doc
 router.post("/", auth, async (req, res) => {
   try {
-    const { title, summary } = req.body;
+    const { title, summary, tags } = req.body;
     const doc = new Doc({
       title,
       summary,
       favourite: false,
-      tags: [],
+      tags,
       userId: req.userId,
       flashCards: [],
     });
@@ -39,7 +39,8 @@ router.get("/", auth, async (req, res) => {
   try {
     const docs = await Doc.find({ userId: req.userId })
       .populate("flashCards", "type difficulty")
-      .select("title summary createdAt flashCardCount");
+      .select("title summary createdAt flashCardCount tags favourite");
+    
     res.json(docs);
   } catch (error) {
     res

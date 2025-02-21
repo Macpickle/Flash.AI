@@ -173,7 +173,7 @@ function Home() {
           { sentEmail ? ( 
             <p className="text-primary">Email sent successfully! Thank you!</p> 
           ) : (
-            <form className="mt-8 space-y-4 w-1/2 mx-auto" onSubmit={(e) => submitFeedback(e)}>
+            <form className="mt-8 space-y-4 mx-auto sm:w-full lg:w-1/2 " onSubmit={(e) => submitFeedback(e)}>
               <div>
                 <label htmlFor="user_name" className="block text-left text-gray-700 dark:text-gray-400">
                   Name

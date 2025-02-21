@@ -70,7 +70,7 @@ function LoginRegister({ method = "login" }) {
         <h2 className="text-2xl font-bold text-primary">Flash.Ai</h2>
       </header>
       <div className="flex justify-center items-center w-full flex-grow">
-        <Card className="w-full max-w-md border-none shadow-none sm:border-0 sm:shadow-none lg:border lg:shadow-lg lg:h-[500px]">
+        <Card className="w-full max-w-md border-none shadow-none sm:border-0 sm:shadow-none lg:border lg:shadow-lg lg:h-[500px] dark:bg-neutral-900">
           <CardHeader className="pb-0">
             <CardTitle className="text-2xl">{isLogin ? "Login" : "Register"}</CardTitle>
           </CardHeader>
@@ -94,6 +94,7 @@ function LoginRegister({ method = "login" }) {
                     placeholder="Username" 
                     maxLength="20" 
                     minLength="3"
+                    className="dark:border-neutral-600"
                     onChange={handleInputChange}
                   />
                 </div>
@@ -106,6 +107,7 @@ function LoginRegister({ method = "login" }) {
                   name="email" 
                   type="email" 
                   placeholder="Email" 
+                  className="dark:border-neutral-600"
                   onChange={handleInputChange}
                 />
               </div>
@@ -118,6 +120,7 @@ function LoginRegister({ method = "login" }) {
                   type="password" 
                   placeholder="Password" 
                   minLength="6"
+                  className="dark:border-neutral-600"
                   onChange={handleInputChange}
                 />
               </div>

@@ -25,19 +25,16 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
 */
 
 const createFlashCardPrompt = (content) => {
-  return `You are a flash card generation assistant. Your task is to analyze the content and create flash cards.
-  IMPORTANT: Your response must be a valid JSON object. Do not include any text before or after the JSON.
+  return `Generate flash cards from the following content, in the format:
+  Summary: Brief summary of the content, under 100 characters.
+  Tags: List of relevant tags, maximum of 3.
+  Flash Cards: List of flash cards with questions and answers.
+  Difficulty: 1 (easy) to 3 (hard).
+  Flash Card Types: Multiple Choice
   
-  Create Multiple choice questions flash cards where you best see fit make sure to cover all relevant topics and key points. Generate at minimum 10 cards more the better.:
-
-  ONLY generate Multiple Choice.
-  The Multiple Choice Questions MUST have the first option as the correct answer.
-  The other options must be incorrect.
-  Each generated Card must be ranked by difficulty from 1-3 where 1 is the easiest and 3 is the hardest.
-
-  Use exactly this JSON structure and these keys:
   {
-    "summary": "Brief summary of the content",
+    "summary": "Brief summary of the content, under 100 characters.",
+    "tags": ["tag1", "tag2", "tag3"],
     "flashCards": [
       {
         "type": "multiple_choice",
@@ -52,8 +49,9 @@ const createFlashCardPrompt = (content) => {
         },
         "difficulty": 2
       },
-    ]
   }
+
+  Generate as many cards as you can, based on the content provided, and ensure the questions are relevant and accurate.
 
   Content to analyze:
   ${content}`;
