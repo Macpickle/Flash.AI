@@ -69,6 +69,7 @@ function Settings() {
         <div className="flex w-screen h-screen overflow-x-hidden flex-col p-4">
             <h1 className="text-3xl font-semibold">Settings</h1>
             <p className="text-neutral-500">Manage your account settings</p>
+            <Button className="mt-4 w-48">Save Changes</Button>
             <hr className="mt-2" />
 
             <div className="m-4 flex items-center space-x-4">
@@ -153,14 +154,7 @@ function Settings() {
                             </div>
                         ))}
                     </div>
-                </div>
-
-                <div className="flex items-center justify-center mt-4">
-                    <Button className="w-96" onClick={() => {}}>
-                        Save Changes
-                    </Button>
-                </div>
-                        
+                </div>                     
             </div>
     );  
 }

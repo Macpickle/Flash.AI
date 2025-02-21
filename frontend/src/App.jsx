@@ -47,7 +47,6 @@ function App() {
 
   return (
     <ThemeProvider> {/* Ensure ThemeProvider is outside of Router */}
-      <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
         <Router>
           <Layout>
             <Routes>
@@ -55,25 +54,28 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/signup" element={<Register />} />
+              
               <Route
                 path="*"
                 element={
-                  <div className="w-full flex">
-                    {screenSize !== "small" ? (
-                      <SideNav
-                        handleCreate={handleCreate}
-                        handleCollapse={handleCollapse}
-                        isCollapsed={isCollapsed}
-                        screenSize={screenSize}
-                      />
-                    ) : (
-                      <BottomNav handleCreate={handleCreate} />
-                    )}
-                    <Routes>
-                      <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
-                      <Route path="/quiz" element={<Quiz />} />
-                      <Route path="/settings" element={<Settings />} />
-                    </Routes>
+                  <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
+                    <div className="w-full flex">
+                      {screenSize !== "small" ? (
+                        <SideNav
+                          handleCreate={handleCreate}
+                          handleCollapse={handleCollapse}
+                          isCollapsed={isCollapsed}
+                          screenSize={screenSize}
+                        />
+                      ) : (
+                        <BottomNav handleCreate={handleCreate} />
+                      )}
+                      <Routes>
+                        <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
+                        <Route path="/quiz" element={<Quiz />} />
+                        <Route path="/settings" element={<Settings />} />
+                      </Routes>
+                    </div>
                   </div>
                 }
               />
@@ -83,7 +85,6 @@ function App() {
             <Create type={isCreateOpen} onClose={() => setIsCreateOpen("")} />
           )}
         </Router>
-      </div>
     </ThemeProvider>
   );
 }

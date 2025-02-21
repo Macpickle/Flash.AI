@@ -78,6 +78,26 @@ router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
+    }
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    if (!password) {
+      return res.status(400).json({ message: "Password is required" });
+    }
+
+    if (username.length < 3 || username.length > 20) {
+      return res.status(400).json({ message: "Invalid Username Length" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: "Invalid Password Length" });
+    }
+
     // Check if username or email already exists
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
@@ -89,6 +109,7 @@ router.post("/register", async (req, res) => {
       });
     }
 
+    // create new user
     const user = new User({
       username,
       email,
@@ -98,14 +119,20 @@ router.post("/register", async (req, res) => {
     });
     await user.save();
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    // Generate token, expires in 1 day by default
+    const token = jwt.sign(
+      { userId: user._id }, 
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }    
+    );
+
     res.status(201).json({
       token,
       user: {
         id: user._id,
         username: user.username,
         email: user.email,
-        darkMode: user.darkMode,
+        theme: user.darkMode,
       },
     });
   } catch (error) {
@@ -118,21 +145,35 @@ router.post("/register", async (req, res) => {
 // Login
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, keepLoggedIn} = req.body;
     const user = await User.findOne({ email });
 
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ message: "Invalid credentials" });
+    // Check if user exists
+    if (!user) {
+      return res.status(401).json({ message: "Invalid Login Credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    // Check if password is correct
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid Login Credentials" });
+    }
+
+    // Generate token, expires in 1 day by default
+    const token = jwt.sign(
+      { userId: user._id }, 
+      process.env.JWT_SECRET,
+      { expiresIn: keepLoggedIn ? "7d" : "1d" }
+    );
+
+    // Return token and user information
     res.json({
       token,
       user: {
         id: user._id,
         username: user.username,
         email: user.email,
-        darkMode: user.darkMode,
+        theme: user.darkMode,
       },
     });
   } catch (error) {

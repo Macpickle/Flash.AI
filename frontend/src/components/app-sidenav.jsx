@@ -5,6 +5,7 @@ import { Tooltip } from "react-tooltip";
 import PropTypes from "prop-types";
 import { useContext } from "react";
 import { ThemeContext } from "@/utils/contexts/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 import { LuMoon, LuSun } from "react-icons/lu";
 import {
@@ -46,6 +47,7 @@ const user = {
 
 function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   return (
     <div className="z-50 flex-shrink-0">
@@ -146,7 +148,10 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
           </Button>
             
           <Link
-            to="/logout"
+            to="/"
+            onClick={() => {
+              localStorage.clear();
+            }}
             className="w-full items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800 flex"
           >
             <LogOut className="h-5 w-5" />
