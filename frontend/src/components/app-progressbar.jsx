@@ -1,6 +1,6 @@
 const ProgressBar = ({ total, current }) => {
   return (
-    <div className="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+    <div className="flex w-full h-3 bg-gray-200 overflow-hidden">
       {Array.from({ length: total }).map((_, index) => (
         <div
           key={index}
@@ -8,8 +8,8 @@ const ProgressBar = ({ total, current }) => {
             index + 1 < current
               ? "bg-primary"
               : index + 1 === current
-                ? "bg-primary/30"
-                : "bg-gray-200"
+                ? "bg-primary/40"
+                : "bg-gray-300 dark:bg-neutral-700"
           }`}
         />
       ))}

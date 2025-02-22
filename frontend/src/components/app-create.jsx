@@ -2,10 +2,13 @@ import PropTypes from "prop-types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AxiosRequest from "@/utils/Axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Create({ type, onClose }) {
   const [submitted, setSubmitted] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleCreate = (e) => {
     e.preventDefault();
@@ -40,6 +43,12 @@ function Create({ type, onClose }) {
       return;
     }
   };
+
+  useEffect(() => {
+    if (location.pathname !== "/dashboard") {
+      navigate("/dashboard");
+    }
+  });
 
   return (
     <div

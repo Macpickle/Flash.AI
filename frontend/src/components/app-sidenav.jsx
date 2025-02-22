@@ -17,11 +17,11 @@ import {
 } from "lucide-react";
 import { Bell, Users as GroupsIcon } from "lucide-react";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // all navigation items
 const navItems = [
@@ -49,7 +49,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
 
   return (
     <div className="z-50 flex-shrink-0">
-      <div className={`flex flex-col bg-black  border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
+      <div className={`flex flex-col bg-black border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
         {screenSize === "large" && (
           <div className="flex justify-end p-4">
             <Tooltip id="collapse" />
@@ -72,19 +72,14 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
         )}
 
         <Tooltip id="profile" />
-        <div 
-          className="flex flex-col items-center px-4 pb-2 space-x-2" 
-        >
-          <Link 
-            to="/profile" 
-            className="flex items-center space-x-2 hover:bg-neutral-800 rounded-full" 
-          >
+        <div className="flex flex-col items-center px-4 pb-2 space-x-2">
+          <Link to="/profile" className="flex items-center space-x-2 hover:bg-neutral-800 rounded-full">
             <img
               src={user.image}
               alt="User"
               className={`rounded-full object-center object-cover transition-all duration-300 ease-in-out ${isCollapsed ? "w-8 h-8" : "w-16 h-16"}`}
-              data-tooltip-id="profile" 
-          data-tooltip-content="Profile"
+              data-tooltip-id="profile"
+              data-tooltip-content="Profile"
             />
           </Link>
           {!isCollapsed && <span className="text-2xl min-w-[100px]">{user.username}</span>}
@@ -103,34 +98,28 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
                   {!isCollapsed && <span>{item.name}</span>}
                 </Link>
               ) : item.type === "dropdown" ? (
-                item.type === "dropdown" && (
-                  <Select
-                    className="border border-none"
-                    onValueChange={(value) => handleCreate(value.type)}
-                    key={item.name}
-                  >
-                    <SelectTrigger className="border border-none dark:border-gray-700 hover:bg-neutral-800" isArrow={false}>
-                      <div className="flex items-center justify-center space-x-2 text-gray-200 hover:bg-neutral-800">
-                        <item.icon className="h-5 w-5" />
-                        {!isCollapsed && <span>{item.name}</span>}
-                      </div>
-                    </SelectTrigger>
-                    <SelectContent className="bg-black border border-gray-700 dark:border-gray-700 rounded-lg text-white">
-                      {createItems.map((createItem) => (
-                        <SelectItem
-                          key={createItem.name}
-                          value={createItem}
-                          className="hover:bg-neutral-800 cursor-pointer"
-                        >
-                          {createItem.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )
-              ) : (
-                <></>
-              ),
+                <DropdownMenu key={item.name}>
+                  <DropdownMenuTrigger asChild>
+                    <Link 
+                      className="flex items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800"
+                    >
+                      <item.icon className="h-5 w-5" />
+                      {!isCollapsed && <span>{item.name}</span>}
+                    </Link>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-black border border-neutral-700 dark:border-gray-700 rounded-lg text-white w-48">
+                    {createItems.map((createItem) => (
+                      <DropdownMenuItem
+                        key={createItem.name}
+                        onSelect={() => handleCreate(createItem.type)}
+                        className="hover:bg-neutral-800 cursor-pointer border-neutral-700"
+                      >
+                        {createItem.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : null
             )}
           </nav>
         </ScrollArea>

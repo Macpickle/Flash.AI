@@ -14,10 +14,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
   List,
   Grid,
   ArrowDownNarrowWide,
   ArrowUpNarrowWide,
+  Plus,
 } from "lucide-react";
 
 // items for create dropdown
@@ -150,26 +157,30 @@ export default function Dashboard({ handleCreate }) {
             >
               {viewMode === "grid" ? <List /> : <Grid />}
             </Button>
-            <Select
-              className="border border-none"
-              onValueChange={(value) => handleCreate(value.type)}
-            >
+            <DropdownMenu>
               <Tooltip id="create" />
-              <SelectTrigger className="w-full sm:w-40 md:w-60 lg-w-48" data-tooltip-id="create" data-tooltip-content="Create new">
-                <SelectValue placeholder="Create New" />
-              </SelectTrigger>
-              <SelectContent>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  data-tooltip-id="create" 
+                  data-tooltip-content="Create new"
+                  variant="outline"
+                >
+                  Create New
+                  <Plus className="w-4 h-4 ml-1" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
                 {createItems.map((createItem) => (
-                  <SelectItem
+                  <DropdownMenuItem
                     key={createItem.name}
-                    value={createItem}
+                    onSelect={() => handleCreate(createItem.type)}
                     className="hover:bg-neutral-800 cursor-pointer"
                   >
                     {createItem.name}
-                  </SelectItem>
+                  </DropdownMenuItem>
                 ))}
-              </SelectContent>
-            </Select>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <div
             className={
@@ -179,7 +190,12 @@ export default function Dashboard({ handleCreate }) {
             }
           >
             {filteredDocs.map((doc) => (
-              <DocTemplate key={doc.id} doc={doc} toggleFavorite={toggleFavorite} handleDelete={handleDelete} />
+              <DocTemplate 
+                key={doc.id} 
+                doc={doc} 
+                toggleFavorite={toggleFavorite} 
+                handleDelete={handleDelete} 
+              />
             ))}
           </div>
         </div>
