@@ -131,7 +131,6 @@ router.post("/register", async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email,
         theme: user.darkMode,
       },
     });
@@ -271,7 +270,6 @@ router.patch("/update", auth, async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email,
         darkMode: user.darkMode,
       },
     });

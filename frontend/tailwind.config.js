@@ -4,14 +4,20 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      animation: {
+        reveal: "reveal 0.5s forwards",
+        shimmer: "shimmer 2s linear infinite",
+      },
       keyframes: {
         shimmer: {
           "0%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
-      },
-      animation: {
-        shimmer: "shimmer 2s linear infinite",
+
+        reveal: {
+          "0%": { opacity: 0, transform: "translateY(1rem)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

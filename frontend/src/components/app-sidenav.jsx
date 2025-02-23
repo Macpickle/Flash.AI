@@ -40,7 +40,7 @@ const createItems = [
 
 // sample user for now
 const user = {
-  username: "the Goat",
+  username: localStorage.getItem("username") || "User",
   image: "https://blackwonder.tf/attachments/1673671146282-png.31249/",
 };
 
@@ -72,8 +72,8 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
         )}
 
         <Tooltip id="profile" />
-        <div className="flex flex-col items-center px-4 pb-2 space-x-2">
-          <Link to="/profile" className="flex items-center space-x-2 hover:bg-neutral-800 rounded-full">
+        <div className="flex flex-col items-center px-4 pb-2 ">
+          <Link to="/profile" className="flex items-center hover:bg-neutral-800 rounded-full m-0">
             <img
               src={user.image}
               alt="User"
@@ -82,7 +82,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
               data-tooltip-content="Profile"
             />
           </Link>
-          {!isCollapsed && <span className="text-2xl min-w-[100px]">{user.username}</span>}
+          {!isCollapsed && <span className="text-2xl min-w-[100px] text-center">{user.username}</span>}
         </div>
 
         <ScrollArea className="flex-grow">

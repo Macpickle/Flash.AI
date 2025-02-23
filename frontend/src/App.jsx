@@ -12,6 +12,12 @@ import Settings from "@/routes/Settings";
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "@/utils/contexts/ThemeContext";
 
+const validRoutes = [
+  "/dashboard",
+  "/quiz",
+  "/settings",
+];
+
 function App() {
   const [isCreateOpen, setIsCreateOpen] = useState("");
   const [screenSize, setScreenSize] = useState("large");
@@ -60,16 +66,20 @@ function App() {
                 element={
                   <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
                     <div className="w-full flex">
-                      {screenSize !== "small" ? (
-                        <SideNav
-                          handleCreate={handleCreate}
-                          handleCollapse={handleCollapse}
-                          isCollapsed={isCollapsed}
-                          screenSize={screenSize}
-                        />
-                      ) : (
-                        <BottomNav handleCreate={handleCreate} />
-                      )}
+                      {
+                        validRoutes.includes(window.location.pathname) ? (
+                          screenSize !== "small" ? (
+                            <SideNav
+                              handleCreate={handleCreate}
+                              handleCollapse={handleCollapse}
+                              isCollapsed={isCollapsed}
+                              screenSize={screenSize}
+                            />
+                          ) : (
+                            <BottomNav handleCreate={handleCreate} />
+                          )
+                        ) : null
+                      }
                       <Routes>
                         <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
                         <Route path="/quiz" element={<Quiz />} />

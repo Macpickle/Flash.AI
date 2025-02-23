@@ -46,6 +46,7 @@ function LoginRegister({ method = "login" }) {
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("theme", response.data.user.theme ? "dark" : "light");
+        localStorage.setItem("username", response.data.user.username);
         navigate("/dashboard");
       })
       .catch((error) => {

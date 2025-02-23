@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { X, RotateCcw } from "lucide-react";
@@ -12,6 +12,7 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
   const navigate = useNavigate();
   const [selectedAnswer, setSelectedAnswer] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
+  const [questions, setQuestions] = useState([]);
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   const selectAnswer = (isCorrect, index) => {
@@ -23,10 +24,18 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
       option.style.pointerEvents = "none"; // disable click events
 
       if (i === index) {
+        option.classList.remove("bg-white", "dark:bg-neutral-800", "border-neutral-200", "dark:border-neutral-700");
         if (isCorrect) {
-          option.classList.add("bg-green-100", "border-green-400", "dark:bg-green-700", "dark:border-green-600");
+          option.classList.add("bg-green-200", "border-green-500", "dark:bg-green-800", "dark:border-green-700");
         } else {
-          option.classList.add("bg-rose-100", "border-rose-400", "dark:bg-rose-700", "dark:border-rose-600");
+          option.classList.add("bg-red-200", "border-red-500", "dark:bg-red-800", "dark:border-red-700");
+
+          // find correct option and highlight it
+          options.forEach((opt, j) => {
+            if (question.multipleChoice.options[j].isCorrect) {
+              opt.classList.add("bg-green-200", "border-green-500", "dark:bg-green-800", "dark:border-green-700");
+            }
+          });
         }
       } 
     });
@@ -47,10 +56,17 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
       if (i === randomIndex) {
         option.style.pointerEvents = "none"; // disable click events
         setHintUsed(true); // disable hint button, extra safety
-        option.classList.add("bg-yellow-100", "border-yellow-400", "dark:bg-yellow-700", "dark:border-yellow-600");
+        option.classList.add("bg-yellow-100", "border-yellow-400", "dark:bg-yellow-500", "dark:border-yellow-600");
       } 
     });
   };
+
+  // randomize options only when mounted
+  useEffect(() => {
+    const options = question.multipleChoice.options;
+    const shuffled = options.sort(() => Math.random() - 0.5);
+    setQuestions(shuffled);
+  }, [question]);
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
@@ -92,7 +108,7 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
           <p className="text-sm text-center mt-4">Select the correct answer</p>
           <div className="flex flex-col gap-2" id="question-options">
             {
-              question.multipleChoice.options.map((option, index) => (
+              questions.map((option, index) => (
                 <div
                   key={index}
                   className="flex items-center justify-start p-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl cursor-pointer gap-3"

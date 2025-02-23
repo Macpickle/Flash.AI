@@ -9,7 +9,6 @@ import { ThemeContext } from "@/utils/contexts/ThemeContext";
 
 const navbarItems = [
   { title: "Home", href: "#home" },
-  { title: "Dashboard", href: "/dashboard" },
   { title: "About", href: "#about" },
   { title: "Contact", href: "#contact" },
 ];
@@ -47,9 +46,9 @@ export default function AppNavbar() {
         </a>
         <nav className="hidden md:flex space-x-4">
           {navbarItems.map((item) => (
-            <Link key={item.title} to={item.href} className="text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
-              {item.title}
-            </Link>
+            <a key={item.title} href ={item.href}>
+              <button className="text-gray-900 dark:text-gray-100 transition-colors hover:text-primary dark:hover:text-primary">{item.title}</button>
+            </a>
           ))}
         </nav>
         <div className="flex items-center space-x-4">
