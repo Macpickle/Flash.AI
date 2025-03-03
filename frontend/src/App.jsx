@@ -16,6 +16,10 @@ const validRoutes = [
   "/dashboard",
   "/quiz",
   "/settings",
+  "/",
+  "/notifications",
+  "/profile",
+  "/groups",
 ];
 
 function App() {

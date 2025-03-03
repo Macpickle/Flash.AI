@@ -72,7 +72,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
         )}
 
         <Tooltip id="profile" />
-        <div className="flex flex-col items-center px-4 pb-2 ">
+        <div className="flex flex-col items-center px-4 pb-2 mt-4">
           <Link to="/profile" className="flex items-center hover:bg-neutral-800 rounded-full m-0">
             <img
               src={user.image}
@@ -134,16 +134,18 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
             {theme === "light" ? <LuMoon className="h-5 w-5" /> : <LuSun className="h-5 w-5" />}
           </Button>
             
+          <div className={`flex justify-center flex-col w-full space-y-2 p-2 ${isCollapsed ? "items-center px-0" : "px-2"}`}>
           <Link
             to="/"
             onClick={() => {
               localStorage.clear();
             }}
-            className="w-full items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800 flex"
+            className="flex items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800"
           >
             <LogOut className="h-5 w-5" />
             {!isCollapsed && <span>Logout</span>}
           </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -3,16 +3,27 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AxiosRequest from "@/utils/Axios";
 import { useState, useEffect } from "react";
+import { Tooltip } from 'react-tooltip'
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Create({ type, onClose }) {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleCreate = (e) => {
     e.preventDefault();
     e.target.disabled = true;
+
+    const title = e.target[0].value;
+    if (!title) {
+      setError("Title cannot be empty!");
+      e.target[0].classList.add("border-red-300", "dark:border-red-700");
+      e.target.disabled = false;
+      return;
+    }
+
     setSubmitted(true);
 
     if (type === "folder") {
@@ -30,13 +41,13 @@ function Create({ type, onClose }) {
         method: "post",
         data: formData,
       })
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           setSubmitted(false);
           onClose();
         })
         .catch((error) => {
-          console.log(error.response.data.message);
+          handleError(error);
+          setSubmitted(false);
         }
       );
     } else {
@@ -44,6 +55,32 @@ function Create({ type, onClose }) {
     }
   };
 
+  const handleError = (error) => {
+    if (error.response) {
+      const message = error.response.data.message;
+
+      if (message === "Unsupported file type") {
+        const supportedTypes = error.response.data.supportedTypes;
+        setError(`${message}. Supported types are: ${supportedTypes.join(", ")}`);
+      }
+
+      if (message === "No file uploaded") {
+        setError("No file uploaded");
+        document.querySelector("input[type='file']").classList.add("border-red-300", "dark:border-red-700");
+      }
+
+      if (message === "Failed to generate flash cards") {
+        setError("Failed to generate flash cards");
+      }
+
+
+    } else {
+      setError();
+    }
+  };
+
+
+  // Redirect to dashboard if not already there
   useEffect(() => {
     if (location.pathname !== "/dashboard") {
       navigate("/dashboard");
@@ -60,22 +97,39 @@ function Create({ type, onClose }) {
         className="bg-white p-5 rounded-lg text-center relative dark:bg-neutral-900 dark:text-neutral-100 w-96 border border-input"
         onClick={(e) => e.stopPropagation()}
       >
+        <Tooltip id = "close" />
         <button
           onClick={onClose}
           className="absolute top-0 right-2 text-gray-500 hover:text-gray-700 text-2xl"
+          data-tooltip-id="close"
+          data-tooltip-content="Close"
         >
           &times;
         </button>
+
+        <div className="mb-4">
+          <h1 className="text-2xl font-bold">
+            {type === "folder" ? "Create Folder" : "Create Document"}
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-neutral-400">
+            {type === "folder"
+              ? "Create a new folder to store your documents"
+              : "Create a new document to store your files"}
+          </p>
+
+          <p className="text-red-500 text-sm">{error}</p>
+        </div>
+
         {type === "folder" ? (
           <div>
             <form onSubmit={handleCreate}>
-              <h2 className="text-xl mb-4">Create New Folder</h2>
               <Input
                 type="text"
                 placeholder="Folder Name"
                 className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
+                onFocus={(e) => e.target.classList.remove("border-red-300", "dark:border-red-700")}
               />
-              <Button className="p-2 rounded">
+              <Button className="p-2 rounded w-full">
                 Create
               </Button>
             </form>
@@ -83,21 +137,22 @@ function Create({ type, onClose }) {
         ) : (
           <div>
             <form onSubmit={handleCreate}>
-              <h2 className="text-xl mb-4">Create New Document</h2>
               <Input
                 type="text"
                 placeholder="Document Title"
                 className="border p-2 rounded w-full mb-4 dark:border-neutral-700" 
+                onFocus={(e) => e.target.classList.remove("border-red-300", "dark:border-red-700")}
               />
               <Input
                 type="file"
                 className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
+                onFocus={(e) => e.target.classList.remove("border-red-300", "dark:border-red-700")}
               />
 
               {submitted ? (
                 <span className="loader"></span>
               ) : (
-                <Button className="p-2 rounded" variant="animate">
+                <Button className="p-2 rounded w-full">
                   Create
                 </Button>
               )}
