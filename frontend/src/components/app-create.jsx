@@ -5,8 +5,11 @@ import AxiosRequest from "@/utils/Axios";
 import { useState, useEffect } from "react";
 import { Tooltip } from 'react-tooltip'
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addDocument } from "@/app/Documents/DocumentSlice";
 
 function Create({ type, onClose }) {
+  const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
   const location = useLocation();
@@ -41,8 +44,13 @@ function Create({ type, onClose }) {
         method: "post",
         data: formData,
       })
-        .then(() => {
+        .then((response) => {
           setSubmitted(false);
+          e.target.reset();
+          e.target.disabled = false;
+
+          // Add document to redux store
+          dispatch(addDocument(response.data.doc));
           onClose();
         })
         .catch((error) => {

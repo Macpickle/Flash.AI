@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from './DocumentSlice';
+import { fetchData, removeDocument, favouriteDocument } from './DocumentSlice';
+import { useNavigate } from 'react-router-dom';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,14 +13,18 @@ import { Tooltip } from 'react-tooltip'
 import { Star, MoreVertical } from "lucide-react";
 
 const Document = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const documents = useSelector((state) => state.documents);
 
     useEffect(() => {
-        if (!documents
-            || (documents && documents.length === 0))
+        if (!documents || (documents && documents.length === 0))
         dispatch(fetchData());
     }, [dispatch, documents]);
+
+    const handleButtonClick = (e) => {
+        e.stopPropagation();
+    };
     
     return (
         <>
@@ -27,6 +32,7 @@ const Document = () => {
                 <Card
                 key={doc.id}
                 className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:shadow-lg transition-transform duration-300"
+                onClick={() => navigate(`/quiz/`, { state: { id: doc.id } })}
               >
                 <CardContent className="flex justify-between items-start p-0 flex-col">
                   <div className="w-full flex flex-row justify-end gap-3">
@@ -35,6 +41,10 @@ const Document = () => {
                       className="text-yellow-500 hover:text-yellow-400 transition-colors p-0"
                       data-tooltip-id="favorite"
                       data-tooltip-content="Toggle favorite"
+                      onClick={(e) => {
+                        handleButtonClick(e);
+                        dispatch(favouriteDocument(doc.id));
+                      }}
                     >
                       <Star
                         className={`w-5 h-5 ${
@@ -54,12 +64,21 @@ const Document = () => {
                           <MoreVertical className="w-5 h-5" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem
-
-                          >
-                            Delete
-                          </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={(e) => {
+                                    handleButtonClick(e);
+                                }}
+                            >
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                  handleButtonClick(e);
+                                  dispatch(removeDocument(doc.id))
+                              }}
+                            >
+                              Delete
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </button>

@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import PropTypes from "prop-types";
 import { Tooltip } from 'react-tooltip'
 import Document from "@/app/Documents/Document";
+import { useDispatch } from "react-redux";
+import { sortDocuments, filterDocuments, searchDocuments } from "@/app/Documents/DocumentSlice";
 
 import {
   Select,
@@ -33,42 +35,26 @@ const createItems = [
 ];
 
 export default function Dashboard({ handleCreate }) {
+  const dispatch = useDispatch();
   const [search, setSearch] = useState("");
+  const [viewMode, setViewMode] = useState("grid");
   const [sortBy, setSortBy] = useState("title-asc");
   const [filterBy, setFilterBy] = useState("all");
-  const [viewMode, setViewMode] = useState("grid");
-  const [documents, setDocuments] = useState([]);
 
-  // toggle favorite
-  const toggleFavorite = (id) => {
-    setDocuments((prevDocs) =>
-      prevDocs.map((doc) =>
-        doc.id === id ? { ...doc, favourite: !doc.favourite } : doc,
-      ),
-    );
+  const handleSort = (sortBy) => {
+    dispatch(sortDocuments({ sortBy }));
+    setSortBy(sortBy);
   };
 
-  // filter and sort documents
-  const filteredDocs = documents
-    .filter((doc) => {
-      const matchesSearch = doc.title
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const matchesFilter =
-        filterBy === "all" ||
-        (filterBy === "favourites" && doc.favourite) ||
-        doc.tags.includes(filterBy);
+  const handleFilter = (filterBy) => {
+    dispatch(filterDocuments({ filterBy }));
+    setFilterBy(filterBy);
+  };
 
-      return matchesSearch && matchesFilter;
-    })
-    .sort((a, b) => {
-      if (sortBy === "title-asc") return a.title.localeCompare(b.title);
-      if (sortBy === "title-desc") return b.title.localeCompare(a.title);
-      if (sortBy === "createdAt-asc")
-        return new Date(a.createdAt) - new Date(b.createdAt);
-      if (sortBy === "createdAt-desc")
-        return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+  const handleSearch = (e) => {
+    dispatch(searchDocuments(e.target.value));
+    setSearch(e.target.value);
+  };
 
   return (
     <div className={`flex w-screen h-screen overflow-x-hidden`}>
@@ -78,10 +64,10 @@ export default function Dashboard({ handleCreate }) {
             <Input
               placeholder="Search documents..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearch(e)}
               className="flex-1 w-full sm:w-40 md:w-60"
             />
-            <Select onValueChange={setSortBy}> 
+            <Select onValueChange={handleSort}>
               <Tooltip id="sort" />
               <SelectTrigger className="w-full sm:w-40 md:w-60" data-tooltip-id="sort" data-tooltip-content="Sort by"> 
                 <SelectValue placeholder="Sort" />
@@ -99,7 +85,7 @@ export default function Dashboard({ handleCreate }) {
                 </SelectItem>
               </SelectContent>
             </Select>
-            <Select onValueChange={setFilterBy}>
+            <Select onValueChange={handleFilter}>
               <Tooltip id="filter" />
               <SelectTrigger className="w-full sm:w-40 md:w-60" data-tooltip-id="filter" data-tooltip-content="Filter by">
                 <SelectValue placeholder="Filter"/>
@@ -107,14 +93,6 @@ export default function Dashboard({ handleCreate }) {
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="favourites">Favourites</SelectItem>
-                {documents
-                  .flatMap((doc) => doc.tags)
-                  .filter((tag, index, self) => self.indexOf(tag) === index)
-                  .map((tag, index) => (
-                    <SelectItem key={`${tag}-${index}`} value={tag}>
-                      {tag}
-                    </SelectItem>
-                  ))}
               </SelectContent>
             </Select>
             <Tooltip id="grid-view" />
