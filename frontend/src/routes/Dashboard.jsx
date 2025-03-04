@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import DocTemplate from "@/components/app-document-template";
 import PropTypes from "prop-types";
 import { Tooltip } from 'react-tooltip'
-import AxiosRequest from "@/utils/Axios";
+import Document from "@/app/Documents/Document";
 
 import {
   Select,
@@ -70,37 +69,6 @@ export default function Dashboard({ handleCreate }) {
       if (sortBy === "createdAt-desc")
         return new Date(b.createdAt) - new Date(a.createdAt);
     });
-
-  const handleDelete = (id) => {
-    AxiosRequest({
-      url: `/api/docs/${id}`,
-      method: "delete",
-      data: {},
-    })
-      .then(() => {
-        setDocuments((prevDocs) =>
-          prevDocs.filter((doc) => doc.id !== id),
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  // load documents on mount
-  useEffect(() => {
-    AxiosRequest({
-      url: "/api/docs",
-      method: "get",
-      data: {},
-    })
-      .then((response) => {
-        setDocuments(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   return (
     <div className={`flex w-screen h-screen overflow-x-hidden`}>
@@ -189,14 +157,8 @@ export default function Dashboard({ handleCreate }) {
                 : "space-y-2"
             }
           >
-            {filteredDocs.map((doc) => (
-              <DocTemplate 
-                key={doc.id} 
-                doc={doc} 
-                toggleFavorite={toggleFavorite} 
-                handleDelete={handleDelete} 
-              />
-            ))}
+            <Document/>
+
           </div>
         </div>
       </main>

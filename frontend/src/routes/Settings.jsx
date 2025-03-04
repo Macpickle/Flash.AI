@@ -1,9 +1,10 @@
-import { LuMoon, LuSun, LuComputer, LuShield, LuEye, LuUser } from "react-icons/lu";
+import { LuShield, LuEye, LuUser } from "react-icons/lu";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";  
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ThemeContext } from "@/utils/contexts/ThemeContext";
 
 import { 
     Tabs, 
@@ -24,6 +25,8 @@ function Settings() {
     const [thirdPartyData, setThirdPartyData] = useState(false);
     const [analytics, setAnalytics] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+
+    const { toggleTheme } = useContext(ThemeContext);
 
     const handleSettingChange = (setting, setter, value) => {
         setter(value);
@@ -123,7 +126,10 @@ function Settings() {
                                         id="darkMode"
                                         className="transform scale-125"
                                         checked={darkMode}
-                                        onCheckedChange={(checked) => handleSettingChange("darkMode", setDarkMode, checked)}
+                                        onCheckedChange={(checked) => {
+                                            toggleTheme();
+                                            handleSettingChange("darkMode", setDarkMode, checked);
+                                        }}
                                     />
                                 </div>
 
