@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData, removeDocument, favouriteDocument } from "./DocumentSlice";
 import { useNavigate } from "react-router-dom";
@@ -17,18 +17,20 @@ import PropTypes from "prop-types";
 const Document = ({ viewMode }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
   const documents = useSelector((state) => state.documents);
 
   useEffect(() => {
     if (!documents || (documents && documents.length === 0))
       dispatch(fetchData());
+      setLoading(false);
   }, [dispatch, documents]);
 
   const handleButtonClick = (e) => {
     e.stopPropagation();
   };
 
-  if (!documents || (documents && documents.length === 0)) {
+  if (!loading && (!documents || (documents && documents.length === 0))) {
     return (
       <div className="flex flex-col items-center justify-center h-[500px]">
         <h1 className="text-4xl font-bold animate-shimmer bg-clip-text text-transparent bg-[linear-gradient(110deg,rgb(255,231,113)_45%,#ffffff_50%,rgb(255,231,113)_55%)] bg-[length:250%_100%]">

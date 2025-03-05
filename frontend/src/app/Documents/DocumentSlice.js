@@ -61,21 +61,34 @@ const documentSlice = createSlice({
     },
 
     // dont know if this is how we want, right now its if there isnt any favourites it will return all documents also broken
-    filterDocuments: (state, action) => {
-      return state.filter((doc) => {
-        if (action.payload.filterBy === "all") {
-          return doc;
-        } else if (action.payload.filterBy === "favourites") {
-          return doc.favourite;
+    filterDocuments: (state) => {
+      const items = [];
+      const excludedItems = [];
+
+      state.forEach((doc) => {
+        if (doc.favourite) {
+          items.push(doc);
+        } else {
+          excludedItems.push(doc);
         }
       });
+      return items.concat(excludedItems);
     },
 
     // needs fixing, doesnt work as intended
     searchDocuments: (state, action) => {
-      return state.filter((doc) => {
-        return doc.title.toLowerCase().startsWith(action.payload.toLowerCase());
+      const items = [];
+      const excludedItems = [];
+
+      state.forEach((doc) => {
+        if (doc.title.startsWith(action.payload)) {
+          items.push(doc);
+        } else {
+          excludedItems.push(doc);
+        }
       });
+      
+      return items.concat(excludedItems);
     },
   },
   extraReducers: (builder) => {
