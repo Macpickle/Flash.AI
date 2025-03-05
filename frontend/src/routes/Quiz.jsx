@@ -36,11 +36,13 @@ export default function Quiz() {
         url: `/api/docs/${id}`,
         method: "GET",
         data: {},
-      }).then((response) => {
-        setQuestions(response.data.flashCards || []);
-      }).catch((error) => {
-        console.error(error);
-      });
+      })
+        .then((response) => {
+          setQuestions(response.data.flashCards || []);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }, [location.state]);
 
@@ -63,10 +65,10 @@ export default function Quiz() {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="relative flex items-center justify-center"
           >
-            { currentQuestion < questions.length ? (
+            {currentQuestion < questions.length ? (
               <FlashCard
                 question={questions[currentQuestion]}
-                index={currentQuestion+1}
+                index={currentQuestion + 1}
                 total={questions.length}
                 submitAnswer={(isCorrect) => submitAnswer(isCorrect)}
                 nextQuestion={nextQuestion}
@@ -74,28 +76,44 @@ export default function Quiz() {
             ) : (
               <div className="flex items-center justify-center h-screen flex-col">
                 <Card className="p-4 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
-                  <CardHeader className="text-center text-4xl">Quiz complete!</CardHeader>
+                  <CardHeader className="text-center text-4xl">
+                    Quiz complete!
+                  </CardHeader>
                   <CardContent className="text-center">
-                    <p className="animate-reveal delay-1s">You scored {correctAnswers} out of {questions.length}</p>
+                    <p className="animate-reveal delay-1s">
+                      You scored {correctAnswers} out of {questions.length}
+                    </p>
                     <Card className="mt-4 p-4 max-h-64 overflow-y-auto bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
-                      <CardHeader className="text-center text-2xl">Incorrect Answers</CardHeader>
+                      <CardHeader className="text-center text-2xl">
+                        Incorrect Answers
+                      </CardHeader>
                       <CardContent>
                         <Tooltip id="correct" />
                         {incorrectAnswers.map((index) => (
-                          <div key={index} className="flex flex-col items-start p-2 bg-white dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-700 rounded-xl gap-3 mt-2"
+                          <div
+                            key={index}
+                            className="flex flex-col items-start p-2 bg-white dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-700 rounded-xl gap-3 mt-2"
                             data-tooltip-id="correct"
-                            data-tooltip-content="Click to reveal the correct answer">
-                            <span className="break-words max-w-96 cursor-pointer" onClick={() => toggleAnswer(index)}>
+                            data-tooltip-content="Click to reveal the correct answer"
+                          >
+                            <span
+                              className="break-words max-w-96 cursor-pointer"
+                              onClick={() => toggleAnswer(index)}
+                            >
                               {questions[index].question}
                             </span>
                             {showAnswers[index] && (
                               <span className="break-words max-w-96 text-center w-full">
                                 {console.log(questions[index])}
-                                {questions[index].multipleChoice.options.map((option, i) => (
-                                  option.isCorrect && (
-                                    <span key={i} className="text-green-400"> {option.text} </span>
-                                  )
-                                ))}
+                                {questions[index].multipleChoice.options.map(
+                                  (option, i) =>
+                                    option.isCorrect && (
+                                      <span key={i} className="text-green-400">
+                                        {" "}
+                                        {option.text}{" "}
+                                      </span>
+                                    ),
+                                )}
                               </span>
                             )}
                           </div>
@@ -105,8 +123,8 @@ export default function Quiz() {
 
                     <Button
                       onClick={() => {
-                        setCurrentQuestion(0)
-                        setCorrectAnswers(0)
+                        setCurrentQuestion(0);
+                        setCorrectAnswers(0);
                       }}
                       className="mt-4 w-full"
                     >

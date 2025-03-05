@@ -42,10 +42,11 @@ const user = {
 };
 
 function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
-
   return (
     <div className="z-50 flex-shrink-0">
-      <div className={`flex flex-col bg-black border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}>
+      <div
+        className={`flex flex-col bg-black border-r sticky border-neutral-700 text-white h-screen ${isCollapsed ? "w-16" : "w-64"} transition-all duration-300 ease-in-out`}
+      >
         {screenSize === "large" && (
           <div className="flex justify-end p-4">
             <Tooltip id="collapse" />
@@ -56,7 +57,9 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
               onClick={() => handleCollapse()}
               aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               data-tooltip-id="collapse"
-              data-tooltip-content={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              data-tooltip-content={
+                isCollapsed ? "Expand sidebar" : "Collapse sidebar"
+              }
             >
               {isCollapsed ? (
                 <ChevronRight className="h-4 w-4" />
@@ -69,7 +72,10 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
 
         <Tooltip id="profile" />
         <div className="flex flex-col items-center px-4 pb-2 mt-4">
-          <Link to="/profile" className="flex items-center hover:bg-neutral-800 rounded-full m-0">
+          <Link
+            to="/profile"
+            className="flex items-center hover:bg-neutral-800 rounded-full m-0"
+          >
             <img
               src={user.image}
               alt="User"
@@ -78,11 +84,17 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
               data-tooltip-content="Profile"
             />
           </Link>
-          {!isCollapsed && <span className="text-2xl min-w-[100px] text-center">{user.username}</span>}
+          {!isCollapsed && (
+            <span className="text-2xl min-w-[100px] text-center">
+              {user.username}
+            </span>
+          )}
         </div>
 
         <ScrollArea className="flex-grow">
-          <nav className={`flex justify-center flex-col space-y-2 p-2 ${isCollapsed ? "items-center px-0" : "px-2"}`}>
+          <nav
+            className={`flex justify-center flex-col space-y-2 p-2 ${isCollapsed ? "items-center px-0" : "px-2"}`}
+          >
             {navItems.map((item) =>
               item.type === "link" ? (
                 <Link
@@ -96,9 +108,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
               ) : item.type === "dropdown" ? (
                 <DropdownMenu key={item.name}>
                   <DropdownMenuTrigger asChild>
-                    <Link 
-                      className="flex items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800"
-                    >
+                    <Link className="flex items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800">
                       <item.icon className="h-5 w-5" />
                       {!isCollapsed && <span>{item.name}</span>}
                     </Link>
@@ -115,7 +125,7 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : null
+              ) : null,
             )}
           </nav>
         </ScrollArea>
@@ -125,20 +135,21 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
             variant="ghost"
             size="icon"
             aria-label="Toggle theme"
+          ></Button>
+
+          <div
+            className={`flex justify-center flex-col w-full space-y-2 p-2 ${isCollapsed ? "items-center px-0" : "px-2"}`}
           >
-          </Button>
-            
-          <div className={`flex justify-center flex-col w-full space-y-2 p-2 ${isCollapsed ? "items-center px-0" : "px-2"}`}>
-          <Link
-            to="/"
-            onClick={() => {
-              localStorage.clear();
-            }}
-            className="flex items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800"
-          >
-            <LogOut className="h-5 w-5" />
-            {!isCollapsed && <span>Logout</span>}
-          </Link>
+            <Link
+              to="/"
+              onClick={() => {
+                localStorage.clear();
+              }}
+              className="flex items-center rounded-lg space-x-2 px-3 py-2 text-gray-200 hover:bg-neutral-800"
+            >
+              <LogOut className="h-5 w-5" />
+              {!isCollapsed && <span>Logout</span>}
+            </Link>
           </div>
         </div>
       </div>

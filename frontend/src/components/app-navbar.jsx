@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const navbarItems = [
@@ -35,22 +34,20 @@ export default function AppNavbar() {
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
         <a href="/" className="flex items-center gap-2">
           <img src="./assets/logo.png" alt="Flash.Ai" className="w-12 h-12" />
-          <span className="text-xl font-bold text-primary">
-            Flash.Ai
-          </span>
+          <span className="text-xl font-bold text-primary">Flash.Ai</span>
         </a>
         <nav className="hidden md:flex space-x-4">
           {navbarItems.map((item) => (
-            <a key={item.title} href ={item.href}>
-              <button className="text-gray-900 dark:text-gray-100 transition-colors hover:text-primary dark:hover:text-primary">{item.title}</button>
+            <a key={item.title} href={item.href}>
+              <button className="text-gray-900 dark:text-gray-100 transition-colors hover:text-primary dark:hover:text-primary">
+                {item.title}
+              </button>
             </a>
           ))}
         </nav>
         <div className="flex items-center space-x-4">
           <Link to="/register">
-            <Button href="/register">
-              Sign up
-            </Button>
+            <Button href="/register">Sign up</Button>
           </Link>
         </div>
       </div>

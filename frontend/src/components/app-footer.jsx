@@ -2,7 +2,7 @@ const footerRoutes = [
   { title: "About", href: "#about" },
   { title: "Contact", href: "#contact" },
   { title: "Sign Up", href: "/register" },
-]
+];
 
 function AppFooter() {
   return (

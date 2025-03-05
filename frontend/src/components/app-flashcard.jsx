@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { X, RotateCcw } from "lucide-react";
+import { X } from "lucide-react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
@@ -25,14 +25,29 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
 
       if (isCorrect) {
         if (i === index) {
-          option.classList.add("bg-green-100", "border-green-400", "dark:bg-green-500", "dark:border-green-600");
+          option.classList.add(
+            "bg-green-100",
+            "border-green-400",
+            "dark:bg-green-500",
+            "dark:border-green-600",
+          );
         }
       } else {
         if (i === index) {
-          option.classList.add("bg-red-300", "border-red-400", "dark:bg-red-500", "dark:border-red-600");
+          option.classList.add(
+            "bg-red-300",
+            "border-red-400",
+            "dark:bg-red-500",
+            "dark:border-red-600",
+          );
         }
         if (question.multipleChoice.options[i].isCorrect) {
-          option.classList.add("bg-green-100", "border-green-400", "dark:bg-green-500", "dark:border-green-600");
+          option.classList.add(
+            "bg-green-100",
+            "border-green-400",
+            "dark:bg-green-500",
+            "dark:border-green-600",
+          );
         }
       }
     });
@@ -44,17 +59,26 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
     if (selectedAnswer) return;
 
     // randomly turn option yellow, that is NOT the answer
-    let randomIndex = Math.floor(Math.random() * question.multipleChoice.options.length);
+    let randomIndex = Math.floor(
+      Math.random() * question.multipleChoice.options.length,
+    );
     while (question.multipleChoice.options[randomIndex].isCorrect) {
-      randomIndex = Math.floor(Math.random() * question.multipleChoice.options.length);
+      randomIndex = Math.floor(
+        Math.random() * question.multipleChoice.options.length,
+      );
     }
 
     options.forEach((option, i) => {
       if (i === randomIndex) {
         option.style.pointerEvents = "none"; // disable click events
         setHintUsed(true); // disable hint button, extra safety
-        option.classList.add("bg-yellow-100", "border-yellow-400", "dark:bg-yellow-500", "dark:border-yellow-600");
-      } 
+        option.classList.add(
+          "bg-yellow-100",
+          "border-yellow-400",
+          "dark:bg-yellow-500",
+          "dark:border-yellow-600",
+        );
+      }
     });
   };
 
@@ -87,8 +111,8 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
           <div className="flex items-center justify-center mb-2 p-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl min-h-24 mb-2 max-w-md flex-col relative">
             <h1 className="text-center text-2xl">{question.question}</h1>
 
-            <Tooltip id = "difficulty" />
-            <div 
+            <Tooltip id="difficulty" />
+            <div
               className="flex items-center justify-center absolute -bottom-3"
               data-tooltip-id="difficulty"
               data-tooltip-content={`Difficulty: ${question.difficulty}/3`}
@@ -104,20 +128,18 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
 
           <p className="text-sm text-center mt-4">Select the correct answer</p>
           <div className="flex flex-col gap-2" id="question-options">
-            {
-              questions.map((option, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-start p-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl cursor-pointer gap-3"
-                  onClick={() => selectAnswer(option.isCorrect, index)}
-                >
-                  <span className="flex items-center justify-center bg-neutral-200 w-6 h-6 rounded-full border border-neutral-400 dark:text-black">{alphabet[index]}</span>
-                  <span className="break-words max-w-96">
-                    {option.text}
-                  </span>
-                </div>
-              ))
-            }
+            {questions.map((option, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-start p-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl cursor-pointer gap-3"
+                onClick={() => selectAnswer(option.isCorrect, index)}
+              >
+                <span className="flex items-center justify-center bg-neutral-200 w-6 h-6 rounded-full border border-neutral-400 dark:text-black">
+                  {alphabet[index]}
+                </span>
+                <span className="break-words max-w-96">{option.text}</span>
+              </div>
+            ))}
           </div>
           <div className="flex items-center justify-end mt-4">
             <Tooltip id="hint" place="top" />
@@ -126,7 +148,7 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
               data-tooltip-id="hint"
               data-tooltip-content="Get a hint"
               onClick={getHint}
-              className={`hover:text-primary ${hintUsed ? 'text-gray-400 cursor-not-allowed' : ''}`}
+              className={`hover:text-primary ${hintUsed ? "text-gray-400 cursor-not-allowed" : ""}`}
               id="hint"
               disabled={hintUsed}
             >
@@ -145,29 +167,23 @@ const FlashCard = ({ question, submitAnswer, index, total, nextQuestion }) => {
             </Button>
           </div>
 
-          <div className = "min-h-12">
+          <div className="min-h-12">
             {selectedAnswer && (
               <div className="flex items-center justify-center mt-4">
-                <Button
-                  className="w-full"
-                  onClick={nextQuestion}
-                >
+                <Button className="w-full" onClick={nextQuestion}>
                   Continue
                 </Button>
               </div>
             )}
           </div>
         </CardContent>
-        <Tooltip id="progress" place="bottom"/>
-        <div 
-          className="absolute bottom-0 left-0 w-full overflow-hidden rounded-b-xl" 
+        <Tooltip id="progress" place="bottom" />
+        <div
+          className="absolute bottom-0 left-0 w-full overflow-hidden rounded-b-xl"
           data-tooltip-id="progress"
           data-tooltip-content={`Question ${index} of ${total}`}
         >
-          <ProgressBar
-            total={total}
-            current={index}
-          />
+          <ProgressBar total={total} current={index} />
         </div>
       </Card>
     </div>

@@ -3,14 +3,14 @@ import AppFooter from "@/components/app-footer";
 import { Button } from "@/components/ui/button";
 import { LuGlobe, LuBrain, LuChartLine } from "react-icons/lu"; // Importing icons
 import { Link } from "react-router-dom";
-import emailjs from 'emailjs-com';
-import { useState } from 'react';
-import axios from 'axios';
+import emailjs from "emailjs-com";
+import { useState } from "react";
+import axios from "axios";
 
 function Home() {
   const [sentEmail, setSentEmail] = useState(false);
-  
-  const submitFeedback = (e) => { 
+
+  const submitFeedback = (e) => {
     e.preventDefault();
 
     const { user_name, user_email, message } = e.target;
@@ -21,18 +21,22 @@ function Home() {
 
     setSentEmail(true);
     const form = new FormData();
-    form.append('user_name', user_name.value);
-    form.append('user_email', user_email.value);
-    form.append('message', message.value);
+    form.append("user_name", user_name.value);
+    form.append("user_email", user_email.value);
+    form.append("message", message.value);
 
-    axios.post('https://usebasin.com/f/2c2b74a3d330', form)
+    axios.post("https://usebasin.com/f/2c2b74a3d330", form);
 
-    emailjs.init('aOysZsoRumWB86JNZ');
-    emailjs.sendForm(import.meta.env.VITE_SERVICE_ID, 'template_z8fc0om', e.target)
-      .then(() => {}, (error) => {
+    emailjs.init("aOysZsoRumWB86JNZ");
+    emailjs
+      .sendForm(import.meta.env.VITE_SERVICE_ID, "template_z8fc0om", e.target)
+      .then(
+        () => {},
+        (error) => {
           console.log(error.text);
-      });
-  }
+        },
+      );
+  };
 
   return (
     <div>
@@ -139,18 +143,37 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-gray-50 dark:bg-neutral-950 py-20 text-center px-4" id="about">
+      <section
+        className="bg-gray-50 dark:bg-neutral-950 py-20 text-center px-4"
+        id="about"
+      >
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8">
           <div className="w-full md:w-1/2 text-left">
             <h2 className="text-2xl md:text-4xl font-bold text-primary">
               About Flash.Ai
             </h2>
             <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">
-              Originally developed in a team of 2 as a project for <Link to="https://hackhive.ca/" className="text-secondary hover:underline">HackHive 2025</Link>, where we ranked second out of 86 teams, 
-              the initial idea behind the project was driven by our desire to create a platform that would help students learn more effectively. The competition pushed us to develop something not only function but would also leave a mark.
-              But this was just the start. 
-              <br/>Since then, we&apos;ve been focusing on scaling the project across numerous areas. From a simple, single-purpose solution, is now evolving into a more robust and scalable product. We’ve been refining the technology stack, incorporating user feedback, and adding features that enhance the overall user experience. 
-              The competition was the perfect testing ground, but now, we&apos;re looking at broader applications for our project, hoping to deploy it at a larger scale.
+              Originally developed in a team of 2 as a project for{" "}
+              <Link
+                to="https://hackhive.ca/"
+                className="text-secondary hover:underline"
+              >
+                HackHive 2025
+              </Link>
+              , where we ranked second out of 86 teams, the initial idea behind
+              the project was driven by our desire to create a platform that
+              would help students learn more effectively. The competition pushed
+              us to develop something not only function but would also leave a
+              mark. But this was just the start.
+              <br />
+              Since then, we&apos;ve been focusing on scaling the project across
+              numerous areas. From a simple, single-purpose solution, is now
+              evolving into a more robust and scalable product. We’ve been
+              refining the technology stack, incorporating user feedback, and
+              adding features that enhance the overall user experience. The
+              competition was the perfect testing ground, but now, we&apos;re
+              looking at broader applications for our project, hoping to deploy
+              it at a larger scale.
             </p>
           </div>
           <div className="w-full md:w-1/2">
@@ -168,14 +191,21 @@ function Home() {
             Contact Us
           </h2>
           <p className="mt-4 text-lg text-gray-700 dark:text-gray-400">
-            We would love to hear your feedback and suggestions. Please fill out the form below to get in touch with us.
+            We would love to hear your feedback and suggestions. Please fill out
+            the form below to get in touch with us.
           </p>
-          { sentEmail ? ( 
-            <p className="text-primary">Email sent successfully! Thank you!</p> 
+          {sentEmail ? (
+            <p className="text-primary">Email sent successfully! Thank you!</p>
           ) : (
-            <form className="mt-8 space-y-4 mx-auto sm:w-full lg:w-1/2 " onSubmit={(e) => submitFeedback(e)}>
+            <form
+              className="mt-8 space-y-4 mx-auto sm:w-full lg:w-1/2 "
+              onSubmit={(e) => submitFeedback(e)}
+            >
               <div>
-                <label htmlFor="user_name" className="block text-left text-gray-700 dark:text-gray-400">
+                <label
+                  htmlFor="user_name"
+                  className="block text-left text-gray-700 dark:text-gray-400"
+                >
                   Name
                 </label>
                 <input
@@ -187,7 +217,10 @@ function Home() {
                 />
               </div>
               <div>
-                <label htmlFor="user_email" className="block text-left text-gray-700 dark:text-gray-400">
+                <label
+                  htmlFor="user_email"
+                  className="block text-left text-gray-700 dark:text-gray-400"
+                >
                   Email
                 </label>
                 <input
@@ -199,7 +232,10 @@ function Home() {
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-left text-gray-700 dark:text-gray-400">
+                <label
+                  htmlFor="message"
+                  className="block text-left text-gray-700 dark:text-gray-400"
+                >
                   Message
                 </label>
                 <textarea

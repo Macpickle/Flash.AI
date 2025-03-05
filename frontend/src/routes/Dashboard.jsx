@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PropTypes from "prop-types";
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from "react-tooltip";
 import Document from "@/app/Documents/Document";
 import { useDispatch } from "react-redux";
-import { sortDocuments, filterDocuments, searchDocuments } from "@/app/Documents/DocumentSlice";
+import {
+  sortDocuments,
+  filterDocuments,
+  searchDocuments,
+} from "@/app/Documents/DocumentSlice";
 
 import {
   Select,
@@ -20,7 +24,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   List,
   Grid,
@@ -71,7 +75,11 @@ export default function Dashboard({ handleCreate }) {
             />
             <Select onValueChange={handleSort}>
               <Tooltip id="sort" />
-              <SelectTrigger className="w-full sm:w-40 md:w-60" data-tooltip-id="sort" data-tooltip-content="Sort by"> 
+              <SelectTrigger
+                className="w-full sm:w-40 md:w-60"
+                data-tooltip-id="sort"
+                data-tooltip-content="Sort by"
+              >
                 <SelectValue placeholder="Sort" />
               </SelectTrigger>
               <SelectContent>
@@ -89,8 +97,12 @@ export default function Dashboard({ handleCreate }) {
             </Select>
             <Select onValueChange={handleFilter}>
               <Tooltip id="filter" />
-              <SelectTrigger className="w-full sm:w-40 md:w-60" data-tooltip-id="filter" data-tooltip-content="Filter by">
-                <SelectValue placeholder="Filter"/>
+              <SelectTrigger
+                className="w-full sm:w-40 md:w-60"
+                data-tooltip-id="filter"
+                data-tooltip-content="Filter by"
+              >
+                <SelectValue placeholder="Filter" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
@@ -108,8 +120,8 @@ export default function Dashboard({ handleCreate }) {
             <DropdownMenu>
               <Tooltip id="create" />
               <DropdownMenuTrigger asChild>
-                <Button 
-                  data-tooltip-id="create" 
+                <Button
+                  data-tooltip-id="create"
                   data-tooltip-content="Create new"
                   variant="outline"
                 >
@@ -130,7 +142,7 @@ export default function Dashboard({ handleCreate }) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-            <Document viewMode={viewMode}/>
+          <Document viewMode={viewMode} />
         </div>
       </main>
     </div>

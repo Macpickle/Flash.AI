@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const ProgressBar = ({ total, current }) => {
   return (
     <div className="flex w-full h-3 bg-gray-200 overflow-hidden">
@@ -15,6 +17,11 @@ const ProgressBar = ({ total, current }) => {
       ))}
     </div>
   );
+};
+
+ProgressBar.propTypes = {
+  total: PropTypes.number.isRequired,
+  current: PropTypes.number.isRequired,
 };
 
 export default ProgressBar;

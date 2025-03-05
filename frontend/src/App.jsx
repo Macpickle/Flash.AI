@@ -12,7 +12,7 @@ import Settings from "@/routes/Settings";
 import NotFound from "@/routes/NotFound";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 import Theme from "@/app/Theme/Theme";
 
 const validRoutes = [
@@ -59,60 +59,70 @@ function App() {
   }, []);
 
   return (
-        <Router>
-          <Theme />
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/signup" element={<Register />} />
-              
-              <Route
-                path="*"
-                element={
-                  <>
-                  {validRoutes.includes(window.location.pathname) ? (
-                    <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
-                      <div className="w-full flex">
-                        {
-                          validRoutes.includes(window.location.pathname) ? (
-                            screenSize !== "small" ? (
-                              <SideNav
-                                handleCreate={handleCreate}
-                                handleCollapse={handleCollapse}
-                                isCollapsed={isCollapsed}
-                                screenSize={screenSize}
-                              />
-                            ) : (
-                              <BottomNav handleCreate={handleCreate} />
-                            )
-                          ) : null
-                        }
-                        <Routes>
-                          <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
-                          <Route path="/quiz" element={<Quiz />} />
-                          <Route path="/settings" element={<Settings />} />
-                        </Routes>
-                      </div>
+    <Router>
+      <Theme />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
+
+          <Route
+            path="*"
+            element={
+              <>
+                {validRoutes.includes(window.location.pathname) ? (
+                  <div
+                    className={`${screenSize === "small" ? "pb-16" : "pb-0"}`}
+                  >
+                    <div className="w-full flex">
+                      {validRoutes.includes(window.location.pathname) ? (
+                        screenSize !== "small" ? (
+                          <SideNav
+                            handleCreate={handleCreate}
+                            handleCollapse={handleCollapse}
+                            isCollapsed={isCollapsed}
+                            screenSize={screenSize}
+                          />
+                        ) : (
+                          <BottomNav handleCreate={handleCreate} />
+                        )
+                      ) : null}
+                      <Routes>
+                        <Route
+                          path="/dashboard"
+                          element={<Dashboard handleCreate={handleCreate} />}
+                        />
+                        <Route path="/quiz" element={<Quiz />} />
+                        <Route path="/settings" element={<Settings />} />
+                      </Routes>
                     </div>
-                  ) : <NotFound />}
-                  </>
-                }
-              />
-            </Routes>
-          </Layout>
-          {isCreateOpen !== "" && (
-            <Create type={isCreateOpen} onClose={(success) => {{
+                  </div>
+                ) : (
+                  <NotFound />
+                )}
+              </>
+            }
+          />
+        </Routes>
+      </Layout>
+      {isCreateOpen !== "" && (
+        <Create
+          type={isCreateOpen}
+          onClose={(success) => {
+            {
               setIsCreateOpen("");
               if (success) {
                 toast.success("Document created successfully");
               }
-            }}} />
-          )}
+            }
+          }}
+        />
+      )}
 
-          <Toaster />
-        </Router>
+      <Toaster />
+    </Router>
   );
 }
 

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AxiosRequest from "@/utils/Axios";
 import { useState, useEffect } from "react";
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from "react-tooltip";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addDocument } from "@/app/Documents/DocumentSlice";
@@ -31,7 +31,8 @@ function Create({ type, onClose }) {
 
     if (type === "Folder") {
       // create folder
-    } if (type === "Document") {
+    }
+    if (type === "Document") {
       // create document
       const formData = new FormData();
       const file = e.target[1].files[0];
@@ -56,8 +57,7 @@ function Create({ type, onClose }) {
         .catch((error) => {
           handleError(error);
           setSubmitted(false);
-        }
-      );
+        });
     } else {
       return;
     }
@@ -69,24 +69,25 @@ function Create({ type, onClose }) {
 
       if (message === "Unsupported file type") {
         const supportedTypes = error.response.data.supportedTypes;
-        setError(`${message}. Supported types are: ${supportedTypes.join(", ")}`);
+        setError(
+          `${message}. Supported types are: ${supportedTypes.join(", ")}`,
+        );
       }
 
       if (message === "No file uploaded") {
         setError("No file uploaded");
-        document.querySelector("input[type='file']").classList.add("border-red-300", "dark:border-red-700");
+        document
+          .querySelector("input[type='file']")
+          .classList.add("border-red-300", "dark:border-red-700");
       }
 
       if (message === "Failed to generate flash cards") {
         setError("Failed to generate flash cards");
       }
-
-
     } else {
       setError();
     }
   };
-
 
   // Redirect to dashboard if not already there
   useEffect(() => {
@@ -105,7 +106,7 @@ function Create({ type, onClose }) {
         className="bg-white p-5 rounded-lg text-center relative dark:bg-neutral-900 dark:text-neutral-100 w-96 border border-input"
         onClick={(e) => e.stopPropagation()}
       >
-        <Tooltip id = "close" />
+        <Tooltip id="close" />
         <button
           onClick={() => onClose(false)}
           className="absolute top-0 right-2 text-gray-500 hover:text-gray-700 text-2xl"
@@ -135,11 +136,14 @@ function Create({ type, onClose }) {
                 type="text"
                 placeholder="Folder Name"
                 className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
-                onFocus={(e) => e.target.classList.remove("border-red-300", "dark:border-red-700")}
+                onFocus={(e) =>
+                  e.target.classList.remove(
+                    "border-red-300",
+                    "dark:border-red-700",
+                  )
+                }
               />
-              <Button className="p-2 rounded w-full">
-                Create
-              </Button>
+              <Button className="p-2 rounded w-full">Create</Button>
             </form>
           </div>
         ) : (
@@ -148,21 +152,29 @@ function Create({ type, onClose }) {
               <Input
                 type="text"
                 placeholder="Document Title"
-                className="border p-2 rounded w-full mb-4 dark:border-neutral-700" 
-                onFocus={(e) => e.target.classList.remove("border-red-300", "dark:border-red-700")}
+                className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
+                onFocus={(e) =>
+                  e.target.classList.remove(
+                    "border-red-300",
+                    "dark:border-red-700",
+                  )
+                }
               />
               <Input
                 type="file"
                 className="border p-2 rounded w-full mb-4 dark:border-neutral-700"
-                onFocus={(e) => e.target.classList.remove("border-red-300", "dark:border-red-700")}
+                onFocus={(e) =>
+                  e.target.classList.remove(
+                    "border-red-300",
+                    "dark:border-red-700",
+                  )
+                }
               />
 
               {submitted ? (
                 <span className="loader"></span>
               ) : (
-                <Button className="p-2 rounded w-full">
-                  Create
-                </Button>
+                <Button className="p-2 rounded w-full">Create</Button>
               )}
             </form>
           </div>
