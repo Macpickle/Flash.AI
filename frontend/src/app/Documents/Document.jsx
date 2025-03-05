@@ -11,8 +11,10 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip } from 'react-tooltip'
 import { Star, MoreVertical } from "lucide-react";
+import { toast } from "sonner";
+import PropTypes from "prop-types";
 
-const Document = () => {
+const Document = ({viewMode}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const documents = useSelector((state) => state.documents);
@@ -25,14 +27,27 @@ const Document = () => {
     const handleButtonClick = (e) => {
         e.stopPropagation();
     };
+
+    if (!documents || (documents && documents.length === 0)) {
+        return (
+          <div className="flex flex-col items-center justify-center h-[500px]">
+            <h1 className="text-4xl font-bold animate-shimmer bg-clip-text text-transparent bg-[linear-gradient(110deg,rgb(255,231,113)_45%,#ffffff_50%,rgb(255,231,113)_55%)] bg-[length:250%_100%]">
+              No documents found!
+            </h1>
+            <p className="text-gray-400 dark:text-gray-500 mt-2 flex flex-row items-center gap-2">
+              Create documents by clicking the <span className="text-primary">Create New</span> button
+            </p>
+          </div>
+        );
+    }
     
     return (
-        <>
+        <div className = {`grid grid-cols-1 gap-4 ${viewMode === "grid" ? "md:grid-cols-2 lg:grid-cols-3" : "flex flex-col"} animate-reveal z-0`}>
             {documents && documents.map((doc) => (
                 <Card
                 key={doc.id}
-                className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:shadow-lg transition-transform duration-300"
-                onClick={() => navigate(`/quiz/`, { state: { id: doc.id } })}
+                className="p-4 dark:bg-neutral-900 dark:text-gray-100 hover:border-primary hover:shadow-lg transition-transform duration-300 cursor-pointer z-1"
+                onClick={() => navigate(`/quiz`, { state: { id: doc.id } })}
               >
                 <CardContent className="flex justify-between items-start p-0 flex-col">
                   <div className="w-full flex flex-row justify-end gap-3">
@@ -75,6 +90,7 @@ const Document = () => {
                               onClick={(e) => {
                                   handleButtonClick(e);
                                   dispatch(removeDocument(doc.id))
+                                  toast.success("Document deleted successfully");
                               }}
                             >
                               Delete
@@ -94,7 +110,7 @@ const Document = () => {
                         doc.tags.map((tag, index) => (
                           <span
                             key={index}
-                            className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded"
+                            className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded mb-1"
                           >
                             {tag}
                           </span>
@@ -108,8 +124,12 @@ const Document = () => {
                 </CardContent>
               </Card>
             ))}
-        </>
+        </div>
     );
+};
+
+Document.propTypes = {
+    viewMode: PropTypes.string,
 };
 
 export default Document;

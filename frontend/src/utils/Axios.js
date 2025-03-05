@@ -17,7 +17,7 @@ axios.interceptors.request.use(
 );
 
 // Axios request function, takes in an object with url, method, and data
-function AxiosRequest({ url, method = "get", data = {} }) {
+function AxiosRequest({ url, method = "get", data = {}}) {
   return axios({
     method: method,
     url: `${NODE_ENV === "development" ? "http://localhost:3000" : API_URL}${url}`,

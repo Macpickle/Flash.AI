@@ -85,7 +85,7 @@ function Settings() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center w-full px-4 overflow-y-scroll no-scrollbar">
+        <div className="min-h-screen flex flex-col items-center justify-center w-full px-4 overflow-y-scroll no-scrollbar animate-fade">
             <div className="text-center w-full mt-4">
                 <h1 className="text-4xl font-bold tracking-tight mb-4 animate-fade-down">Settings</h1>
                 <p className="text-neutral-500">Manage your account settings</p>

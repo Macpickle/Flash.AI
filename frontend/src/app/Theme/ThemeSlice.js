@@ -4,6 +4,9 @@ import AxiosRequest from "@/utils/Axios";
 export const fetchTheme = createAsyncThunk(
     "theme/fetchTheme",
     async () => {
+        if (!localStorage.getItem("username")){
+            return;
+        }
         if (localStorage.getItem("theme")) {
             return localStorage.getItem("theme");
         }

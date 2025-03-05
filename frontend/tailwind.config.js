@@ -7,6 +7,7 @@ export default {
       animation: {
         reveal: "reveal 0.5s forwards",
         shimmer: "shimmer 2s linear infinite",
+        fade: "fade 0.5s forwards",
       },
       keyframes: {
         shimmer: {
@@ -17,6 +18,11 @@ export default {
         reveal: {
           "0%": { opacity: 0, transform: "translateY(1rem)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+
+        fade: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
       },
       borderRadius: {

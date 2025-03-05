@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,15 +58,16 @@ export default function Dashboard({ handleCreate }) {
   };
 
   return (
-    <div className={`flex w-screen h-screen overflow-x-hidden`}>
+    <div className="flex w-screen h-screen overflow-x-hidden animate-fade">
       <main className="flex-1 overflow-x-hidden">
         <div className="container mx-auto p-4">
-          <div className="flex items-center gap-4 mb-4 flex-wrap">
+          <div className="flex items-center gap-4 mb-4 flex-wrap z-10">
             <Input
               placeholder="Search documents..."
               value={search}
               onChange={(e) => handleSearch(e)}
               className="flex-1 w-full sm:w-40 md:w-60"
+              maxLength="50"
             />
             <Select onValueChange={handleSort}>
               <Tooltip id="sort" />
@@ -128,16 +130,7 @@ export default function Dashboard({ handleCreate }) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div
-            className={
-              viewMode === "grid"
-                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-                : "space-y-2"
-            }
-          >
-            <Document/>
-
-          </div>
+            <Document viewMode={viewMode}/>
         </div>
       </main>
     </div>

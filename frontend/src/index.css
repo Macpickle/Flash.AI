@@ -44,8 +44,8 @@
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 10%; /* Dark border */
-    --input: 214.3 31.8% 91.4%;
+    --border: 0 0% 20%; /* Dark border */
+    --input: 0 0% 10%; /* Dark border */
     --ring: 50 100% 70%;
   }
 }

@@ -23,6 +23,10 @@ const documentSlice = createSlice({
         state.push(action.payload);
     },
 
+    hasContent: (state) => {
+        return state.length > 0;
+    },
+
     removeDocument: (state, action) => {
         const deleteData = async () => {
             await AxiosRequest({
@@ -91,6 +95,6 @@ const documentSlice = createSlice({
     },
 });
 
-export const { addDocument, removeDocument, favouriteDocument, sortDocuments, filterDocuments, searchDocuments } = documentSlice.actions;
+export const { addDocument, removeDocument, favouriteDocument, sortDocuments, filterDocuments, searchDocuments, hasContent } = documentSlice.actions;
 
 export default documentSlice;

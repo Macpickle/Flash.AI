@@ -97,7 +97,7 @@ function Create({ type, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center"
+      className="fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center animate-fade"
       onClick={() => onClose(false)}
       style={{ zIndex: 1000 }}
     >

@@ -36,8 +36,7 @@ export default function AppNavbar() {
         <a href="/" className="flex items-center gap-2">
           <img src="./assets/logo.png" alt="Flash.Ai" className="w-12 h-12" />
           <span className="text-xl font-bold text-primary">
-            F<Zap className="h-4 w-4 text-primary inline-block" />
-            ash.Ai
+            Flash.Ai
           </span>
         </a>
         <nav className="hidden md:flex space-x-4">

@@ -9,6 +9,7 @@ import Create from "./components/app-create";
 import SideNav from "@/components/app-sidenav";
 import BottomNav from "@/components/app-bottomnav";
 import Settings from "@/routes/Settings";
+import NotFound from "@/routes/NotFound";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner"
@@ -16,7 +17,7 @@ import Theme from "@/app/Theme/Theme";
 
 const validRoutes = [
   "/dashboard",
-  "/quiz",
+  "/quiz/",
   "/settings",
   "/",
   "/notifications",
@@ -70,29 +71,33 @@ function App() {
               <Route
                 path="*"
                 element={
-                  <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
-                    <div className="w-full flex">
-                      {
-                        validRoutes.includes(window.location.pathname) ? (
-                          screenSize !== "small" ? (
-                            <SideNav
-                              handleCreate={handleCreate}
-                              handleCollapse={handleCollapse}
-                              isCollapsed={isCollapsed}
-                              screenSize={screenSize}
-                            />
-                          ) : (
-                            <BottomNav handleCreate={handleCreate} />
-                          )
-                        ) : null
-                      }
-                      <Routes>
-                        <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
-                        <Route path="/quiz" element={<Quiz />} />
-                        <Route path="/settings" element={<Settings />} />
-                      </Routes>
+                  <>
+                  {validRoutes.includes(window.location.pathname) ? (
+                    <div className={`${screenSize === 'small' ? 'pb-16' : 'pb-0'}`}>
+                      <div className="w-full flex">
+                        {
+                          validRoutes.includes(window.location.pathname) ? (
+                            screenSize !== "small" ? (
+                              <SideNav
+                                handleCreate={handleCreate}
+                                handleCollapse={handleCollapse}
+                                isCollapsed={isCollapsed}
+                                screenSize={screenSize}
+                              />
+                            ) : (
+                              <BottomNav handleCreate={handleCreate} />
+                            )
+                          ) : null
+                        }
+                        <Routes>
+                          <Route path="/dashboard" element={<Dashboard handleCreate={handleCreate} />} />
+                          <Route path="/quiz" element={<Quiz />} />
+                          <Route path="/settings" element={<Settings />} />
+                        </Routes>
+                      </div>
                     </div>
-                  </div>
+                  ) : <NotFound />}
+                  </>
                 }
               />
             </Routes>
