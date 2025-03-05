@@ -30,8 +30,8 @@ import {
 
 // items for create dropdown
 const createItems = [
-  { name: "Document", type: "document" },
-  { name: "Folder", type: "folder" },
+  { name: "Document", type: "Document" },
+  { name: "Folder", type: "Folder" },
 ];
 
 export default function Dashboard({ handleCreate }) {

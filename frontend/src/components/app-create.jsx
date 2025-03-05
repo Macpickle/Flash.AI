@@ -29,9 +29,9 @@ function Create({ type, onClose }) {
 
     setSubmitted(true);
 
-    if (type === "folder") {
+    if (type === "Folder") {
       // create folder
-    } if (type === "document") {
+    } if (type === "Document") {
       // create document
       const formData = new FormData();
       const file = e.target[1].files[0];
@@ -51,7 +51,7 @@ function Create({ type, onClose }) {
 
           // Add document to redux store
           dispatch(addDocument(response.data.doc));
-          onClose();
+          onClose(true);
         })
         .catch((error) => {
           handleError(error);
@@ -98,7 +98,7 @@ function Create({ type, onClose }) {
   return (
     <div
       className="fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center"
-      onClick={onClose}
+      onClick={() => onClose(false)}
       style={{ zIndex: 1000 }}
     >
       <div
@@ -107,7 +107,7 @@ function Create({ type, onClose }) {
       >
         <Tooltip id = "close" />
         <button
-          onClick={onClose}
+          onClick={() => onClose(false)}
           className="absolute top-0 right-2 text-gray-500 hover:text-gray-700 text-2xl"
           data-tooltip-id="close"
           data-tooltip-content="Close"
@@ -128,7 +128,7 @@ function Create({ type, onClose }) {
           <p className="text-red-500 text-sm">{error}</p>
         </div>
 
-        {type === "folder" ? (
+        {type === "Folder" ? (
           <div>
             <form onSubmit={handleCreate}>
               <Input

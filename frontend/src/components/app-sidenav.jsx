@@ -3,10 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip } from "react-tooltip";
 import PropTypes from "prop-types";
-import { useContext } from "react";
-import { ThemeContext } from "@/utils/contexts/ThemeContext";
 
-import { LuMoon, LuSun } from "react-icons/lu";
 import {
   ChevronLeft,
   ChevronRight,
@@ -45,7 +42,6 @@ const user = {
 };
 
 function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
-  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <div className="z-50 flex-shrink-0">
@@ -128,10 +124,8 @@ function SideNav({ handleCreate, handleCollapse, isCollapsed, screenSize }) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            {theme === "light" ? <LuMoon className="h-5 w-5" /> : <LuSun className="h-5 w-5" />}
           </Button>
             
           <div className={`flex justify-center flex-col w-full space-y-2 p-2 ${isCollapsed ? "items-center px-0" : "px-2"}`}>

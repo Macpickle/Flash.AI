@@ -180,84 +180,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Update user information
-router.patch("/update", auth, async (req, res) => {
+router.patch("/theme", auth, async (req, res) => {
   try {
-    const { username, email, password, darkMode } = req.body;
-    const updateFields = {};
+    const { darkMode } = req.body;
 
-    // Validate and add fields if they exist
-    if (username) {
-      // Validate username format if needed
-      if (username.length < 1) {
-        return res.status(400).json({
-          success: false,
-          message: "Username must be at least 1 character long",
-        });
-      }
-      updateFields.username = username;
-    }
+    // Find user
+    const user = await User.findById(req.userId);
 
-    if (email) {
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid email format",
-        });
-      }
-      // Check if email is already taken by another user
-      const existingUser = await User.findOne({
-        email,
-        _id: { $ne: req.userId },
-      });
-      if (existingUser) {
-        return res.status(400).json({
-          success: false,
-          message: "Email is already in use",
-        });
-      }
-      updateFields.email = email;
-    }
-
-    if (password) {
-      // Validate password strength if needed
-      if (password.length < 1) {
-        return res.status(400).json({
-          success: false,
-          message: "Password must be at least 1 character long",
-        });
-      }
-      // Hash the new password
-      const salt = await bcrypt.genSalt(10);
-      updateFields.password = await bcrypt.hash(password, salt);
-    }
-
-    if (darkMode !== undefined) {
-      // Validate darkMode is boolean
-      if (typeof darkMode !== "boolean") {
-        return res.status(400).json({
-          success: false,
-          message: "darkMode must be a boolean",
-        });
-      }
-      updateFields.darkMode = darkMode;
-    }
-
-    // If no fields to update
-    if (Object.keys(updateFields).length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No valid fields to update",
-      });
-    }
-
-    // Update user
-    const user = await User.findByIdAndUpdate(req.userId, updateFields, {
-      new: true,
-    }).select("-password");
-
+    // error checking for user
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -265,13 +195,111 @@ router.patch("/update", auth, async (req, res) => {
       });
     }
 
+    // Update user theme
+    user.darkMode = darkMode;
+    await user.save();
+
     res.json({
       success: true,
+      message: "User theme updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating user theme",
+      error: error.message,
+    });
+  }
+});
+
+// Update user settings
+router.patch("/settings", auth, async (req, res) => {
+  try {
+    const { 
+      username,
+      email,
+      privacy,
+      dataCollection,
+      thirdPartyData,
+      analytics,
+      currentPassword,
+      newPassword,
+      confirmPassword
+    } = req.body;
+
+    // Find user
+    const user = await User.findById(req.userId);
+    
+    // error checking for user
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Update user settings
+    if (username) {
+      user.username = username;
+    }
+
+    if (email) {
+      user.email = email;
+    }
+
+
+    /* not added yet
+    if (privacy) {
+      user.privacy = privacy;
+    }
+
+    if (dataCollection) {
+      user.dataCollection = dataCollection;
+    }
+
+    if (thirdPartyData) {
+      user.thirdPartyData = thirdPartyData;
+    }
+
+    if (analytics) {
+      user.analytics = analytics;
+    }
+    */
+
+    // Update password
+    if (currentPassword && newPassword && confirmPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({
+          success: false,
+          message: "Current password is incorrect",
+        });
+      }
+
+      if (newPassword !== confirmPassword) {
+        return res.status(400).json({
+          success: false,
+          message: "New passwords do not match",
+        });
+      }
+
+      user.password = newPassword;
+    }
+
+    await user.save();  
+
+    res.json({
+      success: true,
+      message: "User information updated successfully",
       user: {
         id: user._id,
         username: user.username,
-        darkMode: user.darkMode,
-      },
+        email: user.email,
+        privacy: user.privacy,
+        dataCollection: user.dataCollection,
+        thirdPartyData: user.thirdPartyData,
+        analytics: user.analytics,
+      }
     });
   } catch (error) {
     res.status(500).json({

@@ -1,11 +1,8 @@
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { LuMoon, LuSun } from "react-icons/lu";
 import { Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { ThemeContext } from "@/utils/contexts/ThemeContext";
 
 const navbarItems = [
   { title: "Home", href: "#home" },
@@ -15,7 +12,6 @@ const navbarItems = [
 
 export default function AppNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,14 +53,6 @@ export default function AppNavbar() {
               Sign up
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            {theme === "light" ? <LuMoon className="h-5 w-5" /> : <LuSun className="h-5 w-5" />}
-          </Button>
         </div>
       </div>
     </header>

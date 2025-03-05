@@ -3,8 +3,11 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";  
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useState, useContext } from "react";
-import { ThemeContext } from "@/utils/contexts/ThemeContext";
+import { useEffect, useState } from "react";
+import { toggleTheme } from "@/app/Theme/ThemeSlice";
+import { useDispatch } from "react-redux";
+import AxiosRequest from "@/utils/Axios";
+import { toast } from "sonner";
 
 import { 
     Tabs, 
@@ -17,20 +20,69 @@ import {
 const user = {
     username: localStorage.getItem("username") || "User",
     image: "https://blackwonder.tf/attachments/1673671146282-png.31249/",
-  };
+};
 
 function Settings() {
+    const dispatch = useDispatch();
     const [privacy, setPrivacy] = useState(false);
     const [dataCollection, setDataCollection] = useState(false);
     const [thirdPartyData, setThirdPartyData] = useState(false);
     const [analytics, setAnalytics] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
 
-    const { toggleTheme } = useContext(ThemeContext);
+    useEffect(() => {
+        // set dark mode if it is enabled, for toggle
+        if (localStorage.getItem("theme") === "dark") {
+            setDarkMode(true);
+        }
+    }, []);
 
+    // handle setting change
     const handleSettingChange = (setting, setter, value) => {
         setter(value);
     };
+
+    // handle save changes
+    const handleSaveChanges = (type) => {
+        let data = {};
+
+        switch (type) {
+            case "account":
+                data = {
+                    username: document.getElementById("username").value,
+                    email: document.getElementById("email").value,
+                };
+                break;
+            case "privacy":
+                data = {
+                    privacy,
+                    dataCollection,
+                    thirdPartyData,
+                    analytics,
+                };
+                break;
+            case "security":
+                data = {
+                    currentPassword: document.getElementById("currentPassword").value,
+                    newPassword: document.getElementById("newPassword").value,
+                    confirmPassword: document.getElementById("confirmPassword").value,
+                };
+                break;
+            default:
+                break;
+        }
+        
+        AxiosRequest({
+            url: "/api/auth/settings",
+            method: "patch",
+            data: data,
+        }).then((response) => {
+            localStorage.setItem("username", response.data.user.username? response.data.user.username : user.username);
+            toast.success("Settings updated successfully");
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center w-full px-4 overflow-y-scroll no-scrollbar">
@@ -76,8 +128,25 @@ function Settings() {
                                     />
                                     <div>
                                         <h1 className="text-xl font-semibold">{user.username}</h1>
-                                        <input type="file" className="border rounded-md p-2 mt-1" />
+                                        <input type="file" className="border rounded-md p-2 mt-1" id = "photo"/>
                                     </div>
+                                </div>
+
+                                <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
+                                    <div>
+                                        <Label htmlFor="username" className="font-semibold tracking-tight text-md">
+                                            Username
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Change your username
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <input
+                                        id="username"
+                                        type="text"
+                                        className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
+                                        placeholder="Enter new username"
+                                    />
                                 </div>
 
                                 <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
@@ -97,22 +166,6 @@ function Settings() {
                                     />
                                 </div>
 
-                                <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
-                                    <div>
-                                        <Label htmlFor="username" className="font-semibold tracking-tight text-md">
-                                            Username
-                                            <p className="tracking-tight text-neutral-500 font-normal">
-                                                Change your username
-                                            </p>
-                                        </Label>
-                                    </div>
-                                    <input
-                                        id="username"
-                                        type="text"
-                                        className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
-                                        placeholder="Enter new username"
-                                    />
-                                </div>
                                 <div className="flex flex-row justify-between items-center">
                                     <div>
                                         <Label htmlFor="darkMode" className="font-semibold tracking-tight text-md">
@@ -127,13 +180,13 @@ function Settings() {
                                         className="transform scale-125"
                                         checked={darkMode}
                                         onCheckedChange={(checked) => {
-                                            toggleTheme();
+                                            dispatch(toggleTheme());
                                             handleSettingChange("darkMode", setDarkMode, checked);
                                         }}
                                     />
                                 </div>
 
-                                <Button className="mt-4">Save Changes</Button>
+                                <Button className="mt-4" onClick={() => handleSaveChanges("account")}>Save Changes</Button>
                             </div>
                         </CardContent>
                     </Card>
@@ -150,70 +203,74 @@ function Settings() {
                             <p className="text-neutral-500">Update your privacy settings</p>
                         </CardHeader>
                     
-                        <CardContent className="space-y-4">
-                            <div className="flex flex-row justify-between items-center">
-                                <div>
-                                    <Label htmlFor="privacy" className="font-semibold tracking-tight text-md">
-                                        Account Privacy
-                                        <p className="tracking-tight text-neutral-500 font-normal">
-                                            Make your account private
-                                        </p>
-                                    </Label>
+                        <CardContent>
+                            <div className="flex flex-col space-y-4">
+                                <div className="flex flex-row justify-between items-center">
+                                    <div>
+                                        <Label htmlFor="privacy" className="font-semibold tracking-tight text-md">
+                                            Account Privacy
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Make your account private
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <Switch    
+                                        id="privacy" 
+                                        className="transform scale-125"        
+                                        checked={privacy}
+                                        onCheckedChange={(checked) => handleSettingChange("privacy", setPrivacy, checked)}
+                                    />
                                 </div>
-                                <Switch    
-                                    id="privacy" 
-                                    className="transform scale-125"        
-                                    checked={privacy}
-                                    onCheckedChange={(checked) => handleSettingChange("privacy", setPrivacy, checked)}
-                                />
-                            </div>
-                            <div className="flex flex-row justify-between items-center">
-                                <div>
-                                    <Label htmlFor="dataCollection" className="font-semibold tracking-tight text-md">
-                                        Data Collection
-                                        <p className="tracking-tight text-neutral-500 font-normal">
-                                            Allow data collection
-                                        </p>
-                                    </Label>
+                                <div className="flex flex-row justify-between items-center">
+                                    <div>
+                                        <Label htmlFor="dataCollection" className="font-semibold tracking-tight text-md">
+                                            Data Collection
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Allow data collection
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <Switch
+                                        id="dataCollection"
+                                        className="transform scale-125"
+                                        checked={dataCollection}
+                                        onCheckedChange={(checked) => handleSettingChange("dataCollection", setDataCollection, checked)}
+                                    />
                                 </div>
-                                <Switch
-                                    id="dataCollection"
-                                    className="transform scale-125"
-                                    checked={dataCollection}
-                                    onCheckedChange={(checked) => handleSettingChange("dataCollection", setDataCollection, checked)}
-                                />
-                            </div>
-                            <div className="flex flex-row justify-between items-center">
-                                <div>
-                                    <Label htmlFor="thirdPartyData" className="font-semibold tracking-tight text-md">
-                                        Third-party Data Sharing
-                                        <p className="tracking-tight text-neutral-500 font-normal">
-                                            Allow third-party data sharing
-                                        </p>
-                                    </Label>
+                                <div className="flex flex-row justify-between items-center">
+                                    <div>
+                                        <Label htmlFor="thirdPartyData" className="font-semibold tracking-tight text-md">
+                                            Third-party Data Sharing
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Allow third-party data sharing
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <Switch
+                                        id="thirdPartyData"
+                                        className="transform scale-125"
+                                        checked={thirdPartyData}
+                                        onCheckedChange={(checked) => handleSettingChange("thirdPartyData", setThirdPartyData, checked)}
+                                    />
                                 </div>
-                                <Switch
-                                    id="thirdPartyData"
-                                    className="transform scale-125"
-                                    checked={thirdPartyData}
-                                    onCheckedChange={(checked) => handleSettingChange("thirdPartyData", setThirdPartyData, checked)}
-                                />
-                            </div>
-                            <div className="flex flex-row justify-between items-center">
-                                <div>
-                                    <Label htmlFor="analytics" className="font-semibold tracking-tight text-md">
-                                        Analytics
-                                        <p className="tracking-tight text-neutral-500 font-normal">
-                                            Allow analytics tracking for performance monitoring
-                                        </p>
-                                    </Label>
+                                <div className="flex flex-row justify-between items-center">
+                                    <div>
+                                        <Label htmlFor="analytics" className="font-semibold tracking-tight text-md">
+                                            Analytics
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Allow analytics tracking for performance monitoring
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <Switch
+                                        id="analytics"
+                                        className="transform scale-125"
+                                        checked={analytics}
+                                        onCheckedChange={(checked) => handleSettingChange("analytics", setAnalytics, checked)}
+                                    />
                                 </div>
-                                <Switch
-                                    id="analytics"
-                                    className="transform scale-125"
-                                    checked={analytics}
-                                    onCheckedChange={(checked) => handleSettingChange("analytics", setAnalytics, checked)}
-                                />
+                                      
+                                <Button className="mt-4" onClick={() => handleSaveChanges("privacy")}>Save Changes</Button>
                             </div>
                         </CardContent>
                     </Card>
@@ -231,58 +288,56 @@ function Settings() {
                         </CardHeader>
                     
                         <CardContent>
-                            <div className="flex flex-row justify-between items-center">
-                                <div className="flex flex-col space-y-4 w-full">
-                                    <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
-                                        <div>
-                                            <Label htmlFor="currentPassword" className="font-semibold tracking-tight text-md">
-                                                Current Password
-                                                <p className="tracking-tight text-neutral-500 font-normal">
-                                                    Enter your current password
-                                                </p>
-                                            </Label>
-                                        </div>
-                                        <input
-                                            id="currentPassword"
-                                            type="password"
-                                            className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
-                                            placeholder="Enter current password"
-                                        />
+                            <div className="flex flex-col space-y-4 w-full">
+                                <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
+                                    <div>
+                                        <Label htmlFor="currentPassword" className="font-semibold tracking-tight text-md">
+                                            Current Password
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Enter your current password
+                                            </p>
+                                        </Label>
                                     </div>
-                                    <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
-                                        <div>
-                                            <Label htmlFor="newPassword" className="font-semibold tracking-tight text-md">
-                                                New Password
-                                                <p className="tracking-tight text-neutral-500 font-normal">
-                                                    Enter your new password
-                                                </p>
-                                            </Label>
-                                        </div>
-                                        <input
-                                            id="newPassword"
-                                            type="password"
-                                            className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
-                                            placeholder="Enter new password"
-                                        />
-                                    </div>
-                                    <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
-                                        <div>
-                                            <Label htmlFor="confirmPassword" className="font-semibold tracking-tight text-md">
-                                                Confirm New Password
-                                                <p className="tracking-tight text-neutral-500 font-normal">
-                                                    Confirm your new password
-                                                </p>
-                                            </Label>
-                                        </div>
-                                        <input
-                                            id="confirmPassword"
-                                            type="password"
-                                            className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
-                                            placeholder="Confirm new password"
-                                        />
-                                    </div>
-                                    <Button className="mt-4">Save Changes</Button>
+                                    <input
+                                        id="currentPassword"
+                                        type="password"
+                                        className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
+                                        placeholder="Enter current password"
+                                    />
                                 </div>
+                                <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
+                                    <div>
+                                        <Label htmlFor="newPassword" className="font-semibold tracking-tight text-md">
+                                            New Password
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Enter your new password
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <input
+                                        id="newPassword"
+                                        type="password"
+                                        className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
+                                        placeholder="Enter new password"
+                                    />
+                                </div>
+                                <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start">
+                                    <div>
+                                        <Label htmlFor="confirmPassword" className="font-semibold tracking-tight text-md">
+                                            Confirm New Password
+                                            <p className="tracking-tight text-neutral-500 font-normal">
+                                                Confirm your new password
+                                            </p>
+                                        </Label>
+                                    </div>
+                                    <input
+                                        id="confirmPassword"
+                                        type="password"
+                                        className="border rounded-md p-2 sm:w-1/3 w-full mt-1 dark:bg-neutral-800"
+                                        placeholder="Confirm new password"
+                                    />
+                                </div>
+                                <Button className="mt-4" onClick={() => handleSaveChanges("security")}>Save Changes</Button>
                             </div>
                         </CardContent>
                     </Card>

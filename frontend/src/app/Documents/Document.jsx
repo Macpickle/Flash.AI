@@ -89,7 +89,7 @@ const Document = () => {
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {doc.createdAt}
                     </p>
-                    <div className="mt-1 space-x-1">
+                    <div className="mt-1 space-x-1 w-full flex flex-wrap">
                       {doc.tags &&
                         doc.tags.map((tag, index) => (
                           <span

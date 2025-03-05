@@ -10,7 +10,9 @@ import SideNav from "@/components/app-sidenav";
 import BottomNav from "@/components/app-bottomnav";
 import Settings from "@/routes/Settings";
 import { useEffect, useState } from "react";
-import { ThemeProvider } from "@/utils/contexts/ThemeContext";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner"
+import Theme from "@/app/Theme/Theme";
 
 const validRoutes = [
   "/dashboard",
@@ -56,8 +58,8 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider> {/* Ensure ThemeProvider is outside of Router */}
         <Router>
+          <Theme />
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -96,10 +98,16 @@ function App() {
             </Routes>
           </Layout>
           {isCreateOpen !== "" && (
-            <Create type={isCreateOpen} onClose={() => setIsCreateOpen("")} />
+            <Create type={isCreateOpen} onClose={(success) => {{
+              setIsCreateOpen("");
+              if (success) {
+                toast.success("Document created successfully");
+              }
+            }}} />
           )}
+
+          <Toaster />
         </Router>
-    </ThemeProvider>
   );
 }
 
